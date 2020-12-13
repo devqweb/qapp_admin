@@ -19,6 +19,9 @@
         <link href="<?php echo base_url("assets/libs/datatables/buttons.bootstrap4.css")?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url("assets/libs/datatables/select.bootstrap4.css")?>" rel="stylesheet" type="text/css" />
         <!-- third party css end -->
+
+        <!-- Plugins css -->
+        <link href="<?php echo base_url("assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.css")?>" rel="stylesheet" />
         
         <!-- Bootstrap Css -->
         <link href="<?php echo base_url("assets/css/bootstrap.min.css") ?>" id="bootstrap-stylesheet" rel="stylesheet" type="text/css" />

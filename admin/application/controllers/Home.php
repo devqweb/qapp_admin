@@ -39,9 +39,74 @@ class Home extends CI_Controller {
 		$this->CommonPage("home",'');
 	}
 
-	############################################ FORM ADD NEW APP #####################################
-	public function add_new_app() {
-		$this->CommonPage("add_app", '');
+	############################################ ADD NEW APP ##########################################
+	public function new_app() {
+		// nameOfApp
+		// companyName
+		// contactPerson
+		// mobileNumber
+		// whatsapp
+		// email
+		// category
+		// dateOfLastUpdate
+		// tags
+		// description
+		// videoLink
+		// androidLink
+		// iosLink
+		// instaLink
+		// fbLink
+		// website
+		// rating
+		// appIstalls
+		// appsize
+		// english
+		// arabic
+		// icon
+		// screenshots
+		// tnc
+		// authorConfirm
+
+		//INSERT NEW APP
+		if(isset($_POST['submit'])) {
+			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
+			// $this->form_validation->set_rules('nameOfApp','"Name of the App"','trim|required');
+			$this->form_validation->set_rules('companyName','"Company Name"','trim|required');
+			// $this->form_validation->set_rules('contactPerson','"Contact Person"','trim|required');
+			// $this->form_validation->set_rules('mobileNumber','"Mobile Number"','trim|required');
+			// $this->form_validation->set_rules('email','"E-Mail"','trim|required');
+			// $this->form_validation->set_rules('category','"Category"','trim|required');
+			// $this->form_validation->set_rules('tags','"Tags"','trim|required');
+			// $this->form_validation->set_rules('description','"Description"','trim|required');
+			// $this->form_validation->set_rules('rating','"Rating"','trim|required');
+			// $this->form_validation->set_rules('appIstalls','"Number of App Installs"','trim|required');
+			// $this->form_validation->set_rules('appsize','"Size of The App(MB)"','trim|required');
+			// $this->form_validation->set_rules('english','"English"','trim|required');
+			// $this->form_validation->set_rules('arabic','"Arabic"','trim|required');
+			// $this->form_validation->set_rules('tnc','"Terms and Condition"','trim|required');
+			// $this->form_validation->set_rules('authorConfirm','"Authorization Confirmation"','trim|required');
+
+			if(empty($_FILES['icon']['name'])) {
+				$this->form_validation->set_rules('icon', 'App Icon', 'trim|required');
+			}
+			// if(empty($_FILES['screenshots']['name'])) {
+			// 	$this->form_vaidation->set_rules('screenshots', '"Screenshots"', 'trim|required');
+			// }
+			if($this->input->post('submit') == 'Add App') {
+				$this->form_validation->set_rules('nameOfApp', '"Name of the App"', 'trim|required|is_unique[app.app_name]');
+			}
+			else {
+				$this->form_validation->set_rules('nameOfApp', '"Name of the App"', 'trim|required');
+			}
+
+			if($this->form_validation->run()) {
+				echo "success";
+			}
+			else {
+				echo "failed";
+			}
+		}
+		$this->CommonPage("new_app", '');
 	}
 
 	############################################ MANAGE APPS ##########################################
@@ -53,8 +118,7 @@ class Home extends CI_Controller {
 	public function new_category() {
 		
 		# INSERT / UPDATE FUNCTION
-		if(isset($_POST['submit']))
-		{
+		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
 			$this->form_validation->set_rules('dsOrder','"Order in Drag Slider"','trim|required');
 
@@ -62,19 +126,16 @@ class Home extends CI_Controller {
 				$this->form_validation->set_rules('catIcon', 'Category Icon', 'trim|required');
 			}
 			
-			if($this->input->post('submit') =='Add Category')
-			{
+			if($this->input->post('submit') =='Add Category') {
 				$this->form_validation->set_rules('catName','"Category Name"','trim|required|is_unique[category.name]');
 				//$this->form_validation->set_rules('cat_id','"Category Name"','trim');
 			}
-			else
-			{
+			else {
 				$this->form_validation->set_rules('catName','"Category Name"','trim|required');
 				//$this->form_validation->set_rules('cat_id','"Category Name"','trim|required');
 			}
 
-			if($this->form_validation->run())
-			{
+			if($this->form_validation->run()) {
 				if(isset($_FILES['catIcon']) && $_FILES['catIcon']['name']!='')
 				{
 					$image_name = $this->Common_model->image_upload('./upload/category_img/','catIcon');
@@ -202,8 +263,7 @@ class Home extends CI_Controller {
 	public function manage_trending_banner() {
 		$this->CommonPage("manage_trending_banner", "");
 	}
-
-
+	
 
 
 

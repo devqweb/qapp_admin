@@ -1,0 +1,2070 @@
+/* css reset start */
+* {
+    padding: 0;
+    margin: 0;
+    border:none;
+  }
+/* article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section { 
+    display:block;
+} */
+html {
+    scroll-behavior: smooth;
+}
+
+/* css reset end */
+
+/*common css start*/
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.header-logo img {
+    width: 89.22px;
+    height: auto;
+}
+
+footer .footer-logo img {
+    width: 80px;
+    height: auto;
+}
+
+.mainMenu a:after, .footer-links a:after {
+    content: "";
+    display: block;
+    height: 1px;
+    left: 50%;
+    position: absolute;
+    width: 0px;
+    background: #e87a1a;
+    -webkit-box-shadow: 0px 0px 5px  0px #E87A1A;
+    box-shadow: 0px 0px 5px  0px #E87A1A;            
+    -webkit-transition: width 0.4s ease 0s, left 0.4s ease 0s, box-shadow 0.4s ease 0.4s;
+    transition: width 0.4s ease 0s, left 0.4s ease 0s, box-shadow 0.4s ease 0.4s;
+}        
+
+.mainMenu a:hover:after, .mainMenu a:focus:after,
+.footer-links a:hover:after, .footer-links a:focus:after {
+    width: 100%;
+    left: 0%;
+    -webkit-box-shadow: 0px 0px 5px 1px #E87A1A;
+    box-shadow: 0px 0px 5px 1px #E87A1A;
+    -webkit-transition: width 0.4s ease 0s, left 0.4s ease 0s;
+    transition: width 0.4s ease 0s, left 0.4s ease 0s;
+}
+
+.poster {
+    padding: 0 140px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.poster-reverse {
+    flex-direction: row-reverse;
+}
+
+    .poster-reverse .posterImage {
+        width: 44%;
+        text-align: left;
+    }
+
+    .poster-reverse .posterDiscription {
+        width: 50%;
+    }
+
+    .posterImage {
+        width: 56%;
+        text-align: right;
+    }
+
+    .posterDiscription {
+        width: 44%;
+    }
+
+        .posterDiscription ul {
+            list-style-type: none;
+        }
+
+        .posterDiscription ul li:not(:last-child) {
+            margin-bottom: 35px;
+        }
+
+        .posterDiscription ul li:last-child {
+            position: relative;
+        }
+
+            .btn-target {
+                background: rgb(255 92 99 / 16%);
+            }
+
+        .posterDiscription h1 {
+            font: normal normal 900 4.30vw/5.0531vw Archivo;
+            font-family: 'Archivo Black', sans-serif;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            text-transform: capitalize;
+        }
+
+        .posterDiscription p {
+            font: normal normal normal 18px/28px Poppins;
+        }
+
+        .poster-mobile-content {
+            display: none;
+        }
+
+        .btn-target {
+            border: 2px solid #E87A1A;
+            padding: 20px 40px;
+            opacity: 1;
+            position: relative;
+            font-size: 16px;
+            letter-spacing: 3px;
+            font-family: poppins;
+            text-transform: uppercase;
+            transition: box-shadow 0.4s ease 0s;
+            -webkit-transition: box-shadow 0.4s ease 0s;
+        }
+
+        .btn-target:hover, .btn-target:focus {
+            -webkit-box-shadow: 0px 0px 10px 1px #E87A1A;
+            box-shadow: 0px 0px 10px 1px #E87A1A;
+            -webkit-transition: box-shadow 0.4s ease 0s;
+            transition: box-shadow 0.4s ease 0s;
+        }        
+
+        .btn-target .btn-aero {
+                left: 0;
+                opacity: 0;
+                top: 31px;
+                box-shadow: 0px 0px 10px 1px #E87A1A;
+                transition: left 0.4s ease 0s, opacity 0.4s ease 0.2s;
+                -webkit-transition: left 0.4s ease 0s, opacity 0.4s ease 0.2s;
+            }
+
+                .btn-target:hover .btn-aero, .btn-target:focus .btn-aero {
+                    left: 90%;
+                    opacity: 1;
+                    transition: left 0.4s ease 0.1s, opacity 0.4s ease 0s;
+                    -webkit-transition: left 0.4s ease 0.1s, opacity 0.4s ease 0s;
+                }
+
+.bg-Dark {
+    background: transparent linear-gradient(173deg, #3D4151 0%, #1C202C 38%, #141824 100%) 0% 0% no-repeat padding-box;
+}
+
+.btn-oval {
+    border-radius: 40px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-aero {
+    content: "";
+    display: block;
+    height: 2px;
+    position: absolute;
+    width: 48px;
+    background: #E87A1A;
+}
+
+.btn-aero:after {
+    position: absolute;
+    content: "";
+    display: block;
+    height: 2px;
+    width: 7px;
+    top: 2px;
+    right: -1px;
+    background: #E87A1A;
+    transform: rotate(-45deg);
+    -webkit-box-shadow: 0px 0px 10px 1px #E87A1A;
+    box-shadow: 0px 0px 10px 1px #E87A1A;
+}
+
+.btn-aero:before {
+    position: absolute;
+    position: absolute;
+    content: "";
+    display: block;
+    height: 2px;
+    width: 7px;
+    top: -2px;
+    right: -1px;
+    background: #E87A1A;
+    transform: rotate(45deg);
+    -webkit-box-shadow: 0px 0px 10px 1px #E87A1A;
+    box-shadow: 0px 0px 10px 1px #E87A1A;
+}
+.myCard {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    -webkit-box-shadow: 0px 1px 19px #00000054;
+    box-shadow: 0px 1px 19px #00000054;
+    border-radius: 31px;
+    opacity: 1;            
+}
+
+    .myCard .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 70%;
+    }
+
+    #categories .myCard .icon {
+        align-items: flex-end;
+    }
+
+    .drag-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 0;
+        padding: 30px 140px;
+    }
+
+        .drag-top span a {
+            font: normal normal 300 32px/48px Poppins;
+            letter-spacing: 4.8px;
+            text-transform: uppercase;
+        }
+
+        .drag-slider {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            overflow-x: scroll;
+            /* overflow: hidden; */
+            cursor: grab;
+            padding: 20px 0 0;
+        }
+
+        .drag-active {
+            /* cursor:grabbing; */
+        }
+        
+            .drag-slider-item {
+                /* width: 260px;
+                height: 260px; */
+                box-shadow: 0px 0px 19px #0000004F;
+                border-radius: 38px;
+                color: #fff;
+                margin-bottom: 65px;
+            }
+                
+                .drag-img {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 80%;
+                    /* background: #FFFFFF 0% 0% no-repeat padding-box; */
+                    border-radius: 38px 38px 0 0;
+                }
+
+                    .drag-img img {
+                        max-width: unset;
+                    }
+
+                .drag-text {
+                    /* color: #fff; */
+                    height: 20%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font: normal normal 300 29px/43px Poppins;
+                    text-transform: capitalize;
+                }
+
+#featred-app .drag-slider-item, #latest-release .drag-slider-item, #useful-apps .drag-slider-item{
+    min-width: 260px;
+    height: 260px;
+    margin-right: 5em;
+}
+
+#featred-app .drag-img, #latest-release .drag-slider-item .drag-img, #useful-apps .drag-slider-item .drag-img{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+}
+
+.addBanner {
+    background: transparent linear-gradient(173deg, #3D4151 0%, #1C202C 38%, #141824 100%) 0% 0% no-repeat padding-box;
+    padding: 40px;
+}
+
+    .addBanner img {
+        width: 100%;
+        height : auto;
+    }
+
+a#gotop {
+    color: #fff;
+    text-decoration: none;
+    z-index:9999;
+    display: none;
+    font-family: lato;
+    position: fixed;
+    bottom: 1.5em;
+    right: 1.5em;
+    padding: 10px;
+    background-color: #e87a1a;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 2px 7px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 2px 7px 2px rgba(0,0,0,0.75);
+}
+
+/*common css end*/
+
+body {
+    color:#fff;
+}
+
+a {
+    text-decoration: none;
+}
+
+section#sectionTop {
+    top: 0px;
+    width: 100%;
+    opacity: 1;
+}
+
+/*navbar start*/
+    #navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 36px 140px 0;
+    }
+
+        #navbar .qapp-logo-btn {
+            flex: 1;
+        }
+
+        #navbar .navigation {
+            display: flex;
+            flex: 2;
+            align-items: center;
+        }
+
+            .mainMenu {
+                flex: 2;
+                display: flex;
+                position: relative;
+            }
+
+            .mainMenu a {
+                padding: 15px 0px;
+                margin: 0 30px;
+                font: normal normal 300 18px/27px Poppins;
+                letter-spacing: 2.7px;
+                color: #D6D4DA;
+                text-transform: uppercase;
+                text-decoration: none;
+                position: relative;
+                -webkit-transition: all .3s ease-in-out;
+                transition: all .3s ease-in-out;
+            }
+            
+            .mainMenu a:after {
+                top: 53px;
+            }
+
+            nav #signup {
+                position: absolute;
+                right: 0;
+            }
+
+            nav #signup ul {
+                list-style-type: none;
+            }
+
+            nav #signup ul li {
+                    display: inline-block;
+                }
+
+                nav #signup ul li:last-child {
+                    padding: 0 0 0 35px;
+                }
+
+                nav #signup-text {
+                    font-family: poppins, midium;
+                }
+
+            .btn-signup {
+                border: 1px solid #FFFFFF;
+                background: transparent;
+                opacity: 1;
+                padding: 13px 33px;
+                font-family: poppins, midium;
+                font-size: 16px;
+                -webkit-transition: box-shadow 0.4s ease 0s;
+                transition: all 0.4s ease 0s;
+            }
+
+            .btn-signup:hover, .btn-signup:focus {
+                border-color: #E87A1A;
+                -webkit-box-shadow: 0px 0px 10px 1px #E87A1A;
+                box-shadow: 0px 0px 10px 1px #E87A1A;
+                -webkit-transition: box-shadow 0.4s ease 0s;
+                transition: all 0.4s ease 0s;
+            }
+
+            /* .signup {
+                font: normal normal medium 18px/28px Poppins;
+                letter-spacing: 0px;
+                color: #FFFFFF;
+                opacity: 1;
+            } */
+/*navbar end*/
+    
+/*main slider start*/
+    
+/*main slider end*/
+
+h2 {
+    font-family: 'Poppins', sans-serif;
+}
+    
+/* our feature start */
+    #sectionFeatures {
+        background: #E87A1A 0% 0% no-repeat padding-box;
+        opacity: 1;
+        padding: 20px 95px;
+    }
+
+        #sectionFeatures .cards {
+            display: flex;
+            justify-content: space-around;
+            text-align:center;
+        }
+
+        .headFeature {
+            font: normal normal 300 18px/27px Poppins;
+            letter-spacing: 2.7px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            opacity: 1;
+            text-align: center;
+        }
+
+        .headTagLine {
+            font: normal normal bold 63px/94px Poppins;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            opacity: 1;
+            text-align: center;
+        }
+
+        section#sectionFeatures .myCard {
+            padding: 18px 24px 41px 24px;
+            width: 25%;
+            margin: 25px 0;
+        }
+
+            section#sectionFeatures .myCard .icon {
+                width: 116px;
+                height: 116px;
+                background: #E87A1A 0% 0% no-repeat padding-box;
+                opacity: 0.57;
+            }
+
+            section#sectionFeatures .cardHeading {
+                font: normal normal bold 41px/61px Poppins;
+                letter-spacing: 0px;
+                color: #000000;
+                opacity: 1;
+            }
+
+            section#sectionFeatures .cardDescription {
+                font: normal normal normal 18px/28px Poppins;
+                letter-spacing: 0px;
+                color: #818181;
+                opacity: 1;
+                padding: 0 0 20px;
+            }
+
+        .featureDiscription {
+            text-align: center;
+            padding-bottom: 1em;
+        }
+
+        .featureDiscription p {
+            text-align: center;
+            font: normal normal normal 25px/42px Poppins;
+            letter-spacing: 0px;
+            color: #FFFFFF;
+            opacity: 1;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 0 40px;
+        }
+
+        .btn-register {
+            width: 274px;
+            height: 74px;
+            background-color: #000000;
+            -webkit-box-shadow: 0px 0px 15px #FF707087;
+            box-shadow: 0px 0px 15px #FF707087;
+            border-radius: 33px;
+            opacity: 1;
+            font-family: poppins, medium;
+            font-size: 26px;
+            text-transform: capitalize;
+            border: 2px solid #000;
+            -webkit-transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
+            transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
+        }
+
+        .btn-register:hover, .btn-register:focus {
+            border-color: #E87A1A;
+            background-color: #000000ba;
+            -webkit-box-shadow: 0px 0px 12px 3px #000;
+            box-shadow: 0px 0px 12px 3px #000;
+            -webkit-transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
+            transition: border-color 0.4s ease 0s, background-color 0.4s ease 0s, box-shadow 0.4s ease 0s;
+        }
+/* our freature end */
+
+/* categories stard */    
+    #categories h2 {
+        font-size: 44px;
+        letter-spacing: 6.6px;
+        color: #000000;
+        text-transform: uppercase;
+        padding: 32px 140px;
+    }
+        #categories .myCard {
+            min-width: 273px;
+            height: 346px;
+            display: flex;
+            margin-bottom: 41px;
+            margin-right: 5em;
+            flex-direction: column;
+        }
+
+        .myCard .card-text {
+            color: #000;
+            text-transform: capitalize;
+            font-family: 'Poppins';
+            font-size: 25px;
+            line-height: 34px;
+            left: 0;
+            right: 0;
+            height: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+/* categories end */
+
+/*app of the month start*/
+    #appOfTheMonth .posterDiscription ul {
+        list-style-type: none;
+    }
+/*app of the month end*/
+
+/*featured app start*/
+    #featred-app {
+        background: #E87A1A 0% 0% no-repeat padding-box;
+    }
+
+        #featred-app h2 {
+            letter-spacing: 6.6px;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            font-size: 44px;
+        }
+
+            #featred-app .drag-slider-item {
+                background: black;
+            }
+
+            #featred-app .drag-top span a {
+                color:#fff;    
+                -webkit-transition: color 0.4s ease 0s;
+                transition: color 0.4s ease 0s;
+            }
+
+            #featred-app span a:hover, #featred-app span a:focus {
+                color:#000;
+                -webkit-transition: color 0.4s ease 0s;
+                transition: color 0.4s ease 0s;
+            }
+/*freatured app end */
+
+/*latest release start*/
+    #latest-release {
+        background: #BEBEBE 0% 0% no-repeat padding-box;
+    }
+
+        #latest-release h2 {
+            letter-spacing: 6.6px;
+            color: #000;
+            text-transform: uppercase;
+            font-size: 44px;
+        }
+
+            #latest-release .drag-slider-item {
+                background: black;
+            }
+
+            #latest-release .drag-top span a {
+                color:#000;
+                -webkit-transition: color 0.4s ease 0s;
+                transition: color 0.4s ease 0s;
+            }
+
+            #latest-release span a:hover, #latest-release span a:focus {
+                color:#fff;
+                -webkit-transition: color 0.4s ease 0s;
+                transition: color 0.4s ease 0s;
+            }
+/*latest rleae end*/
+
+/*useful-app start*/
+    #useful-apps {
+        background: #000 0% 0% no-repeat padding-box;
+    }
+
+        #useful-apps h2 {
+            letter-spacing: 6.6px;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 44px;
+        }
+
+            #useful-apps .drag-slider-item {
+                background: #E87A1A;
+            }
+
+            #useful-apps .drag-top span a {
+                color:#fff;
+                -webkit-transition: color 0.4s ease 0s;
+                transition: color 0.4s ease 0s;
+            }
+
+            #useful-apps span a:hover, #useful-apps span a:focus {
+                color:#E87A1A;
+                -webkit-transition: color 0.4s ease 0s;
+                transition: color 0.4s ease 0s;
+            }
+ /*useful-app end*/
+
+/*trending technologies start*/
+    #trendingTech {
+        background: transparent linear-gradient(173deg, #3D4151 0%, #1C202C 38%, #141824 100%) 0% 0% no-repeat padding-box;
+    }
+
+        #trendingTech h2 {
+            letter-spacing: 6.6px;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 44px;
+        }
+
+        #trendingTech .drag-slider-item {
+            margin:20px 20px 120px;
+        }
+/*trending technologies end*/
+
+/*download app poster start*/
+    #download-app-poster {
+        background: #E87A1A 0% 0% no-repeat padding-box;
+        height: auto;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+        #download-app-poster .posterImage img{
+            max-height: 720px;
+        }
+
+        #download-app-poster .download-btn {
+            display: flex;
+        }
+
+            #download-app-poster .download-btn a:first-child {
+                margin-right: 20px;
+            }
+/*download app poster end*/
+
+/*mega poster start*/
+    #ourFeatures {
+        background: transparent linear-gradient(173deg, #3D4151 0%, #1C202C 38%, #141824 100%) 0% 0% no-repeat padding-box;
+        padding: 140px;
+    }
+
+        .megaPoster {
+            display: flex;
+            /* flex-wrap: wrap; */
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .megaHead h3 {
+                /* text-align: center; */
+                font: normal normal 300 18px/27px Poppins;
+                letter-spacing: 2.7px;
+                color: #FFFFFF;
+                text-transform: uppercase;
+            }
+
+            .megaHead h1 {
+                font: normal normal 900 4.30vw/5.0531vw Archivo;;
+                font-family: 'Archivo Black', sans-serif;
+                letter-spacing: 0px;
+                color: #FFFFFF;
+                text-transform: capitalize;
+                width: 50%;
+            }
+
+            .megaPoster .feature-content {
+                height: 70vh;
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .megaPoster .feature-img {
+                flex: 1.5;
+            }
+
+            .megaPoster ul {
+                list-style-type: none;
+            }
+
+            .megaPoster ul li.featureIcon {
+                width: 116px;
+                height: 116px;
+                background: #E87A1A 0% 0% no-repeat padding-box;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 100%;
+                text-align:center;
+            }
+
+            .megaPoster ul li h2 {
+                font: normal normal bold 41px/61px Poppins;
+                text-transform: capitalize;
+            }
+
+            .megaPoster ul li p {
+                font: normal normal normal 18px/28px Poppins;
+            }
+/*mega poster end*/
+
+/*footer start*/
+    footer {
+        background: #000000 0% 0% no-repeat padding-box;
+        font: normal normal normal 16px/25px Poppins;
+    }
+
+        .footer-row {
+            width: 78%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 37px 0;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .footer-column {
+                text-align: left;
+            }
+
+                .subscribe {
+                    padding-bottom: 1em;
+                }
+
+                .copyright {
+                    padding-top: 3em;
+                }
+
+            .footer-row .column-1 {
+                width: 30%;
+                /* float: left; */
+            }
+
+                .social-links a img, .social-links a img {
+                    transform: scale(1);
+                    -webkit-transition: all 0.4s ease 0s;
+                    transition: all 0.4s ease 0s;
+                }
+
+                .social-links a:hover img, .social-links a:focus img {
+                    transform:scale(1.5);
+                    -webkit-transition: all 0.4s ease 0s;
+                    transition: all 0.4s ease 0s;
+                }
+
+            .footer-row .column-2 {
+                width: 50%;
+                display: flex;
+                justify-content: space-around;
+                /* float: left; */
+            }
+
+            .footer-row .column-3 {
+                display: flex;
+                flex-direction: column;
+            }
+
+                .footer-links {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+
+                    .footer-links a {
+                        color:#fff;
+                        position: relative;
+                    }
+
+                    .footer-links a:after {
+                        top: 30px;
+                    }
+
+                footer ul {
+                    list-style-type: none;
+                }
+
+                    ul.companyInfo li {
+                        padding: 0 0 10px;
+                    }
+
+                    li.social-links {
+                        display: flex;
+                        justify-content: space-between;
+                        width: 75%;
+                    }
+                
+                .subscribe h2 {
+                    font: normal normal 600 19px/29px Poppins;
+                }
+
+                #subscribe-form {
+                    position: relative;
+                }
+                
+                .subscribe input, .btn-submit {
+                    border-radius: 30px;
+                    padding: 18px 51px;
+                    font: normal normal normal 16px/28px Poppins;
+                    letter-spacing: 0px;
+                }
+
+                .subscribe input:active {
+                    color: #464646;
+                }
+
+                .subscribe input[type="email"] {
+                    width: 411px;
+                    -webkit-box-shadow: 0px 0px 30px #6b6b6b;
+                    box-shadow: 0px 0px 30px #6b6b6b;
+                }
+
+                .subscribe .btn-submit {
+                    background: #E87A1A 0% 0% no-repeat padding-box;
+                    border-radius: 33px;
+                    color: #fff;
+                    position: absolute;
+                    left: 340px;
+                    top: 0;
+                    cursor: pointer;
+                }
+/*footer end*/
+
+/* Desktops and laptops ----------- */  
+@media only screen and (max-width : 1440px) {
+    /*header start*/
+    #navbar {
+        padding: 36px 70px;
+    }
+        .mainMenu a {
+            padding: 15px 0px;
+            margin: 0 15px;
+        }
+        
+    /*header end*/
+
+    /*poster start*/
+    .poster, #sectionFeatures, #categories h2, .drag-top {
+        padding-right: 70px;
+        padding-left: 70px;
+    }
+    /*poster end*/
+    #ourFeatures {
+        padding: 70px;
+    }
+
+    .footer-row {
+        width: auto;
+        padding: 30px 70px;
+    }
+
+        .subscribe input, .btn-submit {
+            padding: 12px 25px;
+        }
+
+        .subscribe input[type="email"] {
+            width: 375px;
+        }
+
+        .subscribe .btn-submit {
+            left: 297px;
+        }
+}
+
+/* iPads to Smartphone for Common Elements ----------- */  
+@media only screen and (max-width : 1024px)  {
+    /*header and footer links and navs start*/
+    header {
+        background-color: #191b22;
+        position: fixed;
+        width: 100%;
+        z-index: 10;
+    }
+    
+        #navbar {
+            display: block;
+            padding: 15px 0px 0px;
+        }
+
+            #navbar .qapp-logo-btn {
+                padding: 0 70px 15px 70px;
+                position: relative;
+            }
+
+            #navbar .qapp-logo-btn a{
+                display: inline-block;
+            }
+        
+            #navbar .navigation {
+                display: block;
+                text-align: right;
+            }
+            
+                .mainMenu {
+                    display: block;
+                    position: absolute;
+                    width: 100%;
+                    background: #191b22;
+                    right: 0;
+                    top: -10em;
+                    -webkit-transition: all 0.6s ease-in-out 0.3s;
+                    transition: all 0.6s ease-in-out 0.3s;
+                }
+
+                .mainMenu.active {
+                    top: 6em;
+                    -webkit-transition: all 0.6s ease-in-out;
+                    transition: all 0.6s ease-in-out;
+                }
+
+                    .mainMenu a {
+                        display: list-item;
+                        list-style-type: none;
+                        margin: 0;
+                        padding-right: 70px;
+                        -webkit-transition: background-color 0.3s ease-in-out 0s, line-height 0.6s ease-in-out 0s, opacity 0.3s ease-in-out 0.3s, padding 0.6s ease-in-out 0s;
+                        transition: background-color 0.3s ease-in-out 0s, line-height 0.6s ease-in-out 0s, opacity 0.3s ease-in-out 0.2s, padding 0.6s ease-in-out 0s;
+                    }
+
+                    .mainMenu a:first-child {
+                        border-top: 1px solid #e87a1a94;
+                    }
+
+                    #signup {
+                        -webkit-transition: all 0.6s ease-in-out;
+                        transition: all 0.6s ease-in-out;
+                    }
+
+                    .mainMenu a:hover, .mainMenu a:focus {
+                        background-color: #e87a1a;
+                        color: #000;
+                    }
+
+                    .mainMenu a:after {
+                        display: none;
+                    }
+                    
+                    .mainMenu #signup {
+                        float: none;
+                        position: unset;
+                        display: block;
+                        padding: 15px 70px 15px 0;
+                    }
+
+
+                    .menu-btn-3 {
+                        height: 32px;
+                        width: 40px;
+                        cursor: pointer;
+                        z-index: 2;
+                        position: absolute;
+                        right: 72px;
+                        top: 15px;
+                    }
+                    
+        .menu-btn-3 span,
+        .menu-btn-3 span::before,
+        .menu-btn-3 span::after {
+            background: #e87a1a; 
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 6px;         
+            margin-top: 13px;
+            
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        
+            -webkit-transition: .5s ease-in-out;
+            transition: .5s ease-in-out;
+        }
+        
+        .menu-btn-3 span::before {
+            margin-top:-12px;
+        }
+        
+        .menu-btn-3 span::after {
+            margin-top:12px;
+        }
+        
+        .menu-btn-3.active span {
+            background: transparent;
+        }
+        
+        .menu-btn-3.active span::before {
+            margin-top: 0;        
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+        
+        .menu-btn-3.active span::after {
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+
+            margin-top: 0;
+        }
+
+        .mainMenu a, .mainMenu #signup {
+            opacity: 0;
+            line-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+            .mainMenu.active a, .mainMenu.active #signup {
+                opacity: 1;
+                line-height: 1;
+                padding-top: 15px;
+                padding-bottom: 15px;                
+                -webkit-transition: background-color 0.3s ease-in-out 0s, line-height 0.6s ease-in-out 0.3s, opacity 0.6s ease-in-out 0.3s, padding 0.6s ease-in-out 0.3s;
+                transition: background-color 0.3s ease-in-out 0s, line-height 0.6s ease-in-out 0.3s, opacity 0.6s ease-in-out 0.3s, padding 0.6s ease-in-out 0.3s;
+            }
+
+/*header and footer links and navs end*/
+
+        .megaHead {
+            text-align: center;
+        }
+
+            .megaHead h1, .headTagLine {
+                width: 100%;
+                font-size: 6.3vw;
+                font-weight: 600;
+                line-height: 1.2;
+            }
+
+            .megaPoster {
+                flex-direction: column;
+                /* justify-content: unset; */
+            }
+
+            .megaPoster .feature-img {
+                order: 1;
+                padding-bottom: 1em;
+            }
+
+            .megaPoster .feature-content {
+                order: 2;
+                justify-content: unset;
+                height: auto;
+            }
+
+            .megaPoster .appFeature {
+                padding-bottom: 2em;
+            }
+
+            .megaPoster ul li h2 {
+                font: normal normal bold 21px/34px Poppins;
+                text-transform: capitalize;
+                font-weight: 600;
+            }
+
+            .megaPoster ul li.featureIcon img {
+                width: 70%;
+            }
+
+            .megaPoster ul li.featureIcon {
+                width: 78px;
+                height: 78px;
+            }          
+
+    span.copyright {
+        text-align: center;
+        margin-top: 2em;
+    }
+}
+
+/* iPads (portrait)----------- */  
+@media only screen and (min-width : 768px) and (max-width : 1024px) and (orientation : portrait) {
+    #mainSlider {
+        padding-top: 5em;
+    }
+
+    .poster {
+        height: 45vh;
+    }
+
+        .posterImage {
+            width: 50%;
+        }
+
+        .posterDiscription h1 {
+            font-weight: 600;
+        }
+
+        .posterDiscription ul li:not(:last-child) {
+            margin-bottom: 25px;
+        }
+    
+    section#sectionFeatures .myCard {
+        padding: 18px 14px 14px 14px;
+    }
+
+        section#sectionFeatures .myCard .icon {
+            margin-bottom: 1em;
+        }
+
+        section#sectionFeatures .cardHeading {
+            font: normal normal bold 26px/33px Poppins
+        }
+
+        section#sectionFeatures .cardDescription {
+            padding: 10px 0;
+        }
+    
+    .featureDiscription p {
+        width: 100%;
+        text-align: justify;  
+    }
+
+    section#sectionFeatures .cardDescription, .featureDiscription p {
+        font: normal normal normal 18px/28px Poppins;
+    }
+
+    #categories h2 {
+        padding-right: 70px;
+        padding-left: 70px;
+    }
+
+    #categories .myCard {
+        min-width: 190px;
+        height: 220px;
+        margin-right: 2.5em;
+    }
+
+        #categories .myCard .icon img {
+            max-width: 70px;
+        }
+
+    #featred-app .drag-slider-item, #latest-release .drag-slider-item, #useful-apps .drag-slider-item {
+        min-width: 200px;
+        height: 200px;
+        margin-right: 2em;
+        border-radius: 26px;
+    }
+
+    #trendingTech .drag-slider-item {
+        margin-bottom: 80px;
+    }
+
+        .drag-img {
+            border-radius: 26px 26px 0 0;
+        }
+
+            .drag-img img {
+                max-width: 100px;
+            }
+
+            #trendingTech .drag-img img {
+                max-width: 500px;
+            }
+
+        .drag-text, .myCard .card-text {
+            font-size: 20px;
+        }
+
+    .footer-row {
+        flex-direction: column;
+        position: relative;
+    }
+        .footer-column {
+            text-align: left;
+            width: 100% !important;
+            padding-bottom: 2em;
+        }
+
+            .subscribe {
+                padding-bottom: 0.em;
+            }
+
+            .footer-column .companyInfo {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+                ul.companyInfo li:first-child a {
+                    margin-right: 4em;
+                }
+
+                li.social-links {
+                    width: 25%;
+                    position: absolute;
+                    top: 35em;
+                }
+
+            .footer-row .column-2 {
+                justify-content: space-between;
+            }
+
+                ul.footer-links li {
+                    padding: 0.6em 0;
+                }
+
+                    .footer-links a {
+                        padding: 0.6em 0;
+                    }
+
+            #subscribe-form {
+                margin: 1em 0px 1.5em;
+            }
+}
+
+/* iPads (landscape) ----------- */  
+@media only screen and (min-width : 768px) and (max-width : 1366px) and (min-height : 768px) and (max-height : 1024px) and (orientation : landscape) {  
+  
+    #navbar .navigation {
+        flex: 3;
+    }
+    
+    .posterImage {
+        width: 50%;
+    }
+
+    section#sectionFeatures .myCard .icon {
+        margin-bottom: 1em;
+    }
+
+    section#sectionFeatures .cardHeading {
+        font: normal normal bold 30px/32px Poppins;
+    }
+
+    section#sectionFeatures .cardDescription {
+        padding: 10px 0;
+    }
+
+    section#sectionFeatures .cardDescription, .featureDiscription p {
+        font: normal normal normal 18px/28px Poppins;
+    }
+
+    .footer-row {
+        padding: 30px 30px 100px;
+        position: relative;
+    }
+
+    .footer-row .column-2 {
+        width: 35%;
+    }
+
+    .subscribe input[type="email"] {
+        width: 290px;
+    }
+
+    .subscribe .btn-submit {
+        left: 0;
+        top: 68px;
+    }
+
+    span.copyright {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
+        bottom: 20px;
+    }
+}
+
+/* Mini Tablet and Big Mobile Landscape*/
+@media only screen and (min-width : 667px) and (max-width : 1104px) and (max-height : 884px) and (orientation : landscape) {
+    header {
+        position: sticky;
+    }
+
+        #navbar {
+            padding: 10px 0px 0px;
+        }
+
+            #navbar .qapp-logo-btn {
+                padding: 0 20px 10px 20px;
+            }
+                
+                #navbar .qapp-logo-btn img {
+                    width: 56px;
+                }
+
+                .menu-btn-3 {
+                    right: 20px;
+                    top: 4px;
+                }
+
+                .mainMenu.active {
+                    top: 3.9em;
+                }
+
+                .mainMenu a, .mainMenu #signup {
+                    padding-right: 20px;
+                }
+
+        .poster, .poster, #sectionFeatures {
+            padding: 20px;
+        }
+
+        #ourFeatures {
+            padding: 70px 20px 35px;
+        }
+
+            .posterDiscription h1 {
+                font: normal normal 400 25px/35px Archivo;
+            }
+
+            .megaHead h1 {
+                font: normal normal 400 35px/40px Archivo;
+            }
+            
+            .posterDiscription ul li:not(:last-child) {
+                margin-bottom: 15px;
+            }
+
+            .posterDiscription ul li:not(:last-child) {
+                margin-bottom: 15px;
+            }
+
+                .posterDiscription p, section#sectionFeatures .cardDescription, .megaPoster ul li p {
+                    font: normal normal normal 15px/22px Poppins;
+                }
+
+            .posterImage {
+                width: 50%;
+            }
+
+                .posterImage img {
+                    max-width: 85%;
+                }
+
+    .headTagLine, #categories h2, #featred-app h2, #latest-release h2, #useful-apps h2, #trendingTech h2 {
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 35px;
+    }
+
+        section#sectionFeatures .cards .myCard {
+            width: auto;
+            padding: 18px 14px 18px 14px;
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+
+            section#sectionFeatures .cardHeading {
+                font-size: 26PX;
+                font-weight: 600;
+                line-height: 28px;
+                padding: 10px 0;
+            }
+
+        .featureDiscription p {
+            font-size: 18px;
+            line-height: 28px;
+            text-align: justify;
+            width: 100%;
+        }
+    
+    #categories h2, .drag-top {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    #categories .myCard {
+        min-width: 140px;
+        height: 160px;
+        margin-right: 2em;
+        border-radius: 15px;
+    }
+
+        #categories .myCard .icon img{
+            width: 60%;
+        }
+
+        #featred-app .drag-slider-item, #latest-release .drag-slider-item, #useful-apps .drag-slider-item {
+            margin-right: 2em;
+            min-width: 150px;
+            height: 150px;
+            border-radius: 22px;
+        }
+
+        #trendingTech .drag-slider {
+            padding-top: 0;
+        }
+
+            #trendingTech .drag-slider-item {
+                margin-bottom: 30px;
+            }
+
+            .drag-img {
+                border-radius: 22px 22px 0 0;
+            }
+
+                .drag-img img {
+                    max-width: 50%;
+                }
+
+                #trendingTech .drag-img img {
+                    max-width: 300px;
+                }
+
+            .drag-text, .myCard .card-text {
+                font-size: 15px;
+            }
+
+            .drag-top span a {
+                font-size: 24px;
+            }
+
+    .addBanner {
+        padding: 10px;
+    }
+
+    .megaPoster .feature-content {
+        flex-direction: row;
+    }
+
+        .megaPoster .appFeature {
+            margin-right: 10px;
+        }
+
+        .appFeature.align-right {
+            text-align: right;
+            margin-right: 0px;
+            margin-left: 10px;
+        }
+
+        .appFeature.align-right .featureIcon {
+            margin-left: auto;
+        }
+
+    .footer-row {
+        padding: 30px 10px 0em;
+        flex-direction: column;
+        position: relative;
+    }
+
+        .footer-column {
+            text-align: left;
+            width: 100% !important;
+            padding-bottom: 2em;
+        }
+
+            .footer-column .companyInfo {
+                display: flex;
+                align-items: flex-start;
+                justify-content: unset;
+                flex-direction: column;
+            }
+
+                ul.companyInfo li:first-child a {
+                    margin-right: 4em;
+                }
+
+                li.social-links {
+                    width: 25%;
+                    position: absolute;
+                    bottom: 84px;
+                }
+
+        .footer-row .column-2 {
+            justify-content: space-between;
+        }
+
+            ul.footer-links li, .footer-links a {
+                padding: 0.6em 0;
+            }
+
+        /* #subscribe-form {
+            margin: 1em 0px 1.5em;
+        }
+
+            .subscribe input[type="email"] {
+                width: -webkit-fill-available;
+            }
+
+            .subscribe .btn-submit {
+                left: 0;
+                top: 65px;
+            } */
+
+            li.social-links {
+                width: 25%;
+                top: 36em;
+            }
+
+        span.copyright {
+            margin-top: 3em;
+        }
+}
+
+/* Mini Tablet ----------- */  
+/* @media only screen and (max-width : 640px) and (orientation : portrait){ 
+
+} */
+
+/* Smartphones to Mini Tablet (portrait) ----------- */  
+@media only screen and (max-width : 640px) and (orientation : portrait) {
+    #navbar {
+        padding: 10px 0px 0px;
+    }
+
+        #navbar .qapp-logo-btn {
+            padding: 0 10px 10px 10px;
+        }
+            
+            #navbar .qapp-logo-btn img {
+                width: 56px;
+            }
+
+            .menu-btn-3 {
+                right: 10px;
+                top: 4px;
+            }
+
+            .mainMenu.active {
+                top: 3.9em;
+            }
+
+            .mainMenu a, .mainMenu #signup {
+                padding-right: 10px;
+            }
+
+    #mainSlider {
+        padding-top: 6em;
+    }
+    
+        .poster, #download-app-poster, #sectionFeatures {
+            display: block;
+            padding-bottom: 3em;
+            padding-top: 2em;
+            padding-right: 10px;
+            padding-left: 10px;
+            height: auto;
+        }
+
+            #download-app-poster .download-btn {
+                justify-content: space-evenly;
+            }
+
+            #download-app-poster .download-btn img {
+                height: 60px;
+            }
+
+            .posterDiscription, .posterImage, .poster-reverse .posterDiscription, .poster-reverse .posterImage {
+                width: 100%;
+                text-align: center;
+            }
+
+            .posterDiscription ul li:not(:last-child) {
+                margin-bottom: 15px;
+            }
+
+            .poster-pc-description, .poster-pc-btn {
+                display: none;
+            }
+
+            .posterDiscription ul li:last-child {
+                bottom: 55px;
+            }
+            
+                .posterDiscription h1, .megaHead h1 {
+                    font: normal normal 400 25px/35px Archivo;
+                    font-size: 30px;
+                    letter-spacing: 2.5px;
+                }
+
+                .poster-mobile-content {
+                    display: block;
+                }
+                
+                    .posterDiscription p, .poster-mobile-content p, .megaPoster ul li p {
+                        font: normal normal normal 15px/22px Poppins;
+                    }
+
+                    .posterDiscription p, .poster-mobile-content p  {
+                        padding: 20px 0 30px;
+                    }
+
+    #ourFeatures {
+        padding: 2em 10px 0 10px;
+    }
+
+        .headTagLine, #categories h2, #featred-app h2, #latest-release h2, #useful-apps h2, #trendingTech h2 {
+            font-size: 30px;
+            font-weight: 400;
+            line-height: 35px;
+            letter-spacing: 2.5px;
+        }
+
+        .featureDiscription p {
+            font-size: 18px;
+            line-height: 28px;
+            text-align: justify;
+            width: 100%;
+        }
+
+        #sectionFeatures .cards {
+            flex-direction: column;
+        }
+
+            section#sectionFeatures .cards .myCard {
+                width: auto;
+                padding: 18px 14px 31px 14px;
+            }
+
+            section#sectionFeatures .cardHeading {
+                font-size: 35PX;
+                font-weight: 600;
+                line-height: 50px;
+            }
+
+    .btn-register {
+        width: 244px;
+        height: 64px;
+    }
+
+    #categories h2 {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    #categories .myCard {
+        min-width: 90px;
+        height: 100px;
+        margin-right: 1em;
+        border-radius: 15px;
+    }
+
+        #categories .myCard .icon img{
+            width: 45px;
+        }
+
+    .drag-top {
+        padding-right: 10px;
+        padding-left: 10px;
+        padding-bottom: 0;
+        display: block;
+        position: relative;
+    }
+        
+        .drag-top span {
+            position: absolute;
+            top: 16.5em;
+        }
+        
+            .drag-top span a {
+                font-size: 20px;
+            }
+    
+    .drag-slider {
+        padding-bottom: 30px;
+    }
+
+    #featred-app .drag-slider-item, #latest-release .drag-slider-item, #useful-apps .drag-slider-item {
+        margin-right: 1em;
+        min-width: 150px;
+        height: 150px;
+        border-radius: 22px;
+    }
+
+    #trendingTech .drag-slider-item {
+        margin-bottom: 20px;
+    }
+
+        .drag-img {
+            border-radius: 22px 22px 0 0;
+        }
+
+            .drag-img img {
+                max-width: 50%;
+            }
+
+            #trendingTech .drag-img img {
+                max-width: 380px;
+                height: 200px;
+            }
+
+            #categories h2 {
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
+        
+        #categories .myCard {
+            margin-bottom: 0;
+        }
+        
+            .drag-text {
+                font-size: 13px;
+            }
+
+            .myCard .card-text {
+                font-size: 10px;
+            }
+
+    .addBanner {
+        padding: 10px;
+    }
+
+        .addBanner img {
+            width: 100%;
+            height: 100%;
+        }
+
+    .footer-row {
+        padding: 30px 10px;
+        flex-direction: column;
+        position: relative;
+    }
+
+        .footer-column {
+            text-align: left;
+            width: 100% !important;
+            padding-bottom: 2em;
+        }
+
+            .footer-column .companyInfo {
+                display: flex;
+                align-items: flex-start;
+                justify-content: unset;
+                flex-direction: column;
+            }
+
+                ul.companyInfo li:first-child a {
+                    margin-right: 4em;
+                }
+
+                li.social-links {
+                    width: 25%;
+                    position: absolute;
+                    bottom: 112px;
+                }
+
+        .footer-row .column-2 {
+            justify-content: space-between;
+        }
+
+            ul.footer-links li, .footer-links a {
+                padding: 0.6em 0;
+            }
+
+        #subscribe-form {
+            margin: 1em 0px 1.5em;
+        }
+
+            .subscribe input[type="email"] {
+                width: -webkit-fill-available;
+            }
+
+            .subscribe .btn-submit {
+                left: 0;
+                top: 65px;
+            }
+
+            li.social-links {
+                width: 50%;
+                bottom: 110px;
+            }
+
+        span.copyright {
+            margin-top: 6em;
+        }
+}
+
+/* Smartphones to Mini Tablet (landscape) ----------- */  
+@media only screen and (max-width : 640px) and (max-height : 400px) and (orientation : landscape) {
+    header {
+        position: sticky;
+    }
+
+        #navbar {
+            padding: 10px 0px 0px;
+        }
+
+            #navbar .qapp-logo-btn {
+                padding: 0 20px 10px 20px;
+            }
+                
+                #navbar .qapp-logo-btn img {
+                    width: 56px;
+                }
+
+                .menu-btn-3 {
+                    right: 20px;
+                    top: 4px;
+                }
+
+                .mainMenu.active {
+                    top: 3.9em;
+                }
+
+                .mainMenu a, .mainMenu #signup {
+                    padding-right: 20px;
+                }
+
+        .poster, .poster, #sectionFeatures {
+            padding: 20px;
+        }
+
+        #ourFeatures {
+            padding: 70px 20px;
+        }
+
+            .posterDiscription h1 {
+                font: normal normal 400 25px/35px Archivo;
+            }
+            
+            .posterDiscription ul li:not(:last-child) {
+                margin-bottom: 15px;
+            }
+
+            .posterDiscription ul li:not(:last-child) {
+                margin-bottom: 15px;
+            }
+
+                .posterDiscription p {
+                    font: normal normal normal 13px/22px Poppins;
+                }
+
+            .posterImage {
+                width: 50%;
+            }
+
+                .posterImage img {
+                    max-width: 85%;
+                }
+
+    .headTagLine, #categories h2, #featred-app h2, #latest-release h2, #useful-apps h2, #trendingTech h2 {
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 35px;
+    }
+
+    .megaHead h1 {
+        font: normal normal 400 35px/40px Archivo;
+    }
+
+    #sectionFeatures .cards {
+        flex-direction: column;
+    }
+
+        section#sectionFeatures .cards .myCard {
+            width: auto;
+            padding: 18px 14px 31px 14px;
+        }
+
+            section#sectionFeatures .cardHeading {
+                font-size: 35PX;
+                font-weight: 600;
+                line-height: 50px;
+            }
+
+        .featureDiscription p {
+            font-size: 18px;
+            line-height: 28px;
+            text-align: justify;
+            width: 100%;
+        }
+    
+    #categories h2, .drag-top {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    #categories .myCard {
+        min-width: 140px;
+        height: 160px;
+        margin-right: 2em;
+        border-radius: 15px;
+    }
+
+        #categories .myCard .icon img{
+            width: 60%;
+        }
+
+        #featred-app .drag-slider-item, #latest-release .drag-slider-item, #useful-apps .drag-slider-item {
+            margin-right: 2em;
+            min-width: 150px;
+            height: 150px;
+            border-radius: 22px;
+        }
+
+        #trendingTech .drag-slider {
+            padding-top: 0;
+        }
+
+            #trendingTech .drag-slider-item {
+                margin-bottom: 30px;
+            }
+
+            .drag-img {
+                border-radius: 22px 22px 0 0;
+            }
+
+                .drag-img img {
+                    max-width: 50%;
+                }
+
+                #trendingTech .drag-img img {
+                    max-width: 270px;
+                }
+
+            .drag-text, .myCard .card-text {
+                font-size: 13px;
+            }
+
+            .drag-top span a {
+                font-size: 24px;
+            }
+
+    .addBanner {
+        padding: 10px;
+    }
+
+    .footer-row {
+        padding: 30px 10px 0em;
+        flex-direction: column;
+        position: relative;
+    }
+
+        .footer-column {
+            text-align: left;
+            width: 100% !important;
+            padding-bottom: 2em;
+        }
+
+            .footer-column .companyInfo {
+                display: flex;
+                align-items: flex-start;
+                justify-content: unset;
+                flex-direction: column;
+            }
+
+                ul.companyInfo li:first-child a {
+                    margin-right: 4em;
+                }
+
+                li.social-links {
+                    width: 25%;
+                    position: absolute;
+                    bottom: 84px;
+                }
+
+        .footer-row .column-2 {
+            justify-content: space-between;
+        }
+
+            ul.footer-links li, .footer-links a {
+                padding: 0.6em 0;
+            }
+
+        #subscribe-form {
+            margin: 1em 0px 1.5em;
+        }
+
+            .subscribe input[type="email"] {
+                /* width: -webkit-fill-available; */
+            }
+
+            .subscribe .btn-submit {
+                /* left: 0;
+                top: 65px; */
+            }
+
+            li.social-links {
+                width: 25%;
+                top: 37em;
+            }
+
+        span.copyright {
+            margin-top: 1em;
+        }
+}
+
+/* Small Devices (portrait) ----------------- */
+@media only screen and (max-width : 380px) and (max-height : 480px) and (orientation : portrait) {  
+
+}
+
+/* X-Tra Small Devices  (landscape) ----------- */  
+@media only screen and (max-width : 480px) and (max-height : 320px) and (orientation : landscape) {  
+    .btn-signup {
+        padding: 10px 20px;
+    }
+    
+    .posterDiscription {
+        width: 50%;
+    }
+
+        .posterDiscription h1 {
+            font: normal normal 600 19px/5.0531vw Archivo;
+            font-family: poppins;
+        }
+
+        .btn-target {
+            padding: 10px 25px;
+            font-size: 15px;
+            letter-spacing: 1px;
+        
+        }
+            .btn-aero {
+                width: 42px;
+            }
+
+            .btn-target .btn-aero {
+                top: 21px;
+            }
+
+    li.social-links {
+        width: 40%;
+        top: 39em;
+    }
+}

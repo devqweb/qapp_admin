@@ -81,3 +81,7 @@
 .ci-form-error {
     color:#d21616;
 }
+
+.modal-content .form-horizontal {
+    overflow-y: scroll;
+}

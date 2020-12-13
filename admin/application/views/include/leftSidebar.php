@@ -72,7 +72,7 @@
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("add_new_app") ?>">Add New App</a></li>
+                                    <li><a href="<?php echo base_url("new_app") ?>">Add New App</a></li>
                                     <li><a href="<?php echo base_url("manage_app") ?>">Manage Apps</a></li>
                                     <!-- <li><a href="tables-responsive.html">Responsive Table</a></li>
                                     <li><a href="tables-editable.html">Editable Table</a></li>

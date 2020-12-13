@@ -104,6 +104,12 @@
         <!-- Responsive Table js -->
         <script src="<?php echo base_url("assets/libs/rwd-table/rwd-table.min.js") ?>"></script>
 
+        <!-- Plugins Js -->
+        <script src="assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+        <!-- <script src="assets/libs/switchery/switchery.min.js"></script>
+        <script src="assets/libs/multiselect/jquery.multi-select.js"></script> -->
+        <!-- <script src="assets/libs/jquery-quicksearch/jquery.quicksearch.min.js"></script> -->
+
         <!-- third party js -->
         <script src="<?php echo base_url("assets/libs/datatables/jquery.dataTables.min.js")?>"></script>
         <script src="<?php echo base_url("assets/libs/datatables/dataTables.bootstrap4.js")?>"></script>

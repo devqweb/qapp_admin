@@ -25,7 +25,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="p-2">
-                                                <?php echo form_open_multipart('save_category');?>
+                                                <?php echo form_open_multipart('new_category');?>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="catName">Category Name *</label>    
