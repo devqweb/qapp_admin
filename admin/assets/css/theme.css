@@ -1,0 +1,83 @@
+.logo-box img {
+    width: 50px;
+    height: auto;
+}
+
+.flex-start {
+    justify-content: flex-start;
+}
+
+.modal-container-width {
+    max-width: 90%;
+}
+
+    .modal-container-width .modal-content{
+        width:100%;
+    }
+
+.btn-warning:hover, .btn-warning:focus {
+    color: #fff;
+    background-color: #f7ae00;
+    border-color: #f7ae00;
+}
+
+.form-row {
+    padding-top:1em;
+}
+
+.checkbox-description {
+    display: flex;
+}
+
+    .checkbox-description span {
+        width:30px
+    }
+
+        .checkbox-description span input[type=checkbox] {
+            background-color: #fff;
+            border-radius: 3px;
+            border: 2px solid #ced4da;
+            content: "";
+            display: inline-block;
+            height: 18px;
+            left: 0;
+            -webkit-transition: .3s ease-in-out;
+            transition: .3s ease-in-out;
+            width: 18px;
+            outline: 0!important;
+            top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-description span input:checked ~ .checkmark {
+            background-color: pink;
+        }
+
+.custom-select.is-invalid:focus, .custom-select.is-valid:focus, .custom-select:invalid:focus, .custom-select:valid:focus, .form-control.is-invalid:focus, .form-control.is-valid:focus, .form-control:invalid:focus, .form-control:valid:focus {
+    -webkit-box-shadow: 0 0 0 0.15rem rgba(232,122,26,.25) !important;
+    box-shadow: 0 0 0 0.15rem rgba(232,122,26,.25) !important;
+    border-color: rgba(232,122,26)
+}
+
+.table-striped tbody tr {
+    -webkit-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+}
+
+.table-striped tbody tr:hover {
+    background-color:#ffdec1;
+    -webkit-transition: all 0.1s ease-out;
+    transition: all 0.1s ease-out;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: #c3c9d0;
+}
+
+.header-title {
+    font-size: 2rem;
+}
+
+.ci-form-error {
+    color:#d21616;
+}
