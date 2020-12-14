@@ -38,13 +38,12 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="banner_Order">Order in Drag Slider *</label>
                                                             <input type="number" id="banner_Order" name="banner_Order" class="form-control" placeholder="Order in Drag Slider">
-                                                            <?php echo form_error('banner_Order'); ?>
                                                         </div>                                                       
                                                     </div>
 
                                                     <div class="form-row">
                                                         <div class="form-group col-md-5">
-                                                            <input type = "submit" name="submit"class="btn btn-primary waves-effect waves-light" value="Add Category">
+                                                            <input type = "submit" name="submit" class="btn btn-primary waves-effect waves-light" value="Add Category">
                                                             &nbsp;&nbsp;&nbsp;
                                                             <input type="reset" name="reset" class="btn btn-danger" value="Cancel">
                                                         </div>

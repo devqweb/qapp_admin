@@ -106,5 +106,15 @@ class Common_model extends CI_Model {
 	}
 	############################################ END OF IMAGE UPLOAD ##################################
 
+	############################################ COMMON SELECT ########################################
+	public function common_select($fields, $table, $where) {
+		$this->db->select($fields);
+		$this->db->from($table);
+		$this->db->where($where);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	########################################## END OF COMMON SELECT ###################################
+
 }
 ?>

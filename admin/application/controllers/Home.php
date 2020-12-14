@@ -41,72 +41,142 @@ class Home extends CI_Controller {
 
 	############################################ ADD NEW APP ##########################################
 	public function new_app() {
-		// nameOfApp
-		// companyName
-		// contactPerson
-		// mobileNumber
-		// whatsapp
-		// email
-		// category
-		// dateOfLastUpdate
-		// tags
-		// description
-		// videoLink
-		// androidLink
-		// iosLink
-		// instaLink
-		// fbLink
-		// website
-		// rating
-		// appIstalls
-		// appsize
-		// english
-		// arabic
-		// icon
-		// screenshots
-		// tnc
-		// authorConfirm
-
 		//INSERT NEW APP
-		if(isset($_POST['submit'])) {
+		if(isset($_POST['submit'])) {			
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
-			// $this->form_validation->set_rules('nameOfApp','"Name of the App"','trim|required');
-			$this->form_validation->set_rules('companyName','"Company Name"','trim|required');
-			// $this->form_validation->set_rules('contactPerson','"Contact Person"','trim|required');
-			// $this->form_validation->set_rules('mobileNumber','"Mobile Number"','trim|required');
-			// $this->form_validation->set_rules('email','"E-Mail"','trim|required');
-			// $this->form_validation->set_rules('category','"Category"','trim|required');
-			// $this->form_validation->set_rules('tags','"Tags"','trim|required');
-			// $this->form_validation->set_rules('description','"Description"','trim|required');
-			// $this->form_validation->set_rules('rating','"Rating"','trim|required');
-			// $this->form_validation->set_rules('appIstalls','"Number of App Installs"','trim|required');
-			// $this->form_validation->set_rules('appsize','"Size of The App(MB)"','trim|required');
-			// $this->form_validation->set_rules('english','"English"','trim|required');
-			// $this->form_validation->set_rules('arabic','"Arabic"','trim|required');
-			// $this->form_validation->set_rules('tnc','"Terms and Condition"','trim|required');
-			// $this->form_validation->set_rules('authorConfirm','"Authorization Confirmation"','trim|required');
+			$this->form_validation->set_rules('nameOfApp','<b>Name of the App</b>','trim|required');
+			$this->form_validation->set_rules('companyName','<b>Company Name</b>','trim|required');
+			$this->form_validation->set_rules('contactPerson','<b>Contact Person</b>','trim|required');
+			$this->form_validation->set_rules('mobileNumber','<b>Mobile Number</b>','trim|required');
+			$this->form_validation->set_rules('email','<b>E-Mail</b>','trim|required');
+			$this->form_validation->set_rules('category','<b>Category</b>','trim|required');
+			$this->form_validation->set_rules('tags','<b>Tags</b>','trim|required');
+			$this->form_validation->set_rules('description','<b>Description</b>','trim|required');
+			$this->form_validation->set_rules('rating','<b>Rating</b>','trim|required');
+			$this->form_validation->set_rules('appIstalls','<b>Number of App Installs</b>','trim|required');
+			$this->form_validation->set_rules('appsize','<b>Size of The App(MB)</b>','trim|required');
+			$this->form_validation->set_rules('english','<b>English</b>','trim|required');
+			$this->form_validation->set_rules('arabic','<b>Arabic</b>','trim|required');
+			$this->form_validation->set_rules('tnc','<b>Terms and Condition</b>','trim|required');
+			$this->form_validation->set_rules('authorConfirm','<b>Authorization Confirmation</b>','trim|required');
 
 			if(empty($_FILES['icon']['name'])) {
-				$this->form_validation->set_rules('icon', 'App Icon', 'trim|required');
+				$this->form_validation->set_rules('icon', '<b>App Icon</b>', 'trim|required');
 			}
-			// if(empty($_FILES['screenshots']['name'])) {
-			// 	$this->form_vaidation->set_rules('screenshots', '"Screenshots"', 'trim|required');
-			// }
+			if(empty($_FILES['screenshots']['name'][0])) {
+				$this->form_validation->set_rules('screenshots', '<b>Screenshots</b>', 'trim|required');
+			}
 			if($this->input->post('submit') == 'Add App') {
-				$this->form_validation->set_rules('nameOfApp', '"Name of the App"', 'trim|required|is_unique[app.app_name]');
+				$this->form_validation->set_rules('nameOfApp', '<b>Name of the App</b>', 'trim|required|is_unique[app.app_name]');
 			}
 			else {
-				$this->form_validation->set_rules('nameOfApp', '"Name of the App"', 'trim|required');
+				$this->form_validation->set_rules('nameOfApp', '<b>Name of the App</b>', 'trim|required');
 			}
-
+			
 			if($this->form_validation->run()) {
-				echo "success";
-			}
-			else {
-				echo "failed";
+				$screenshots = array();
+				
+				///////////////////////////////////// UPLOAD ICON ////////////////////////////////////////////
+				if(isset($_FILES['icon']) && $_FILES['icon']['name'] != '') {
+					$icon_name = $this->Common_model->image_upload('./upload/app_icon/', 'icon');
+				}
+
+				///////////////////////////////////// INSERT APP DETAILS /////////////////////////////////////
+				if($icon_name != '') {
+					$nameOfApp = $this->input->post('nameOfApp');
+					$companyName = $this->input->post('companyName');
+					$contactPerson = $this->input->post('contactPerson');
+					$mobileNumber = $this->input->post('mobileNumber');
+					$whatsapp = $this->input->post('whatsapp');
+					$email = $this->input->post('email');
+					$category = $this->input->post('category');
+					$dateOfLastUpdate = $this->input->post('dateOfLastUpdate');
+					$tags = $this->input->post('tags');
+					$description = $this->input->post('description');
+					$videoLink = $this->input->post('videoLink');
+					$androidLink = $this->input->post('androidLink');
+					$iosLink = $this->input->post('iosLink');
+					$instaLink = $this->input->post('instaLink');
+					$fbLink = $this->input->post('fbLink');
+					$website = $this->input->post('website');
+					$rating = $this->input->post('rating');
+					$appIstalls = $this->input->post('appIstalls');
+					$appsize = $this->input->post('appsize');
+					$english = ($this->input->post('english') == 1) ? 1 : 0;
+					$arabic = ($this->input->post('arabic') == 1) ? 1 : 0;
+					$icon = $this->input->post('icon');
+					$tnc = ($this->input->post('tnc') == 1) ? 1 : 0;
+					$authorConfirm = ($this->input->post('authorConfirm') == 1) ? 1 : 0;
+
+					$values = array('app_name' => $nameOfApp,
+									'company_name' => $companyName,
+									'contact_person' => $contactPerson,
+									'mobile' => $mobileNumber,
+									'whatsapp' => $whatsapp,
+									'email'	=> $email,
+									'category' => $category,
+									'last_update' => $dateOfLastUpdate,
+									'tags' => $tags,
+									'description' => $description,
+									'video_link' => $videoLink,
+									'android_link' => $androidLink,
+									'ios_link' => $iosLink,
+									'instagram_link' => $instaLink,
+									'facebook_link'	=> $fbLink,
+									'website' => $website,
+									'app_rating' => $rating,
+									'app_installs' => $appIstalls,
+									'app_size' => $appsize,
+									'english' => $english,
+									'arabic' => $arabic,
+									'app_icon' => $icon_name,
+									't_c' => $tnc,
+									'a_c' => $authorConfirm);
+
+					$app_id = $this->Common_model->common_insert('app', $values);
+
+					if($app_id) {
+						///////////////////////////////////// UPLAD SCREENSHOTS //////////////////////////////////////
+						$screenshots = array();
+						if(isset($_FILES['screenshots']) && !empty($_FILES['screenshots']['name'])) {
+							$files = $_FILES;
+							$total_screenshots = count($_FILES['screenshots']['name']);
+							for($i = 0; $i < $total_screenshots; $i++) {
+								$_FILES['screenshots']['name'] = $files['screenshots']['name'][$i];
+								$_FILES['screenshots']['type'] = $files['screenshots']['type'][$i];
+								$_FILES['screenshots']['tmp_name'] = $files['screenshots']['tmp_name'][$i];
+								$_FILES['screenshots']['error'] = $files['screenshots']['error'][$i];
+								$_FILES['screenshots']['size'] = $files['screenshots']['size'][$i];
+
+								$screenshot_name = $this->Common_model->image_upload('./upload/app_screenshots/', 'screenshots');
+								
+								if($screenshot_name != '') {
+									//////////////////////////////// INSERT SCREENSHOT IN DATABSE ////////////////////////////////
+									$screenshots[] = array('app_id'=>$app_id, 'image'=>$screenshot_name);
+								}
+							}
+							
+							if(!empty($screenshots)) {
+								$this->Common_model->common_batch_insert('screenshots', $screenshots);
+							}
+							else {
+								echo "screenshots not uploaded.";
+							}
+						}
+					}
+					else {
+						echo "app not added";	
+					}
+				}
+				else {
+					echo "app not added";
+				}
 			}
 		}
-		$this->CommonPage("new_app", '');
+		$id = array('cat_id', 'name');
+		$data['category'] = $this->Common_model->common_select($id, 'category', array());
+		//print_r($data);
+		$this->CommonPage("new_app", $data);
 	}
 
 	############################################ MANAGE APPS ##########################################
@@ -117,21 +187,21 @@ class Home extends CI_Controller {
 	############################################ ADD NEW CATEGORY #####################################
 	public function new_category() {
 		
-		# INSERT / UPDATE FUNCTION
+		////////////////////////////////// INSERT / UPDATE FUNCTION //////////////////////////////////
 		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
-			$this->form_validation->set_rules('dsOrder','"Order in Drag Slider"','trim|required');
+			$this->form_validation->set_rules('dsOrder','<b>Order in Drag Slider</b>','trim|required');
 
 			if(empty($_FILES['catIcon']['name'])) {
-				$this->form_validation->set_rules('catIcon', 'Category Icon', 'trim|required');
+				$this->form_validation->set_rules('catIcon', '<b>Category Icon</b>', 'trim|required');
 			}
 			
 			if($this->input->post('submit') =='Add Category') {
-				$this->form_validation->set_rules('catName','"Category Name"','trim|required|is_unique[category.name]');
+				$this->form_validation->set_rules('catName','<b>Category Name</b>','trim|required|is_unique[category.name]');
 				//$this->form_validation->set_rules('cat_id','"Category Name"','trim');
 			}
 			else {
-				$this->form_validation->set_rules('catName','"Category Name"','trim|required');
+				$this->form_validation->set_rules('catName','<b>Category Name</b>','trim|required');
 				//$this->form_validation->set_rules('cat_id','"Category Name"','trim|required');
 			}
 
@@ -175,19 +245,19 @@ class Home extends CI_Controller {
 		if(isset($_POST['submit'])) {
 
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
-			$this->form_validation->set_rules('title', '"Slider Title"', 'trim|required');
-			$this->form_validation->set_rules('des', '"Description"', 'trim|required');
+			$this->form_validation->set_rules('title', '<b>Slider Title</b>', 'trim|required');
+			$this->form_validation->set_rules('des', '<b>Description</b>', 'trim|required');
 			
 			if(empty($_FILES['slider_img']['name'])) {
-				$this->form_validation->set_rules('slider_img', '"Image"', 'trim|required');
+				$this->form_validation->set_rules('slider_img', '<b>Image</b>', 'trim|required');
 			}
 
 			if($this->input->post('submit') == 'Add To Home Slider') {
-				$this->form_validation->set_rules('btn_link', '"Button Link"', 'trim|required|is_unique[home_slider.button_link]');
+				$this->form_validation->set_rules('btn_link', '<b>Button Link</b>', 'trim|required|is_unique[home_slider.button_link]');
 				//$this->form_validation->set_rules('home_slider_id','"Button Link"','trim|required');
 			}
 			else {
-				$this->form_validation->set_rules('btn_link','"Button Link"','trim|required');
+				$this->form_validation->set_rules('btn_link','<b>Button Link</b>','trim|required');
 				//$this->form_validation->set_rules('home_slider_id','"Button Link"','trim|required');
 			}
 		

@@ -29,7 +29,7 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="title">Title *</label>    
-                                                            <input type="text" id="title" name="title" class="form-control" placeholder="Title" autofocus>
+                                                            <input type="text" id="title" name="title" value="<?php echo set_value('title'); ?>" class="form-control" placeholder="Title" autofocus>
                                                             <?php echo form_error('title'); ?>
                                                         </div>
                                                     </div>
@@ -37,7 +37,7 @@
                                                     <div class="form-row">                                                        
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="des">Description *</label>
-                                                            <textarea id="des" name="des" class="form-control" placeholder="Description"></textarea>
+                                                            <textarea id="des" name="des" class="form-control" placeholder="Description"><?php echo set_value('des'); ?></textarea>
                                                             <?php echo form_error('des'); ?>
                                                         </div>                                                       
                                                     </div>
@@ -45,7 +45,7 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="btn_link">Button Link *</label>
-                                                            <input type="url" id="btn_link" name="btn_link" class="form-control" placeholder="http://www.myapp.com">
+                                                            <input type="url" id="btn_link" name="btn_link" value="<?php echo set_value('btn_link'); ?>" class="form-control" placeholder="http://www.myapp.com">
                                                                 <?php echo form_error('btn_link'); ?>
                                                         </div>
                                                     </div>
@@ -53,9 +53,9 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="order_slider">Order in Slider *</label>
-                                                            <select name="order_slider" id="order_slider" class="form-control">
+                                                            <select name="order_slider" value="<?php echo set_value('order_slider'); ?>" id="order_slider" class="form-control">
                                                                 <option value="1">1</option>
-                                                                <option value="2">2</option>
+                                                                <option value="2" selected>2</option>
                                                                 <option value="3">3</option>
                                                             </select>
                                                             <?php echo form_error('order_slider'); ?>

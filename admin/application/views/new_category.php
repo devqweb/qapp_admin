@@ -29,7 +29,7 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="catName">Category Name *</label>    
-                                                            <input type="text" id="catName" name = "catName" class="form-control" placeholder="Category Name" autofocus>
+                                                            <input type="text" id="catName" name = "catName" value="<?php echo set_value('catName'); ?>" class="form-control" placeholder="Category Name" autofocus>
                                                             <?php echo form_error('catName'); ?>
                                                         </div>
                                                     </div>
@@ -37,7 +37,7 @@
                                                     <div class="form-row">                                                        
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="dsOrder">Order in Drag Slider *</label>
-                                                            <input type="number" id="dsOrder" name = "dsOrder" class="form-control" placeholder="Order in Drag Slider">
+                                                            <input type="number" id="dsOrder" name = "dsOrder" value="<?php echo set_value('dsOrder'); ?>" class="form-control" placeholder="Order in Drag Slider">
                                                             <?php echo form_error('dsOrder'); ?>
                                                         </div>                                                       
                                                     </div>
