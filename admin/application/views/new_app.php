@@ -68,18 +68,27 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="category">Category of The App</label>
+                                                            <select class="form-control" id="category" name="category">
+                                                                <option value="">-- Select Category--</option>
+                                                                 <?php 
+                                                                    foreach($category as $row) { 
+                                                                        echo '<option value="'.$row->cat_id.'">'.$row->name.'</option>';
+                                                                    }
+                                                                ?>
+                                                            </select>
                                                             <?php
-                                                                $js = 'class="form-control"';
-                                                                $options = array();
-                                                                foreach($category as $row) {
-                                                                    echo $row->cat_id.", ";
-                                                                }
-                                                                echo form_dropdown('category', $options, 'large', $js);
+                                                                // $js = 'class="form-control"';
+                                                                // $options = array();
+                                                                // foreach($category as $row) {
+                                                                //     echo $row->cat_id.", ".$row->name;
+                                                                // }
+                                                                
+                                                                // echo form_dropdown('category', $options, 'large', $js);
                                                                 
                                                             ?>
                                                             
                                                             
-                                                            <?php echo form_error('category'); ?>
+                                                            <?php //echo form_error('category'); ?>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="dateOfLastUpdate">Date of Last Update</label>
@@ -179,7 +188,7 @@
                                                                     <label for="arabic"> Arabic </label>
                                                                 </span>
                                                             </div>
-                                                            <?php echo form_error('english'); ?>
+                                                            <?php echo form_error('language'); ?>
                                                         </div>
                                                     </div>
                                                     

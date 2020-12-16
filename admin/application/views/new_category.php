@@ -37,7 +37,15 @@
                                                     <div class="form-row">                                                        
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="dsOrder">Order in Drag Slider *</label>
-                                                            <input type="number" id="dsOrder" name = "dsOrder" value="<?php echo set_value('dsOrder'); ?>" class="form-control" placeholder="Order in Drag Slider">
+                                                            <?php
+                                                                $largest = 0;
+                                                                foreach($order_in_slider as $value) {
+                                                                    if($value->order_in_slider > $largest) $largest = $value->order_in_slider;
+                                                                }  
+                                                                if(set_value('dsOrder') != null) $largest = set_value('dsOrder');
+                                                                else $largest += 1;
+                                                            ?>
+                                                            <input type="number" id="dsOrder" name = "dsOrder" value="<?php echo $largest; ?>" class="form-control">
                                                             <?php echo form_error('dsOrder'); ?>
                                                         </div>                                                       
                                                     </div>

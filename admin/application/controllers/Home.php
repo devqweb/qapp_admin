@@ -55,11 +55,15 @@ class Home extends CI_Controller {
 			$this->form_validation->set_rules('rating','<b>Rating</b>','trim|required');
 			$this->form_validation->set_rules('appIstalls','<b>Number of App Installs</b>','trim|required');
 			$this->form_validation->set_rules('appsize','<b>Size of The App(MB)</b>','trim|required');
-			$this->form_validation->set_rules('english','<b>English</b>','trim|required');
-			$this->form_validation->set_rules('arabic','<b>Arabic</b>','trim|required');
 			$this->form_validation->set_rules('tnc','<b>Terms and Condition</b>','trim|required');
 			$this->form_validation->set_rules('authorConfirm','<b>Authorization Confirmation</b>','trim|required');
 
+			$english = ($this->input->post('english') == 1) ? 1 : 0;
+			$arabic = ($this->input->post('arabic') == 1) ? 1 : 0;
+
+			if($english == 0 && $arabic == 0) {
+				$this->form_validation->set_rules('language','<b>Language</b>','trim|required');
+			}
 			if(empty($_FILES['icon']['name'])) {
 				$this->form_validation->set_rules('icon', '<b>App Icon</b>', 'trim|required');
 			}
@@ -102,8 +106,6 @@ class Home extends CI_Controller {
 					$rating = $this->input->post('rating');
 					$appIstalls = $this->input->post('appIstalls');
 					$appsize = $this->input->post('appsize');
-					$english = ($this->input->post('english') == 1) ? 1 : 0;
-					$arabic = ($this->input->post('arabic') == 1) ? 1 : 0;
 					$icon = $this->input->post('icon');
 					$tnc = ($this->input->post('tnc') == 1) ? 1 : 0;
 					$authorConfirm = ($this->input->post('authorConfirm') == 1) ? 1 : 0;
@@ -186,8 +188,8 @@ class Home extends CI_Controller {
 
 	############################################ ADD NEW CATEGORY #####################################
 	public function new_category() {
-		
 		////////////////////////////////// INSERT / UPDATE FUNCTION //////////////////////////////////
+		//$data = "";
 		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
 			$this->form_validation->set_rules('dsOrder','<b>Order in Drag Slider</b>','trim|required');
@@ -206,22 +208,61 @@ class Home extends CI_Controller {
 			}
 
 			if($this->form_validation->run()) {
+				
 				if(isset($_FILES['catIcon']) && $_FILES['catIcon']['name']!='')
 				{
-					$image_name = $this->Common_model->image_upload('./upload/category_img/','catIcon');
-					if($image_name!='')
-					{
-						$cat_name = $this->input->post('catName');
-						$slider_order = $this->input->post('dsOrder');
-						$submit = $this->input->post('submit');
+					$cat_name = $this->input->post('catName');
+					$slider_order = $this->input->post('dsOrder');
+					$submit = $this->input->post('submit');
+					$id = array('cat_id', 'order_in_slider');
+					$val = array('order_in_slider'=>$slider_order);
+					$order['order_in_slider'] = $this->Common_model->common_select($id, 'category', $val);
 
-						$values = array('name' => $cat_name, 'oder_in_slider' => $slider_order, 'image' => $image_name);
+					$image_name = $this->Common_model->image_upload('./upload/category_img/','catIcon');
+
+					if($image_name!='') {
+						$values = array('name' => $cat_name, 'order_in_slider' => $slider_order, 'image' => $image_name);
 						$save_data = $this->Common_model->common_insert('category', $values);
 						//echo $save_category;
 					}
 					else {
 						echo "failed";
 					}
+					
+					if(count($order['order_in_slider'])) {
+						$max_order['order_in_slider'] = $this->Common_model->common_select_max('order_in_slider', '', 'category');
+						$max_value = $max_order['order_in_slider'][0]->order_in_slider;
+						
+						while($max_value) {
+							$my_cat = array('order_in_slider' => $max_value);
+							$newValues = array('order_in_slider' => ($max_value+1));
+							$this->Common_model->common_update('category', $newValues, $my_cat);
+							$max_value--;
+						}
+					}
+					//if($data->order_in_slider == '') echo "hi";
+					// foreach($data as $row) {
+					// 	foreach($row as $value) {
+					// 		echo $value->order_in_slider;
+					// 		// if($value->order_in_slider == $slider_order)	{
+								
+					// 		// 	// $myId = array('cat_id' => $value->cat_id);
+					// 		// 	// $newValues = array('order_in_slider' => $value->order_in_slider+1);
+					// 		// 	// $this->Common_model->common_update('category', $newValues, $myId);
+					// 		// 	// $flag = true;
+					// 		// 	// continue;
+					// 		// }
+					// 		//echo $value->cat_id.", ";
+					// 		// if($flag == true) {
+					// 		// 	//echo $value->order_in_slider.", ";
+					// 		// 	$myId = array('cat_id' => $value->cat_id);
+					// 		// 	$newValues = array('order_in_slider' => ($value->order_in_slider+1));
+					// 		// 	$this->Common_model->common_update('category', $newValues, $myId);
+					// 		// }
+					// 	}
+					// }
+
+					
 				}
 
 			}
@@ -229,8 +270,10 @@ class Home extends CI_Controller {
 			//die('test');
 		}
 		# END OF INSERT / UPDATE FUNCTION
-			
-		$this->CommonPage("new_category", "");
+
+		$id = array('order_in_slider');
+		$data['order_in_slider'] = $this->Common_model->common_select($id, 'category', array());
+		$this->CommonPage("new_category", $data);
 	}
 	############################################ END OF ADD NEW CATEGORY ##############################
 	

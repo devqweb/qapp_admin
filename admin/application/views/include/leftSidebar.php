@@ -59,7 +59,7 @@
                             <li class="menu-title">Navigation</li>
 
                             <li>
-                                <a href="index.html">
+                                <a href="<?php echo base_url("home")?>">
                                     <i class="mdi mdi-view-dashboard"></i>
                                     <span> Dashboard </span>
                                 </a>
