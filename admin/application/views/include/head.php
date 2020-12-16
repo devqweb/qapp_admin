@@ -33,6 +33,8 @@
         <link href="<?php echo base_url("assets/css/app.min.css") ?>" id="app-stylesheet" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url("assets/css/theme.css") ?>" id="app-stylesheet" rel="stylesheet" type="text/css" />
         
+        <!-- JQuery -->
+        <script src="<?php echo base_url("assets/js/jquery.min.js") ?>"></script>
 
     </head>
 

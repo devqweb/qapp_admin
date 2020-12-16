@@ -21,15 +21,35 @@
                             <div class="col-12">
                                 <div class="card-box">
                                     <h4 class="header-title">Add New Category</h4>
+                                    <script src="<?php echo base_url("assets/js/jquery.min.js") ?>"></script>
                                     
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="p-2">
+                                                <div class="save-status">
+                                                    <?php
+                                                        if(isset($save_status)) {
+                                                            echo '<div id="form-alert" class="alert '.$status_class.' alert-dismissible fade show col-md-6" role="alert">';
+                                                                echo $status_msg;
+                                                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>';
+                                                            echo '</div>';
+                                                            
+                                                            echo '   <script>
+                                                                        $(document).ready(function() {
+                                                                            $("#form-alert").fadeTo(2000, 500).slideUp(1000);
+                                                                        });
+                                                                    </script>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                                
                                                 <?php echo form_open_multipart('new_category');?>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="catName">Category Name *</label>    
-                                                            <input type="text" id="catName" name = "catName" value="<?php echo set_value('catName'); ?>" class="form-control" placeholder="Category Name" autofocus>
+                                                            <input type="text" id="catName" name = "catName" value="<?php echo ($id) ? "" : set_value('catName'); ?>" class="form-control" placeholder="Category Name" autofocus>
                                                             <?php echo form_error('catName'); ?>
                                                         </div>
                                                     </div>
@@ -39,11 +59,11 @@
                                                             <label class="col-form-label" for="dsOrder">Order in Drag Slider *</label>
                                                             <?php
                                                                 $largest = 0;
-                                                                foreach($order_in_slider as $value) {
-                                                                    if($value->order_in_slider > $largest) $largest = $value->order_in_slider;
-                                                                }  
-                                                                if(set_value('dsOrder') != null) $largest = set_value('dsOrder');
-                                                                else $largest += 1;
+                                                                if(set_value('dsOrder') != null && !isset($save_status)) $largest = set_value('dsOrder');
+                                                                else if(isset($save_status) && $save_status == 0)  {
+                                                                    $largest = set_value('dsOrder');
+                                                                }
+                                                                else $largest = $order_in_slider[0]->order_in_slider + 1;
                                                             ?>
                                                             <input type="number" id="dsOrder" name = "dsOrder" value="<?php echo $largest; ?>" class="form-control">
                                                             <?php echo form_error('dsOrder'); ?>

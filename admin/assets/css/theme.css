@@ -85,3 +85,7 @@
 .modal-content .form-horizontal {
     overflow-y: scroll;
 }
+
+.alert {
+    transition: all .3s ease-out;
+}

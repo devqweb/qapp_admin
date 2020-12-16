@@ -25,20 +25,46 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="p-2">
-                                                <?php echo form_open_multipart('new_trending_banner');?>
+                                                <div class="save-status">
+                                                    <?php
+                                                        if(isset($save_status)) {
+                                                            echo '<div id="form-alert" class="alert '.$status_class.' alert-dismissible fade show col-md-6" role="alert">';
+                                                                echo $status_msg;
+                                                                echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>';
+                                                            echo '</div>';
+                                                            
+                                                            echo '   <script>
+                                                                        $(document).ready(function() {
+                                                                            $("#form-alert").fadeTo(2000, 500).slideUp(1000);
+                                                                        });
+                                                                    </script>';
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <?php echo form_open_multipart('new_trending_banner');?>                                                    
+                                                    <div class="form-row">                                                        
+                                                        <div class="form-group col-md-6">
+                                                            <label class="col-form-label" for="order_slider">Order in Drag Slider *</label>
+                                                            <?php
+                                                                $largest = 0;
+                                                                if(set_value('order_slider') != null && !isset($save_status)) $largest = set_value('order_slider');
+                                                                else if(isset($save_status) && $save_status == 0)  {
+                                                                    $largest = set_value('order_slider');
+                                                                }
+                                                                else $largest = $order_slider[0]->order_slider + 1;
+                                                            ?>
+                                                            <input type="number" id="order_slider" name="order_slider" value="<?php echo $largest; ?>" class="form-control" placeholder="Order in Drag Slider">
+                                                        </div>                                                       
+                                                    </div>
+
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="banner_image">Banner Image *</label>
                                                             <input type="file" id="banner_image" name="banner_image" class="form-control" placeholder="Category Icon">
                                                             <?php echo form_error('banner_image'); ?>
                                                         </div>
-                                                    </div>
-                                                    
-                                                    <div class="form-row">                                                        
-                                                        <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="banner_Order">Order in Drag Slider *</label>
-                                                            <input type="number" id="banner_Order" name="banner_Order" class="form-control" placeholder="Order in Drag Slider">
-                                                        </div>                                                       
                                                     </div>
 
                                                     <div class="form-row">

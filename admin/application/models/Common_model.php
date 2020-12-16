@@ -70,7 +70,7 @@ class Common_model extends CI_Model {
 
 	public function common_batch_insert($table,$values)
 	{
-		$this->db->insert_batch($table, $values);
+		return $this->db->insert_batch($table, $values);
 	}
 
 	public function common_update($table,$values,$where)

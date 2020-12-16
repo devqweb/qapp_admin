@@ -41,8 +41,11 @@ class Home extends CI_Controller {
 
 	############################################ ADD NEW APP ##########################################
 	public function new_app() {
+		$data = [];
+		$save_data = '';
+		
 		//INSERT NEW APP
-		if(isset($_POST['submit'])) {			
+		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
 			$this->form_validation->set_rules('nameOfApp','<b>Name of the App</b>','trim|required');
 			$this->form_validation->set_rules('companyName','<b>Company Name</b>','trim|required');
@@ -79,7 +82,7 @@ class Home extends CI_Controller {
 			
 			if($this->form_validation->run()) {
 				$screenshots = array();
-				
+
 				///////////////////////////////////// UPLOAD ICON ////////////////////////////////////////////
 				if(isset($_FILES['icon']) && $_FILES['icon']['name'] != '') {
 					$icon_name = $this->Common_model->image_upload('./upload/app_icon/', 'icon');
@@ -135,9 +138,9 @@ class Home extends CI_Controller {
 									't_c' => $tnc,
 									'a_c' => $authorConfirm);
 
-					$app_id = $this->Common_model->common_insert('app', $values);
+					$save_data = $this->Common_model->common_insert('app', $values);
 
-					if($app_id) {
+					if($save_data) {
 						///////////////////////////////////// UPLAD SCREENSHOTS //////////////////////////////////////
 						$screenshots = array();
 						if(isset($_FILES['screenshots']) && !empty($_FILES['screenshots']['name'])) {
@@ -154,29 +157,50 @@ class Home extends CI_Controller {
 								
 								if($screenshot_name != '') {
 									//////////////////////////////// INSERT SCREENSHOT IN DATABSE ////////////////////////////////
-									$screenshots[] = array('app_id'=>$app_id, 'image'=>$screenshot_name);
+									$screenshots[] = array('app_id'=>$save_data, 'image'=>$screenshot_name);
 								}
 							}
 							
 							if(!empty($screenshots)) {
-								$this->Common_model->common_batch_insert('screenshots', $screenshots);
+								$upload_status = $this->Common_model->common_batch_insert('screenshots', $screenshots);
+								if($upload_status) {
+									$data['save_status'] = 1;
+									$data['status_msg'] = "<strong>Success!</strong> App has been added.";
+									$data['status_class'] = "alert-success";
+								}
+								else {
+									$data['save_status'] = 0;
+									$data['status_msg'] = "<strong>Error!</strong> App added, but Screenshots failed to upload.";
+									$data['status_class'] = "alert-warning";
+								}
 							}
 							else {
-								echo "screenshots not uploaded.";
+								$data['save_status'] = 0;
+								$data['status_msg'] = "<strong>Error!</strong> App added, but Screenshots failed to upload.";
+								$data['status_class'] = "alert-warning";
 							}
 						}
 					}
 					else {
-						echo "app not added";	
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Failed!</strong> App not added.";
+						$data['status_class'] = "alert-danger";	
 					}
 				}
 				else {
-					echo "app not added";
+					$data['save_status'] = 0;
+					$data['status_msg'] = "<strong>Failed!</strong> App not added.";
+					$data['status_class'] = "alert-danger";	
 				}
 			}
 		}
+		
+		//$data['id'] = $save_data;
+		//$this->CommonPage("new_home_slider", $data);
+
 		$id = array('cat_id', 'name');
 		$data['category'] = $this->Common_model->common_select($id, 'category', array());
+		$data['id'] = $save_data;
 		//print_r($data);
 		$this->CommonPage("new_app", $data);
 	}
@@ -189,7 +213,9 @@ class Home extends CI_Controller {
 	############################################ ADD NEW CATEGORY #####################################
 	public function new_category() {
 		////////////////////////////////// INSERT / UPDATE FUNCTION //////////////////////////////////
-		//$data = "";
+		$data = [];
+		$save_data = '';
+
 		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
 			$this->form_validation->set_rules('dsOrder','<b>Order in Drag Slider</b>','trim|required');
@@ -216,63 +242,50 @@ class Home extends CI_Controller {
 					$submit = $this->input->post('submit');
 					$id = array('cat_id', 'order_in_slider');
 					$val = array('order_in_slider'=>$slider_order);
-					$order['order_in_slider'] = $this->Common_model->common_select($id, 'category', $val);
 
 					$image_name = $this->Common_model->image_upload('./upload/category_img/','catIcon');
 
-					if($image_name!='') {
-						$values = array('name' => $cat_name, 'order_in_slider' => $slider_order, 'image' => $image_name);
-						$save_data = $this->Common_model->common_insert('category', $values);
-						//echo $save_category;
-					}
-					else {
-						echo "failed";
-					}
-					
-					if(count($order['order_in_slider'])) {
+					if($image_name != '') {
 						$max_order['order_in_slider'] = $this->Common_model->common_select_max('order_in_slider', '', 'category');
 						$max_value = $max_order['order_in_slider'][0]->order_in_slider;
 						
-						while($max_value) {
-							$my_cat = array('order_in_slider' => $max_value);
-							$newValues = array('order_in_slider' => ($max_value+1));
-							$this->Common_model->common_update('category', $newValues, $my_cat);
-							$max_value--;
+						///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
+						if($max_value) {
+							while($max_value >= $slider_order) {
+								$my_cat = array('order_in_slider' => $max_value);
+								$newValues = array('order_in_slider' => ($max_value+1));
+								$this->Common_model->common_update('category', $newValues, $my_cat);
+								$max_value--;
+							}
+						}
+
+						/////////////////////////////////////INSERT NEW CATEGORY///////////////////////////////////////
+						$values = array('name' => $cat_name, 'order_in_slider' => $slider_order, 'image' => $image_name);
+						$save_data = $this->Common_model->common_insert('category', $values);
+
+						if($save_data) {
+							$data['save_status'] = 1;
+							$data['status_msg'] = "<strong>Success!</strong> Category has been added.";
+							$data['status_class'] = "alert-success";
+						}
+						else {
+							$data['save_status'] = 0;
+							$data['status_msg'] = "<strong>Error!</strong> Category not added.";
+							$data['status_class'] = "alert-danger";
 						}
 					}
-					//if($data->order_in_slider == '') echo "hi";
-					// foreach($data as $row) {
-					// 	foreach($row as $value) {
-					// 		echo $value->order_in_slider;
-					// 		// if($value->order_in_slider == $slider_order)	{
-								
-					// 		// 	// $myId = array('cat_id' => $value->cat_id);
-					// 		// 	// $newValues = array('order_in_slider' => $value->order_in_slider+1);
-					// 		// 	// $this->Common_model->common_update('category', $newValues, $myId);
-					// 		// 	// $flag = true;
-					// 		// 	// continue;
-					// 		// }
-					// 		//echo $value->cat_id.", ";
-					// 		// if($flag == true) {
-					// 		// 	//echo $value->order_in_slider.", ";
-					// 		// 	$myId = array('cat_id' => $value->cat_id);
-					// 		// 	$newValues = array('order_in_slider' => ($value->order_in_slider+1));
-					// 		// 	$this->Common_model->common_update('category', $newValues, $myId);
-					// 		// }
-					// 	}
-					// }
-
-					
+					else {
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Error!</strong> Category not added.";
+						$data['status_class'] = "alert-danger";
+					}					
 				}
-
 			}
-			//print_r($_FILES);
-			//die('test');
 		}
 		# END OF INSERT / UPDATE FUNCTION
 
-		$id = array('order_in_slider');
-		$data['order_in_slider'] = $this->Common_model->common_select($id, 'category', array());
+		$data['order_in_slider'] = $this->Common_model->common_select_max('order_in_slider', '', 'category');
+		$data['id'] = $save_data;
 		$this->CommonPage("new_category", $data);
 	}
 	############################################ END OF ADD NEW CATEGORY ##############################
@@ -285,6 +298,9 @@ class Home extends CI_Controller {
 
 	############################################ ADD NEW HOME SLIDER ##################################	
 	public function new_home_slider() {
+		$data = [];
+		$save_data = '';
+
 		if(isset($_POST['submit'])) {
 
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
@@ -306,34 +322,64 @@ class Home extends CI_Controller {
 		
 			if($this->form_validation->run()) {
 				if(isset($_FILES['slider_img']) && $_FILES['slider_img']['name'] != '') {
+					$title = $this->input->post('title');
+					$des = $this->input->post('des');
+					$btn_link = $this->input->post('btn_link');
+					$order_slider = $this->input->post('order_slider');
+					$submit = $this->input->post('submit');
+
+					$id = array('home_slider_id', 'order_slider');
+					$val = array('order_slider'=>$order_slider);
+
 					$image_name = $this->Common_model->image_upload('./upload/home_slider_img/','slider_img');
+
 					if($image_name != '') {
-						$title = $this->input->post('title');
-						$des = $this->input->post('des');
-						$btn_link = $this->input->post('btn_link');
-						$order_slider = $this->input->post('order_slider');
+						$max_order['order_slider'] = $this->Common_model->common_select_max('order_slider', '', 'home_slider');
+						$max_value = $max_order['order_slider'][0]->order_slider;
 						
+						///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
+						if($max_value) {
+							while($max_value >= $order_slider) {
+								$my_cat = array('order_slider' => $max_value);
+								$newValues = array('order_slider' => ($max_value+1));
+								$this->Common_model->common_update('home_slider', $newValues, $my_cat);
+								$max_value--;
+							}
+						}
+
+						///////////////////////////////////// INSERT NEW HOME SLIDER ///////////////////////////////////
 						$values = array('title' => $title,
 										'description' => $des,
 										'button_link' => $btn_link,
 										'order_slider' => $order_slider,
 										'image_name' => $image_name);
 
-						$save_data = $this->Common_model->common_insert("home_slider", $values);
+						$save_data;// = $this->Common_model->common_insert("home_slider", $values);
 
 						if($save_data) {
-							echo "successful";
+							$data['save_status'] = 1;
+							$data['status_msg'] = "<strong>Success!</strong> Home Slider has been added.";
+							$data['status_class'] = "alert-success";
 						}
 						else {
-							echo "failed";
+							$data['save_status'] = 0;
+							$data['status_msg'] = "<strong>Error!</strong> Home Slider not added.";
+							$data['status_class'] = "alert-danger";
 						}
 					}
+					else {
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Error!</strong> Home Slider not added.";
+						$data['status_class'] = "alert-danger";
+					}	
 				}
 			}
 		}
-		$this->CommonPage("new_home_slider", "");
+		$data['order_slider'] = $this->Common_model->common_select_max('order_slider', '', 'home_slider');
+		$data['id'] = $save_data;
+		$this->CommonPage("new_home_slider", $data);
 	}
-	############################################ END OF ADD NEW HOME SLIDER ###########################
+	################################### END OF ADD NEW HOME SLIDER ####################################
 
 
 	############################################ MANAGE HOME SLIDER ###################################
@@ -343,33 +389,66 @@ class Home extends CI_Controller {
 
 	############################################ ADD NEW TRENDING BANNER ##############################
 	public function new_trending_banner() {
+		$data = [];
+		$save_data = '';
+
 		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
 			
 			if(empty($_FILES['banner_image']['name'])) {
-				$this->form_validation->set_rules('banner_image', '"Banner Image"', 'trim|required');
-			}			
-			else {
-				if(isset($_FILES['banner_image']) && $_FILES['banner_image']['name'] != '') {
-					$image_name = $this->Common_model->image_upload('./upload/trending_img/', 'banner_image');
-					if($image_name != '') {
-						$banner_Order = $this->input->post('banner_Order');
-
-						$values = array('trending_img' => $image_name, 'order_slider' => $banner_Order);
-
-						$save_data = $this->Common_model->common_insert('trending_banner', $values);
-
-						if($save_data) {
-							echo "successful";
-						}
-						else {
-							echo "failed";
-						}
-					}
-				} 
+				$this->form_validation->set_rules('banner_image', '<b>Banner Image</b>', 'trim|required');
+				$this->form_validation->run();
 			}
+
+			if(isset($_FILES['banner_image']) && $_FILES['banner_image']['name'] != '') {
+				$order_slider = $this->input->post('order_slider');
+				$submit = $this->input->post('submit');
+
+				$id = array('trending_id ', 'order_slider');
+				$val = array('order_slider'=>$order_slider);
+
+				$image_name = $this->Common_model->image_upload('./upload/trending_img/', 'banner_image');
+
+				if($image_name != '') {
+					$max_order['order_slider'] = $this->Common_model->common_select_max('order_slider', '', 'trending_banner');
+					$max_value = $max_order['order_slider'][0]->order_slider;
+					
+					///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
+					if($max_value) {
+						while($max_value >= $order_slider) {
+							$my_cat = array('order_slider' => $max_value);
+							$newValues = array('order_slider' => ($max_value+1));
+							$this->Common_model->common_update('trending_banner', $newValues, $my_cat);
+							$max_value--;
+						}
+					}	
+					
+					///////////////////////////////////// INSERT NEW TRENDING SLIDER ////////////////////////////////
+					$values = array('trending_img' => $image_name, 'order_slider' => $order_slider);
+
+					$save_data = $this->Common_model->common_insert('trending_banner', $values);
+
+					if($save_data) {
+						$data['save_status'] = 1;
+						$data['status_msg'] = "<strong>Success!</strong> Banner has been added to the Trending Slider.";
+						$data['status_class'] = "alert-success";
+					}
+					else {
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Error!</strong> Banner not added.";
+						$data['status_class'] = "alert-danger";
+					}
+				}
+				else {
+					$data['save_status'] = 0;
+					$data['status_msg'] = "<strong>Error!</strong> Banner not added.";
+					$data['status_class'] = "alert-danger";
+				}
+			}			
 		}
-		$this->CommonPage("new_trending_banner", "");
+		$data['order_slider'] = $this->Common_model->common_select_max('order_slider', '', 'trending_banner');
+		$data['id'] = $save_data;
+		$this->CommonPage("new_trending_banner", $data);
 	}
 
 	############################################ MANAGE TRENDING BANNER ###############################
