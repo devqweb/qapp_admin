@@ -24,11 +24,13 @@
                                     <div class="responsive-table-plugin">
                                         <div class="table-rep-plugin">
                                             <div class="table-responsive" data-pattern="priority-columns">
-                                                <table id="responsive-datatable" class="table table-striped table-sm table-bordered table-bordered dt-responsive nowrap">
+                                                <table id="responsive-datatable" class="table table-striped table-sm table-bordered table-bordered dt-responsive nowrap database-records">
                                                     <thead class="thead-dark">
                                                     <tr>
                                                         <th>#</th>
-                                                        <th data-priority="1">Title and Image</th>
+                                                        <th data-priority="1">Slider ID</th>
+                                                        <th data-priority="1">Title</th>
+                                                        <th data-priority="1">Image</th>
                                                         <th data-priority="1">Description</th>
                                                         <th data-priority="1">Button Link</th>                                                        
                                                         <th data-priority="3">Order in Slider</th>
@@ -36,7 +38,34 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
+                                                    <?php
+                                                        $sr_num = 0;
+                                                        foreach($home_slider_data as $row) {
+                                                            echo '<tr>'; 
+                                                                echo '<th>'. ++$sr_num. '</th>';
+                                                                echo '<td>'. $row->home_slider_id .'</td>';
+                                                                echo '<td>'. $row->title .'</td>';
+                                                                echo '<td><img src="./upload/home_slider_img/'.$row->image_name.'"></td>';                                                            
+                                                                echo '<td class="scroll-field">'. $row->description .'</td>';
+                                                                echo '<td class="scroll-field">'. $row->button_link .'</td>';
+                                                                echo '<td>'. $row->order_slider .'</td>';
+                                                                echo '<td>
+                                                                        <div class="btn-group">
+                                                                            <button class="btn btn-info btn-sm" type="button"> Edit </button>
+                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="mdi mdi-chevron-down"></i>
+                                                                            </button>
+                                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                                <a class="dropdown-item" href="#">Enable/Disable</a>
+                                                                                <div class="dropdown-divider"></div>
+                                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>';
+                                                            echo '</tr>';
+                                                        }
+                                                    ?>
+                                                    <!-- <tr>
                                                     <th>E-Commerse</th>
                                                         <td>1</td>
                                                         <td>500</td>
@@ -156,7 +185,7 @@
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                    </tr>
+                                                    </tr> -->
                                                     </tbody>
                                                 </table>
                                             </div>

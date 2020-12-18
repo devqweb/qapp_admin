@@ -89,3 +89,100 @@
 .alert {
     transition: all .3s ease-out;
 }
+
+.database-records {
+    text-align: center;
+    
+}
+    .database-records th, .database-records td {
+        vertical-align: middle;
+    }
+
+        .database-records .scroll-field {
+            max-width: 500px;
+            overflow-x: scroll;
+        }
+
+        .database-records .scroll-field-link {
+            max-width:300px;
+        }
+
+        .database-records td img {
+            width:50px;
+            height: auto;
+        }
+
+/* width */
+.database-records td::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  /* Track */
+  .database-records td::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  .database-records td::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  /* Handle on hover */
+  .database-records td::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  table.dataTable > tbody > tr.child ul.dtr-details {
+    float: left;
+    text-align: left;
+    width: 33%;
+    overflow-x: scroll;
+}
+
+    table.dataTable > tbody > tr.child ul.dtr-details li {
+        padding-left: 7.2px !important;
+        padding-right: 7.2px !important;
+        -webkit-transition: all 0.1s ease-out;
+        transition: all 0.1s ease-out;
+    }
+
+    .dtr-details li:hover {
+        background-color: #ffdec1;
+        -webkit-transition: all 0.1s ease-out;
+        transition: all 0.1s ease-out;
+    }
+
+.fa-check:before {
+    color:green;
+}
+
+.fa-times:before {
+    color: #b10101;
+}
+
+.under-promotion {
+    background-color: #79f3b5!important;
+    color: #5d5d5d !important;
+}
+
+    .under-promotion td, .under-promotion th {
+        border-color:#8cdd99;
+    }
+
+.promotion-going-expire {
+    background-color: #f3f179!important;
+    color: #5d5d5d !important;
+}
+
+    .promotion-going-expire td, .promotion-going-expire th {
+        border-color:#dcda71;
+    }
+
+.promotion-expired {
+    background-color: #ff5b5b!important;
+    color: #ffffff !important;
+}
+    .promotion-expired td, .promotion-expired th {
+        border-color:#ffb4b4;
+    }

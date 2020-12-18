@@ -207,7 +207,9 @@ class Home extends CI_Controller {
 
 	############################################ MANAGE APPS ##########################################
 	public function manage_app() {
-		$this->CommonPage("manage_app", "");
+		///////////////////////////////////SELECT RECORDS FROM APP///////////////////////////////////////
+		$data['app_data'] = $this->Common_model->common_select('*', 'app', array());
+		$this->CommonPage("manage_app", $data);
 	}
 
 	############################################ ADD NEW CATEGORY #####################################
@@ -292,8 +294,10 @@ class Home extends CI_Controller {
 	
 
 	############################################ MANGAGE CATEGORIES ###################################
-	public function manage_category() {
-		$this->CommonPage("manage_category", "");
+	public function manage_category() {		
+		//////////////////////////////////SELECT RECORDS FROM CATEGORY///////////////////////////////////
+		$data['cat_data'] = $this->Common_model->common_select('*', 'category', array());
+		$this->CommonPage("manage_category", $data);
 	}
 
 	############################################ ADD NEW HOME SLIDER ##################################	
@@ -384,7 +388,9 @@ class Home extends CI_Controller {
 
 	############################################ MANAGE HOME SLIDER ###################################
 	public function manage_home_slider() {
-		$this->CommonPage("manage_home_slider", "");
+		/////////////////////////////////SELECT RECORDS FROM HOME SLIDER//////////////////////////////////
+		$data['home_slider_data'] = $this->Common_model->common_select('*', 'home_slider', array());
+		$this->CommonPage("manage_home_slider", $data);
 	}
 
 	############################################ ADD NEW TRENDING BANNER ##############################
@@ -453,7 +459,9 @@ class Home extends CI_Controller {
 
 	############################################ MANAGE TRENDING BANNER ###############################
 	public function manage_trending_banner() {
-		$this->CommonPage("manage_trending_banner", "");
+		///////////////////////////////SELECT RECORDS FROM TRENDING BANNER////////////////////////////////
+		$data['trending_banner_data'] = $this->Common_model->common_select('*', 'trending_banner', array());
+		$this->CommonPage("manage_trending_banner", $data);
 	}
 	
 
