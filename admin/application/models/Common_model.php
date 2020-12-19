@@ -125,5 +125,23 @@ class Common_model extends CI_Model {
 	}
 	################################## END OF COMMON SELECT MAX VALUE #################################
 
+	#################################### COMMON SELECT SINGLE ROW #####################################
+	public function common_select_single_row($fields, $table, $where) {
+		$this->db->select($fields);
+		$this->db->from($table);
+		$this->db->where($where);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+	############################### END OF COMMON SELECT SINGLE ROW ###################################
+
+	################################ COMMON SELECT SINGLE ROW MAX VALUE ###############################
+	public function common_select_max_single_row($maxFiled, $myName, $table) {
+		$this->db->select_max($maxFiled, $myName);
+		$this->db->from($table);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+	########################### END OF COMMON SELECT SINGLE ROW MAX VALUE #############################
 }
 ?>

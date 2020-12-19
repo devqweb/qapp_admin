@@ -208,7 +208,7 @@ class Home extends CI_Controller {
 	############################################ MANAGE APPS ##########################################
 	public function manage_app() {
 		///////////////////////////////////SELECT RECORDS FROM APP///////////////////////////////////////
-		$data['app_data'] = $this->Common_model->common_select('*', 'app', array());
+		$data['app_data'] = $this->Common_model->common_select(array(), 'app', array());
 		$this->CommonPage("manage_app", $data);
 	}
 
@@ -464,9 +464,20 @@ class Home extends CI_Controller {
 		$this->CommonPage("manage_trending_banner", $data);
 	}
 	
+	############################################ MANAGE TRENDING BANNER ###############################
 
-
-
+	###################################### GET RECORDS FROM DATABSE USING AJAX ########################
+	
+	public function manage_category_ajax() {
+		///////////////////////////////////SELECT RECORDS FROM APP///////////////////////////////////////
+		$cat_id = $this->input->post("cat_id");
+		$table_name = $this->input->post("table");
+		$data['response'] = 'success';
+		$data['max_order'] = $this->Common_model->common_select_max_single_row('order_in_slider', '', 'category');
+		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('cat_id'=>$cat_id));
+		echo json_encode($data);		
+	}
+	############################## END OF GET RECORDS FROM DATABSE USING AJAX #########################
 
 }
 ?>

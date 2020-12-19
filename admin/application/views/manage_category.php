@@ -24,7 +24,7 @@
                                     <div class="responsive-table-plugin">
                                         <div class="table-rep-plugin">
                                             <div class="table-responsive" data-pattern="priority-columns">
-                                                <table id="responsive-datatable" class="table table-striped table-sm table-bordered table-bordered dt-responsive nowrap database-records">
+                                                <table id="responsive-datatable" class="table tabledit-edit-button table-striped table-sm table-bordered table-bordered dt-responsive nowrap database-records">
                                                     <thead class="thead-dark">
                                                     <tr>
                                                         <th>#</th>
@@ -43,161 +43,101 @@
                                                             $sr_num = 0;
                                                             foreach($cat_data as $row) {
                                                                 echo '<tr>'; 
-                                                                echo '<th>'. ++$sr_num. '</th>';
-                                                                echo '<td>'. $row->cat_id .'</td>';
-                                                                echo '<td><img src="./upload/category_img/'.$row->image.'"></td>';
-                                                                echo '<td>'. $row->name .'</td>';
-                                                                echo '<td>'. $row->order_in_slider .'</td>';
-                                                                echo '<td> </td>';
-                                                                echo '<td> </td>';
-                                                                echo '<td> </td>';
-                                                                echo '<td>
-                                                                        <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <i class="mdi mdi-chevron-down"></i>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                                <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                                    echo '<th>'. ++$sr_num. '</th>';
+                                                                    echo '<td>'. $row->cat_id .'</td>';
+                                                                    echo '<td><img src="./upload/category_img/'.$row->image.'"></td>';
+                                                                    echo '<td>'. $row->name .'</td>';
+                                                                    echo '<td>'. $row->order_in_slider .'</td>';
+                                                                    echo '<td> </td>';
+                                                                    echo '<td> </td>';
+                                                                    echo '<td> </td>';
+                                                                    echo '<td>
+                                                                            <div class="btn-group">
+                                                                                <button class="btn btn-info btn-sm btn-edit" type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
+                                                                                <button class="btn btn-sm btn-cancel" style="display:none" type="button" title="Cancel Edit">
+                                                                                    <i class="fas fa-times"></i>
+                                                                                </button>
+                                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                <i class="mdi mdi-chevron-down"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
+                                                                                    <div class="dropdown-divider"></div>
+                                                                                    <a class="dropdown-item" href="#">Delete</a>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                      </td>';
+                                                                        </td>';
                                                                 echo '</tr>';
                                                             }
-                                                        ?>
-                                                    <!-- <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>350</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>350</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>350</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>350</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>350</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <a class="dropdown-item" href="#">Remove Promotion</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>350</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr> -->
+                                                        ?>                                                    
                                                     </tbody>
                                                 </table>
-                                            </div>
+                                                <script>
+                                                // $(document).ready(function() {   
     
+                                                //     let count = 0;
+                                                //     $(".btn-edit").click(function() {
+                                                //         count++;
+                                                //         const x = $(this).parents("tr");
+                                                //         const btn_edit = $(this);                                                                    
+                                                //         let name = x.children(".cat_name").text();
+                                                //         let order = x.children(".order_slider").text();
+                                                //         let catName = "#catName";
+                                                //         let order_slider = "#order_slider";
+
+                                                //         catName += count;
+                                                //         order_slider += count;
+                                                //         const categoryId = $(this).attr("data-cat-id");
+
+                                                //         btn_edit.hide();                                                                     
+                                                //         $(this).next().addClass("btn-visible");
+                                                //         $(this).next().click(function() {
+                                                //             x.next().hide();
+                                                //             $(this).removeClass("btn-visible");
+                                                //             btn_edit.show();
+                                                //         });
+                                                        
+                                                //         x.after('<tr><td colspan="30">'+                                                                    
+                                                //         '<form action = "http://localhost/qapp/admin/new_category" class="data-edit" method = "post" enctype = "multipart/form-data">'+
+                                                //             '<div class="form-row">'+
+                                                //                 '<div class="form-group col-md-6">'+
+                                                //                     '<label class="col-form-label" for="catName">Category Name *</label>'+
+                                                //                     '<input type="text" id="catName'+ count +'" name = "catName" value="" class="form-control" placeholder="Category Name" autofocus>'+
+                                                //                 '</div>'+
+                                                //                 '<div class="form-group col-md-6">'+
+                                                //                     '<label class="col-form-label" for="order">Order in Slider *</label>'+
+                                                //                     '<input type="number" id="order_slider'+ count +'" name = "order_slider" value="" class="form-control" placeholder="Category Name" autofocus>'+
+                                                //                 '</div>'+
+                                                //             '</div>'+
+
+                                                //             '<div class="form-row">'+
+                                                //                 '<div class="form-group col-md-6">'+
+                                                //                     '<input type = "submit" name = "submit" class="btn btn-success waves-effect waves-light" value="Update Category">'+
+                                                //                     '</a> &nbsp;&nbsp;&nbsp;'+
+                                                //                     '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                                                //                 '</div>'+
+                                                //             '</div>'+
+                                                //         '</form>'+
+                                                //         '</td></tr>');
+
+                                                //         $.ajax({
+                                                //             url: "http://localhost/qapp/admin/manage_app_ajax",
+                                                //             method: 'POST',
+                                                //             dataType: 'json',
+                                                //             data: { cat_id: categoryId, table: 'category' },
+                                                //             success:function(res){
+                                                //                 if(res.response=='success'){
+                                                //                     $(catName).val(res.app_data.name);
+                                                //                     $(order_slider).val(res.app_data.order_in_slider);
+                                                //                 }
+                                                //             }
+                                                //         });
+
+                                                //         $(catName).focus();
+                                                //     }); 
+                                                // });
+                                                </script>
+                                            </div>
                                         </div>
                                     </div>
 

@@ -136,8 +136,9 @@
   table.dataTable > tbody > tr.child ul.dtr-details {
     float: left;
     text-align: left;
-    width: 33%;
+    width: 32%;
     overflow-x: scroll;
+    border: 1px solid #dee2e6;
 }
 
     table.dataTable > tbody > tr.child ul.dtr-details li {
@@ -184,5 +185,22 @@
     color: #ffffff !important;
 }
     .promotion-expired td, .promotion-expired th {
-        border-color:#ffb4b4;
+        border-color:#f39b9b;
     }
+
+.btn-group-last {
+    border-left: 1px solid #85e2ff;
+}
+
+.btn-group .btn-cancel {
+    background-color: #fda5a5;
+    border-radius: .15rem 0 0 .15rem !important;
+}
+
+.btn-visible {
+    display: block !important;
+}
+
+.data-edit {
+    text-align: left;
+}

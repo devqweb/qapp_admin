@@ -125,8 +125,8 @@
                                                                 echo '<td>'. $row->details_update .'</td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <button class="btn btn-info btn-sm" type="button" title="Edit"> <i class="mdi mdi-pencil"></i> </button>
+                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="More Action">
                                                                             <i class="mdi mdi-chevron-down"></i>
                                                                             </button>
                                                                             <div class="dropdown-menu dropdown-menu-right">
