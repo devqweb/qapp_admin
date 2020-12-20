@@ -53,7 +53,7 @@
                                                                     echo '<td> </td>';
                                                                     echo '<td>
                                                                             <div class="btn-group">
-                                                                                <button class="btn btn-info btn-sm btn-edit" type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
+                                                                                <button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
                                                                                 <button class="btn btn-sm btn-cancel" style="display:none" type="button" title="Cancel Edit">
                                                                                     <i class="fas fa-times"></i>
                                                                                 </button>

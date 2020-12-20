@@ -63,7 +63,8 @@
                                                                 else if(isset($save_status) && $save_status == 0)  {
                                                                     $largest = set_value('dsOrder');
                                                                 }
-                                                                else $largest = $order_in_slider[0]->order_in_slider + 1;
+                                                                else $largest = $order_in_slider['order_in_slider'] + 1;
+                                                                //print_r($order_in_slider);
                                                             ?>
                                                             <input type="number" id="dsOrder" name = "dsOrder" value="<?php echo $largest; ?>" class="form-control">
                                                             <?php echo form_error('dsOrder'); ?>

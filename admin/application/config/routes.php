@@ -14,4 +14,4 @@ $route['manage_home_slider'] = "home/manage_home_slider";
 $route['new_trending_banner'] = "home/new_trending_banner";
 $route['manage_trending_banner'] = "home/manage_trending_banner";
 $route['manage_category_ajax'] = "home/manage_category_ajax";
-
+$route['update_category_ajax'] = "home/update_category_ajax";

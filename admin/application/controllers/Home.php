@@ -248,16 +248,18 @@ class Home extends CI_Controller {
 					$image_name = $this->Common_model->image_upload('./upload/category_img/','catIcon');
 
 					if($image_name != '') {
-						$max_order['order_in_slider'] = $this->Common_model->common_select_max('order_in_slider', '', 'category');
-						$max_value = $max_order['order_in_slider'][0]->order_in_slider;
+						$max_order = $this->Common_model->common_select_max('order_in_slider', '', 'category');
+						//print_r($max_order);
+						//$max_value = $max_order['order_in_slider'][0]->order_in_slider;
 						
 						///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
-						if($max_value) {
-							while($max_value >= $slider_order) {
-								$my_cat = array('order_in_slider' => $max_value);
-								$newValues = array('order_in_slider' => ($max_value+1));
-								$this->Common_model->common_update('category', $newValues, $my_cat);
-								$max_value--;
+						if($max_order['order_in_slider']) {
+							while($max_order['order_in_slider'] >= $slider_order) {
+								$increase = $max_order['order_in_slider']+1;
+								$old_order = array('order_in_slider' => $max_order['order_in_slider']);
+								$newValues = array('order_in_slider' => $increase);
+								$this->Common_model->common_update('category', $newValues, $old_order);
+								$max_order['order_in_slider']--;
 							}
 						}
 
@@ -285,9 +287,9 @@ class Home extends CI_Controller {
 			}
 		}
 		# END OF INSERT / UPDATE FUNCTION
-
 		$data['order_in_slider'] = $this->Common_model->common_select_max('order_in_slider', '', 'category');
 		$data['id'] = $save_data;
+		//print_r($data);
 		$this->CommonPage("new_category", $data);
 	}
 	############################################ END OF ADD NEW CATEGORY ##############################
@@ -388,7 +390,7 @@ class Home extends CI_Controller {
 
 	############################################ MANAGE HOME SLIDER ###################################
 	public function manage_home_slider() {
-		/////////////////////////////////SELECT RECORDS FROM HOME SLIDER//////////////////////////////////
+		////////////////////////////////SELECT RECORDS FROM HOME SLIDER////////////////////////////////
 		$data['home_slider_data'] = $this->Common_model->common_select('*', 'home_slider', array());
 		$this->CommonPage("manage_home_slider", $data);
 	}
@@ -466,18 +468,74 @@ class Home extends CI_Controller {
 	
 	############################################ MANAGE TRENDING BANNER ###############################
 
-	###################################### GET RECORDS FROM DATABSE USING AJAX ########################
-	
+	###################################### GET RECORDS FROM DATABSE USING AJAX ########################	
 	public function manage_category_ajax() {
-		///////////////////////////////////SELECT RECORDS FROM APP///////////////////////////////////////
 		$cat_id = $this->input->post("cat_id");
 		$table_name = $this->input->post("table");
 		$data['response'] = 'success';
-		$data['max_order'] = $this->Common_model->common_select_max_single_row('order_in_slider', '', 'category');
+		$data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_in_slider', '', 'category');
 		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('cat_id'=>$cat_id));
 		echo json_encode($data);		
 	}
 	############################## END OF GET RECORDS FROM DATABSE USING AJAX #########################
+
+	##################################### UPDATE RECORDS FROM DATABSE USING AJAX ######################
+	public function update_category_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$cat_id = $this->input->post("cat_id");
+		$cat_name = $this->input->post("cat_name");
+		$slider_order = $this->input->post("slider_order");
+		$data['response'] = 'success';
+		$update_status = "";
+		$array = array('order_in_slider' => $slider_order);
+		$get_order = $this->Common_model->common_select_single_row('order_in_slider', 'category', $array);
+		
+		///////////////////////////////SWAP ORDER NUMBER IF ALREADY EXIST/////////////////////////////////
+		if(!empty($get_order) &&  $get_order['order_in_slider'] != '') {
+			$array = array('cat_id'=>$cat_id);
+			$old_cat_id = $this->Common_model->common_select_single_row('order_in_slider', 'category', $array);
+			
+			if($old_cat_id['order_in_slider'] < $slider_order) {				
+				$old_record = array();
+				for($i = $old_cat_id['order_in_slider']; $i <= $slider_order; $i++) {
+					$where = array('order_in_slider' => $i);
+					$x_data = $this->Common_model->common_select_single_row('cat_id', 'category', $where);
+					if($x_data['cat_id']) {
+						$old_record[$x_data['cat_id']] = $i-1;
+					}
+				}
+
+				foreach($old_record as $key => $row) {
+					$update_status = $this->Common_model->common_update($table_name, array('order_in_slider'=>$row), array('cat_id'=>$key));
+				}
+			}
+			else if($old_cat_id['order_in_slider'] > $slider_order) {
+				$old_record = array();
+				for($i = $old_cat_id['order_in_slider']; $i >= $slider_order; $i--) {
+					$where = array('order_in_slider' => $i);
+					$x_data = $this->Common_model->common_select_single_row('cat_id', 'category', $where);
+					if($x_data['cat_id']) {
+						$old_record[$x_data['cat_id']] = $i+1;
+					}
+				}
+				foreach($old_record as $key => $row) {
+					$update_status = $this->Common_model->common_update($table_name, array('order_in_slider'=>$row), array('cat_id'=>$key));
+				} 
+			}
+		}
+		
+		if($update_status) {
+			$update_status = $this->Common_model->common_update($table_name, array('order_in_slider'=>$slider_order), array('cat_id'=>$cat_id));
+			if($update_status) $data['response'] = "success";
+			else $data['response'] = "failed";
+		}
+		else {
+			$data['response'] = "failed";
+		}		
+		echo json_encode($data);	
+	}
+	############################# END OF UPDATE RECORDS FROM DATABSE USING AJAX ########################
 
 }
 ?>

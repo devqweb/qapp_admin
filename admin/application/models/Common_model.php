@@ -75,7 +75,8 @@ class Common_model extends CI_Model {
 
 	public function common_update($table,$values,$where)
 	{
-		$this->db->update($table, $values, $where);
+		return $this->db->update($table, $values, $where);
+		//echo $this->db->last_query();
 	}
 
 	public function common_delete($table,$where)
@@ -121,7 +122,7 @@ class Common_model extends CI_Model {
 		$this->db->select_max($maxFiled, $myName);
 		$this->db->from($table);
 		$query = $this->db->get();
-		return $query->result();
+		return $query->row_array();
 	}
 	################################## END OF COMMON SELECT MAX VALUE #################################
 
@@ -143,5 +144,18 @@ class Common_model extends CI_Model {
 		return $query->row_array();
 	}
 	########################### END OF COMMON SELECT SINGLE ROW MAX VALUE #############################
+	
+	################################### COMMON UPDATE SINGLE ROW ######################################
+	public function common_update_single_row($table, $where, $id, $data) {
+	// 	$data = array(
+	// 		'title' => $title,
+	// 		'name' => $name,
+	// 		'date' => $date
+	// );
+	
+	$this->db->where($where, $id);
+	$this->db->update($table, $data);
+	}
+	############################### END OF COMMON UPDATE SINGLE ROW ###################################
 }
 ?>
