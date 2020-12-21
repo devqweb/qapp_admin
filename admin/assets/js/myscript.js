@@ -9,8 +9,6 @@ $(document).ready(function() {
         let catName = "#catName";
         let slider_order = "#slider_order";
         let max_order = "#max_order";
-        let status_class = "";
-        let status_msg = "";
 
         catName += count;
         slider_order += count;
@@ -26,12 +24,9 @@ $(document).ready(function() {
             btn_edit.show();
         });
         
-        x.after('<tr><td colspan="30">'+
-        '<div id="form-alert" class="alert '+status_class+' alert-dismissible fade show col-md-6 update-status" role="alert">'+
-            status_msg+
-            // +'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-        '</div>'+
-        '<form action = "" class="data-edit">'+
+        x.after('<tr><td colspan="30" class="data-edit">'+
+        '<div id="cat-edit-form-alert" class="alert alert-dismissible fade show col-md-6 update-status" role="alert"></div>'+
+        '<form action = "" >'+
             '<div class="form-row">'+
                 '<div class="form-group col-md-6">'+
                     '<label class="col-form-label" for="catName">Category Name *</label>'+
@@ -77,17 +72,17 @@ $(document).ready(function() {
                 dataType: 'json',
                 data: { table: 'category', id: 'cat_id', cat_id: categoryId, cat_name: $(catName).val(), slider_order: $(slider_order).val() },
                 success:function(res) {
-                    //alert("hiiiiiiii");
                     if(res.response == 'success') {
-                        status_class = "alert-success";
-                        status_msg = "<b>Success</b>! Category has been updated";
-                        // alert("success");
-                        $(".update-status").text("<b>Success</b>! Category has been updated");
+                        $("#cat-edit-form-alert").addClass("alert-success");
+                        $("#cat-edit-form-alert").css({"display": "block"});
+                        $("#cat-edit-form-alert").html("<b>Success</b>! Category has been updated");
+                        $("#cat-edit-form-alert").fadeTo(2000, 500).slideUp(1000);
                     }
                     else {
-                        alert("failed");
-                        // status_class = "alert-danger";
-                        // status_msg = "<b>Failed</b>! Category didn't updated";
+                        $("#cat-edit-form-alert").addClass("alert-danger");
+                        $("#cat-edit-form-alert").css({"display": "block"});
+                        $("#cat-edit-form-alert").html("<b>Failed</b>! Category not updated");
+                        $("#cat-edit-form-alert").fadeTo(2000, 500).slideUp(1000);
                     }
                 }
             });

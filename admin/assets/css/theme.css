@@ -204,3 +204,11 @@
 .data-edit {
     text-align: left;
 }
+
+    .data-edit .alert {
+        margin:0;
+    }
+
+#cat-edit-form-alert {
+    display: none;
+}
