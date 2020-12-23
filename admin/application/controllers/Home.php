@@ -468,7 +468,7 @@ class Home extends CI_Controller {
 	
 	############################################ MANAGE TRENDING BANNER ###############################
 
-	###################################### GET RECORDS FROM DATABSE USING AJAX ########################	
+	#################################### GET RECORDS FROM CATEROGRY USING AJAX ########################	
 	public function manage_category_ajax() {
 		$cat_id = $this->input->post("cat_id");
 		$table_name = $this->input->post("table");
@@ -477,9 +477,9 @@ class Home extends CI_Controller {
 		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('cat_id'=>$cat_id));
 		echo json_encode($data);		
 	}
-	############################## END OF GET RECORDS FROM DATABSE USING AJAX #########################
+	############################## END OF GET RECORDS FROM CATEROGRY USING AJAX #######################
 
-	##################################### UPDATE RECORDS FROM DATABSE USING AJAX ######################
+	#################################### UPDATE CATEGORY FROM DATABSE USING AJAX ######################
 	public function update_category_ajax() {
 		$table_name = $this->input->post("table");
 		$where = $this->input->post("id");
@@ -523,11 +523,49 @@ class Home extends CI_Controller {
 					$update_status = $this->Common_model->common_update($table_name, array('order_in_slider'=>$row), array('cat_id'=>$key));
 				} 
 			}
+			else $update_status = true;
 		}
 		
 		if($update_status) {
-			$update_status = $this->Common_model->common_update($table_name, array('order_in_slider'=>$slider_order), array('cat_id'=>$cat_id));
-			if($update_status) $data['response'] = "success";
+			$update_status = $this->Common_model->common_update($table_name, array('name'=>$cat_name, 'order_in_slider'=>$slider_order), array('cat_id'=>$cat_id));
+			if($update_status) {
+				$data['response'] = "success";
+				
+				$table_data = "";
+				$cat_data = $this->Common_model->common_select('*', 'category', array());
+				$sr_num = 0;
+				$table_data .= '<thead class="thead-dark"><tr><th>#</th><th data-priority="1">Category ID</th><th data-priority="1">Icon</th><th data-priority="1">Category Name and Icon</th><th data-priority="3">Order in Drag Slider</th><th data-priority="1"># Of Apps</th><th data-priority="4">Under Promotion</th><th data-priority="2">Over Promotion</th><th data-priority="1">Action</th></tr></thead><tbody>';
+				foreach($cat_data as $row) {
+					$table_data .= '<tr>'; 
+					$table_data .= '<th>'. ++$sr_num. '</th>';
+					$table_data .= '<td>'. $row->cat_id .'</td>';
+					$table_data .= '<td><img src="./upload/category_img/'.$row->image.'"></td>';
+					$table_data .= '<td>'. $row->name .'</td>';
+					$table_data .= '<td>'. $row->order_in_slider .'</td>';
+					$table_data .= '<td> </td>';
+					$table_data .= '<td> </td>';
+					$table_data .= '<td> </td>';
+					$table_data .= '<td>
+								<div class="btn-group">
+									<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
+									<button class="btn btn-sm btn-cancel" style="display:none" type="button" title="Cancel Edit">
+										<i class="fas fa-times"></i>
+									</button>
+									<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="mdi mdi-chevron-down"></i>
+									</button>
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item" href="#">Enable/Disable</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#">Delete</a>
+									</div>
+								</div>
+							</td>';
+					$table_data .= '</tr>';
+				}
+				$table_data .='</tbody>';
+				$data['table_data'] = $table_data;
+			} 
 			else $data['response'] = "failed";
 		}
 		else {
@@ -535,7 +573,78 @@ class Home extends CI_Controller {
 		}		
 		echo json_encode($data);	
 	}
-	############################# END OF UPDATE RECORDS FROM DATABSE USING AJAX ########################
+	############################ END OF UPDATE CATEGORY FROM DATABSE USING AJAX ########################
 
+	################################### GET RECORDS FROM HOME SLIDER USING AJAX ########################	
+	public function manage_home_slider_ajax() {
+		$slider_id = $this->input->post("slider_id");
+		$table_name = $this->input->post("table");
+		$data['response'] = 'success';
+		$data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_slider', '', 'home_slider');
+		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('home_slider_id '=>$slider_id));
+		echo json_encode($data);		
+	}
+	############################## END OF GET RECORDS FROM HOME SLIDER USING AJAX ######################
+
+	################################### UPDATE HOME SLIDER USING AJAX ##################################
+	public function update_home_slider_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$home_slider_id = $this->input->post("slider_id");
+		$title = $this->input->post("title");
+		$description = $this->input->post("description");
+		$btn_link = $this->input->post("btn_link");
+		$slider_order = $this->input->post("slider_order");
+		$data['response'] = 'success';
+		$update_status = "";
+		$array = array('order_slider' => $slider_order);
+		$get_order = $this->Common_model->common_select_single_row('order_slider', 'home_slider', $array);
+		
+		///////////////////////////////SWAP ORDER NUMBER IF ALREADY EXIST/////////////////////////////////
+		if(!empty($get_order) &&  $get_order['order_slider'] != '') {
+			$array = array('home_slider_id'=>$home_slider_id);
+			$old_home_slider_id = $this->Common_model->common_select_single_row('order_slider', 'home_slider', $array);
+			
+			if($old_home_slider_id['order_slider'] < $slider_order) {				
+				$old_record = array();
+				for($i = $old_home_slider_id['order_slider']; $i <= $slider_order; $i++) {
+					$where = array('order_slider' => $i);
+					$x_data = $this->Common_model->common_select_single_row('home_slider_id', 'home_slider', $where);
+					if($x_data['home_slider_id']) {
+						$old_record[$x_data['home_slider_id']] = $i-1;
+					}
+				}
+
+				foreach($old_record as $key => $row) {
+					$update_status = $this->Common_model->common_update($table_name, array('order_slider'=>$row), array('home_slider_id'=>$key));
+				}
+			}
+			else if($old_home_slider_id['order_slider'] > $slider_order) {
+				$old_record = array();
+				for($i = $old_home_slider_id['order_slider']; $i >= $slider_order; $i--) {
+					$where = array('order_slider' => $i);
+					$x_data = $this->Common_model->common_select_single_row('home_slider_id', 'home_slider', $where);
+					if($x_data['home_slider_id']) {
+						$old_record[$x_data['home_slider_id']] = $i+1;
+					}
+				}
+				foreach($old_record as $key => $row) {
+					$update_status = $this->Common_model->common_update($table_name, array('order_slider'=>$row), array('home_slider_id'=>$key));
+				} 
+			}
+			else $update_status = true;
+		}
+		
+		if($update_status) {
+			$update_status = $this->Common_model->common_update($table_name, array('title'=>$title, 'description'=>$description, 'button_link'=>$btn_link, 'order_slider'=>$slider_order), array('home_slider_id'=>$home_slider_id));
+			if($update_status) $data['response'] = "success";
+			else $data['response'] = "failed";
+		}
+		else {
+			$data['response'] = "failed";
+		}
+		echo json_encode($data);	
+	}
+	############################### END OF UPDATE HOME SLIDER USING AJAX ###############################
 }
 ?>

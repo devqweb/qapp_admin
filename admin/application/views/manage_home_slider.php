@@ -31,9 +31,9 @@
                                                         <th data-priority="1">Slider ID</th>
                                                         <th data-priority="1">Title</th>
                                                         <th data-priority="1">Image</th>
+                                                        <th data-priority="1">Order in Slider</th>
                                                         <th data-priority="1">Description</th>
-                                                        <th data-priority="1">Button Link</th>                                                        
-                                                        <th data-priority="3">Order in Slider</th>
+                                                        <th data-priority="2">Button Link</th>                                                        
                                                         <th data-priority="1">Action</th>
                                                     </tr>
                                                     </thead>
@@ -46,14 +46,17 @@
                                                                 echo '<td>'. $row->home_slider_id .'</td>';
                                                                 echo '<td>'. $row->title .'</td>';
                                                                 echo '<td><img src="./upload/home_slider_img/'.$row->image_name.'"></td>';                                                            
+                                                                echo '<td>'. $row->order_slider .'</td>';
                                                                 echo '<td class="scroll-field">'. $row->description .'</td>';
                                                                 echo '<td class="scroll-field">'. $row->button_link .'</td>';
-                                                                echo '<td>'. $row->order_slider .'</td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm" type="button"> Edit </button>
+                                                                            <button class="btn btn-info btn-sm btn-edit-home-slider" type="button" data-home-slider-id="'.$row->home_slider_id.'"> <i class="mdi mdi-pencil"></i> </button>
+                                                                            <button class="btn btn-sm btn-cancel" style="display:none" type="button" title="Cancel Edit">
+                                                                                <i class="fas fa-times"></i>
+                                                                            </button>
                                                                             <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <i class="mdi mdi-chevron-down"></i>
+                                                                                <i class="mdi mdi-chevron-down"></i>
                                                                             </button>
                                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                                 <a class="dropdown-item" href="#">Enable/Disable</a>
