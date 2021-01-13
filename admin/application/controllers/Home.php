@@ -529,41 +529,37 @@ class Home extends CI_Controller {
 		if($update_status) {
 			$update_status = $this->Common_model->common_update($table_name, array('name'=>$cat_name, 'order_in_slider'=>$slider_order), array('cat_id'=>$cat_id));
 			if($update_status) {
-				$data['response'] = "success";
-				
+				$data['response'] = "success";				
 				$table_data = "";
-				$cat_data = $this->Common_model->common_select('*', 'category', array());
-				$sr_num = 0;
-				$table_data .= '<thead class="thead-dark"><tr><th>#</th><th data-priority="1">Category ID</th><th data-priority="1">Icon</th><th data-priority="1">Category Name and Icon</th><th data-priority="3">Order in Drag Slider</th><th data-priority="1"># Of Apps</th><th data-priority="4">Under Promotion</th><th data-priority="2">Over Promotion</th><th data-priority="1">Action</th></tr></thead><tbody>';
-				foreach($cat_data as $row) {
-					$table_data .= '<tr>'; 
-					$table_data .= '<th>'. ++$sr_num. '</th>';
-					$table_data .= '<td>'. $row->cat_id .'</td>';
-					$table_data .= '<td><img src="./upload/category_img/'.$row->image.'"></td>';
-					$table_data .= '<td>'. $row->name .'</td>';
-					$table_data .= '<td>'. $row->order_in_slider .'</td>';
-					$table_data .= '<td> </td>';
-					$table_data .= '<td> </td>';
-					$table_data .= '<td> </td>';
-					$table_data .= '<td>
-								<div class="btn-group">
-									<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
-									<button class="btn btn-sm btn-cancel" style="display:none" type="button" title="Cancel Edit">
-										<i class="fas fa-times"></i>
-									</button>
-									<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<i class="mdi mdi-chevron-down"></i>
-									</button>
-									<div class="dropdown-menu dropdown-menu-right">
-										<a class="dropdown-item" href="#">Enable/Disable</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Delete</a>
+				$cat_data = $this->Common_model->common_select_single_row('*', 'category', array('cat_id'=>$cat_id));
+				// print_r($cat_data);
+				// die();
+				$sr_num = 0;				
+				$table_data .= '<th>'. ++$sr_num. '</th>';
+				$table_data .= '<td>'. $cat_data['cat_id'] .'</td>';
+				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'"></td>';
+				$table_data .= '<td>'. $cat_data['name'] .'</td>';
+				$table_data .= '<td>'. $cat_data['order_in_slider'] .'</td>';
+				$table_data .= '<td> </td>';
+				$table_data .= '<td> </td>';
+				$table_data .= '<td> </td>';
+				$table_data .= '<td>
+									<div class="btn-group">
+										<button class="btn btn-info btn-sm btn-edit-category" type="button" onclick = my_cat_edit(this); title="Edit" data-cat-id="'.$cat_data['cat_id'].'"> <i class="mdi mdi-pencil"></i> </button>
+										<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
+											<i class="fas fa-times"></i>
+										</button>
+										<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="mdi mdi-chevron-down"></i>
+										</button>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item" href="#">Enable/Disable</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">Delete</a>
+										</div>
 									</div>
-								</div>
-							</td>';
-					$table_data .= '</tr>';
-				}
-				$table_data .='</tbody>';
+								</td>';
+					
 				$data['table_data'] = $table_data;
 			} 
 			else $data['response'] = "failed";

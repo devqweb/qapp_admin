@@ -197,8 +197,8 @@
     border-radius: .15rem 0 0 .15rem !important;
 }
 
-.btn-visible {
-    display: block !important;
+.display-none {
+    display: none;
 }
 
 .data-edit {
@@ -208,7 +208,3 @@
     .data-edit .alert {
         margin:0;
     }
-
-#cat-edit-form-alert {
-    display: none;
-}

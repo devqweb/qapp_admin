@@ -18,7 +18,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <div class="card-box table-responsive">
+                                <div class="card-box table-responsive" id="tabletest"> 
                                 <h4 class="mt-0 header-title">Manage Categories</h4>
                                     
                                     <div class="responsive-table-plugin">
@@ -42,7 +42,7 @@
                                                         <?php
                                                             $sr_num = 0;
                                                             foreach($cat_data as $row) {
-                                                                echo '<tr>'; 
+                                                                echo '<tr class="record-row">'; 
                                                                     echo '<th>'. ++$sr_num. '</th>';
                                                                     echo '<td>'. $row->cat_id .'</td>';
                                                                     echo '<td><img src="./upload/category_img/'.$row->image.'"></td>';
@@ -53,8 +53,8 @@
                                                                     echo '<td> </td>';
                                                                     echo '<td>
                                                                             <div class="btn-group">
-                                                                                <button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
-                                                                                <button class="btn btn-sm btn-cancel" style="display:none" type="button" title="Cancel Edit">
+                                                                                <button class="btn btn-info btn-sm btn-edit-category" onclick = my_cat_edit(this); type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
+                                                                                <button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
                                                                                     <i class="fas fa-times"></i>
                                                                                 </button>
                                                                                 <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
