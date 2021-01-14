@@ -479,6 +479,25 @@ class Home extends CI_Controller {
 	}
 	############################## END OF GET RECORDS FROM CATEROGRY USING AJAX #######################
 
+
+	######################## ENABLE/DISABLE CATEGORY FROM DATABSE USING AJAX ##########################
+	public function enable_disable_category_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$cat_id = $this->input->post("cat_id");
+		$enable_disable = $this->input->post("enable_disable");
+		$data['response'] = 'success';
+		
+		$update_status = $this->Common_model->common_update($table_name, array('enable_disable'=>$enable_disable), array('cat_id'=>$cat_id));
+		if($update_status) {
+			$data['response'] = "success";
+		}
+		else $data['response'] = "failed";
+		echo json_encode($data);
+	}	
+	##################### END OF ENABLE/DISABLE CATEGORY FROM DATABSE USING AJAX ######################
+
+
 	#################################### UPDATE CATEGORY FROM DATABSE USING AJAX ######################
 	public function update_category_ajax() {
 		$table_name = $this->input->post("table");
@@ -531,9 +550,7 @@ class Home extends CI_Controller {
 			if($update_status) {
 				$data['response'] = "success";				
 				$table_data = "";
-				$cat_data = $this->Common_model->common_select_single_row('*', 'category', array('cat_id'=>$cat_id));
-				// print_r($cat_data);
-				// die();
+				$cat_data = $this->Common_model->common_select_single_row('*', 'category', array('cat_id'=>$cat_id));				
 				$sr_num = 0;				
 				$table_data .= '<th>'. ++$sr_num. '</th>';
 				$table_data .= '<td>'. $cat_data['cat_id'] .'</td>';
@@ -553,7 +570,7 @@ class Home extends CI_Controller {
 										<i class="mdi mdi-chevron-down"></i>
 										</button>
 										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item" href="#">Enable/Disable</a>
+											<a class="dropdown-item" href="#" data-enable-disable="'.$cat_data['enable_disable'].'" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
 											<div class="dropdown-divider"></div>
 											<a class="dropdown-item" href="#">Delete</a>
 										</div>
@@ -570,6 +587,24 @@ class Home extends CI_Controller {
 		echo json_encode($data);	
 	}
 	############################ END OF UPDATE CATEGORY FROM DATABSE USING AJAX ########################
+
+
+	############################ COMMON DELETE RECORD FROM DATABSE USING AJAX ##########################
+	public function common_delete_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$record_id = $this->input->post("record_id");
+		$data['response'] = '';
+		
+		$delete_status = $this->Common_model->common_delete($table_name, array($where=>$record_id));
+
+		if($delete_status) $data['response'] = "success";
+		else $data['response'] = "failed";
+
+		echo json_encode($data);
+	}	
+	######################## END OF COMMON DELETE RECORD FROM DATABSE USING AJAX #######################
+
 
 	################################### GET RECORDS FROM HOME SLIDER USING AJAX ########################	
 	public function manage_home_slider_ajax() {

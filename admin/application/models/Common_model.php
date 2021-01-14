@@ -79,10 +79,13 @@ class Common_model extends CI_Model {
 		//echo $this->db->last_query();
 	}
 
-	public function common_delete($table,$where)
-	{
-		$this->db->delete($table,$where);
+	
+	############################################ COMMON DELETE ########################################
+	public function common_delete($table, $where) {
+		return $this->db->delete($table, $where);
 	}
+	####################################### END OF COMMON DELETE ######################################
+
 
 	############################################ IMAGE UPLOAD #########################################
 	public function image_upload($folder, $filename)

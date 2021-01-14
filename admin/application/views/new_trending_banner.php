@@ -53,7 +53,7 @@
                                                                 else if(isset($save_status) && $save_status == 0)  {
                                                                     $largest = set_value('order_slider');
                                                                 }
-                                                                else $largest = $order_slider[0]->order_slider + 1;
+                                                                else $largest = $order_slider['order_slider'] + 1;
                                                             ?>
                                                             <input type="number" id="order_slider" name="order_slider" value="<?php echo $largest; ?>" class="form-control" placeholder="Order in Drag Slider">
                                                         </div>                                                       

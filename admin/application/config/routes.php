@@ -15,5 +15,7 @@ $route['new_trending_banner'] = "home/new_trending_banner";
 $route['manage_trending_banner'] = "home/manage_trending_banner";
 $route['manage_category_ajax'] = "home/manage_category_ajax";
 $route['update_category_ajax'] = "home/update_category_ajax";
+$route['enable_disable_category_ajax'] = "home/enable_disable_category_ajax";
+$route['common_delete_ajax'] = "home/common_delete_ajax";
 $route['manage_home_slider_ajax'] = "home/manage_home_slider_ajax";
 $route['update_home_slider_ajax'] = "home/update_home_slider_ajax";

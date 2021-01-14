@@ -38,7 +38,6 @@
 
         <!-- My Script js -->
         <script src="<?php echo base_url("assets/js/myscript.js") ?>"></script>
-
     </head>
 
     <body>

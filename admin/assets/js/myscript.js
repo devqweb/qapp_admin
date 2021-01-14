@@ -1,4 +1,5 @@
 let count = 0;
+
 //////////////////////////////////////// EDIT CATEGORY /////////////////////////////////////////////
 function edit_category(categoryId, button) {    
     count++;
@@ -70,7 +71,7 @@ function edit_category(categoryId, button) {
                         myform.find(".alert").removeClass("display-none");
                         myform.find(".alert").html("<b>Success</b>! Category has been updated");
                     },400);
-
+                    
                     myform.prev().html(res.table_data);
                     setTimeout(function(){ myform.fadeOut(1000); }, 1000);
                     setTimeout(function(){ myform.remove(".data-edit"); }, 2000);
@@ -98,8 +99,84 @@ function my_cat_edit(button) {
     const categoryId = button.getAttribute("data-cat-id");
     edit_category(categoryId, $(button));
 }
-
 //////////////////////////////////// END OF EDIT CATEGORY //////////////////////////////////////////
+
+////////////////////////////////// ENABLE/DISABLE CATEGORY /////////////////////////////////////////
+function cat_enable_disable(categoryId, cat_status, myRow) {
+    cat_status ^= true;
+    $.ajax({
+        url: "http://localhost/qapp/admin/enable_disable_category_ajax",
+        method: 'POST',
+        dataType: 'json',
+        data: { table: 'category', id: 'cat_id', cat_id: categoryId, enable_disable: cat_status },
+        success:function(res) {
+            if(res.response == 'success') {
+                $(myRow).toggleClass("my-danger");
+                $(myRow).find(".app-status").attr("data-enable-disable", cat_status);
+                // let myText =  $(myRow).find(".app-status");
+                // if($(myText).text() == "Enable") $(myText).text("Disable");
+                // else $(myText).text("Enable");
+            }
+            else {
+                alert("Oops! opertion failed");
+            }
+        }
+    });
+}
+
+function my_cat_enable_disable(button) {
+    const categoryId = button.getAttribute("data-cat-id");
+    const cat_status = button.getAttribute("data-enable-disable");
+    const myRow = $(button).parents(".record-row");
+    cat_enable_disable(categoryId, cat_status, $(myRow));
+}
+/////////////////////////////// END OF ENABLE/DISABLE CATEGORY /////////////////////////////////////
+
+
+/////////////////////////////////// CALL CONFIRMATION MODAL ////////////////////////////////////////
+function confirm_modal(button) {
+    const recordId = button.getAttribute("data-cat-id");
+    const tableName = button.getAttribute("data-table-name");
+    const idField = button.getAttribute("data-table-field");
+    $("#hidden_delete_id").val(recordId);
+    $("#hidden_table_name").val(tableName);
+    $("#hidden_field_name").val(idField);
+    $("#modal_confirm_category").show();
+}
+////////////////////////////// END OF CALL CONFIRMATION MODAL //////////////////////////////////////
+
+
+///////////////////////////////// COMMON DELETE RECORD FUNCTION ////////////////////////////////////
+function delete_record() {
+    const recordId = $("#hidden_delete_id").val();
+    const tableName = $("#hidden_table_name").val();
+    const idField = $("#hidden_field_name").val();
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/common_delete_ajax",
+        method: 'POST',
+        dataType: 'json',
+        data: { table: tableName, id: idField, record_id: recordId },
+        success:function(res) {
+            if(res.response == 'success') {
+                $("#modal_confirm_category").hide();
+                $('#success_delete').modal('toggle');
+                // $(myRow).toggleClass("my-danger");
+                // $(myRow).find(".app-status").attr("data-enable-disable", cat_status);
+                // let myText =  $(myRow).find(".app-status");
+                // if($(myText).text() == "Enable") $(myText).text("Disable");
+                // else $(myText).text("Enable");
+                
+            }
+            else {
+                $("#modal_confirm_category").hide();
+                $('#failed_box').modal('toggle');
+            }
+        }
+    });
+}
+//////////////////////////// END OF COMMON DELETE RECORD FUNCTION //////////////////////////////////
+
 
 ////////////////////////////////////// EDIT HOME SLIDER ////////////////////////////////////////////
 $(document).ready(function() {    

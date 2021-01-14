@@ -1,3 +1,9 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
 .logo-box img {
     width: 50px;
     height: auto;
@@ -162,29 +168,29 @@
     color: #b10101;
 }
 
-.under-promotion {
+.my-success {
     background-color: #79f3b5!important;
     color: #5d5d5d !important;
 }
 
-    .under-promotion td, .under-promotion th {
+    .my-success td, .my-success th {
         border-color:#8cdd99;
     }
 
-.promotion-going-expire {
+.my-warning {
     background-color: #f3f179!important;
     color: #5d5d5d !important;
 }
 
-    .promotion-going-expire td, .promotion-going-expire th {
+    .my-warning td, .my-warning th {
         border-color:#dcda71;
     }
 
-.promotion-expired {
+.my-danger {
     background-color: #ff5b5b!important;
     color: #ffffff !important;
 }
-    .promotion-expired td, .promotion-expired th {
+    .my-danger td, .my-danger th {
         border-color:#f39b9b;
     }
 
@@ -208,3 +214,48 @@
     .data-edit .alert {
         margin:0;
     }
+
+.modal-open .modal {
+    position: fixed;
+    right: 0;
+}
+
+.modal.show .modal-dialog {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 30%;
+    bottom: 0;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.flex {
+    display:flex;
+}
+
+.justify-space-between {
+    justify-content: space-around;
+}
+
+.my-btn-std {
+    width: 130px;
+}
+
+.confirmation-box {
+    height: 300px;
+}
+
+.full-width {
+    width:100%;
+}
+
+.padding-bottom-1rem {
+    padding-bottom: 1rem;
+}
+
+.acknowleg-big-icon {
+    font-size: 70px;
+}
