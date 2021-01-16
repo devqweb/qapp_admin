@@ -594,16 +594,76 @@ class Home extends CI_Controller {
 		$table_name = $this->input->post("table");
 		$where = $this->input->post("id");
 		$record_id = $this->input->post("record_id");
-		$data['response'] = '';
+		$order_field = $this->input->post("order_field");
+		$data['response'] = '';		
+		$array = array($where => $record_id);
 		
+		//////////////////////// Get deleted order and maximum order from the table /////////////////////
+		$get_order = $this->Common_model->common_select_single_row($order_field, $table_name, $array);
+		$get_order2 = $this->Common_model->common_select_max_single_row($order_field, '', $table_name);
+		
+		$deleted_order = $get_order[$order_field];
+		$max_order = $get_order2[$order_field];
+
 		$delete_status = $this->Common_model->common_delete($table_name, array($where=>$record_id));
 
-		if($delete_status) $data['response'] = "success";
+		if($delete_status) {
+			///////// Decrease order to 1 for all next records who comes later after deleted record ////////////
+			for($i = $deleted_order; $i < $max_order; $i++) {
+				$this->Common_model->common_update($table_name, array($order_field=>$i), array($order_field=>$i+1));
+			}			
+			$data['response'] = "success";
+		} 
 		else $data['response'] = "failed";
 
 		echo json_encode($data);
 	}	
 	######################## END OF COMMON DELETE RECORD FROM DATABSE USING AJAX #######################
+
+
+	############################# CHANGE IMAGE FROM DATABSE USING AJAX #################################
+	public function change_image_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$record_id = $this->input->post("record_id");
+		$image_field = $this->input->post("image_field");
+		$folderPath = $this->input->post("folderPath");
+		$array = array($where => $record_id);
+		$image_name = '';
+		$data['response'] = '';
+
+		////////////////////////////////// Get old image and delete it//////////////////////////////////////
+		$old_image = $this->Common_model->common_select_single_row($image_field, $table_name, $array);
+		if(!empty($old_image)) {
+			if(file_exists($folderPath."/".$old_image[$image_field])) {
+				unlink($folderPath."/".$old_image[$image_field]);
+			}			
+		} 
+
+		/////////////////////// Upload new image and update the record in the database//////////////////////
+		if(isset($_FILES['imageFile']) && $_FILES['imageFile']['name'] != '') {
+			$image_name = $this->Common_model->image_upload($folderPath."/", 'imageFile');
+		}		
+		
+		if($image_name != '') {
+			$update_status = $this->Common_model->common_update($table_name, array($image_field=>$image_name), array($where=>$record_id));
+			if($update_status) {
+				$data['response'] = "success";					
+				$data['image_name'] = $image_name;
+			}
+			else {
+				$data['image_name'] = $image_name;
+				$data['response'] = "failed";
+			}	
+		}
+		else {
+			$data['image_name'] = $image_name;
+			$data['response'] = "failed";
+		} 
+		echo json_encode($data);
+		
+	}
+	############################ END OF CHANGE IMAGE FROM DATABSE USING AJAX ###########################
 
 
 	################################### GET RECORDS FROM HOME SLIDER USING AJAX ########################	

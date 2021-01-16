@@ -50,7 +50,7 @@
 
                                                                 echo '<th>'. ++$sr_num. '</th>';
                                                                 echo '<td>'. $row->cat_id .'</td>';
-                                                                echo '<td><img src="./upload/category_img/'.$row->image.'"></td>';
+                                                                echo '<td><img src="./upload/category_img/'.$row->image.'" class="data-img"></td>';
                                                                 echo '<td>'. $row->name .'</td>';
                                                                 echo '<td>'. $row->order_in_slider .'</td>';
                                                                 echo '<td> </td>';
@@ -66,9 +66,12 @@
                                                                             <i class="mdi mdi-chevron-down"></i>
                                                                             </button>
                                                                             <div class="dropdown-menu dropdown-menu-right">
-                                                                            <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-cat-id="'.$row->cat_id.'" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
-                                                                            <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item" href="#" data-cat-id="'.$row->cat_id.'" data-table-name="category" data-table-field="cat_id" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
+                                                                                <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-cat-id="'.$row->cat_id.'" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
+
+                                                                                <a class="dropdown-item app-status" href="#" data-cat-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_cat_image(this);>Change Icon</a>
+                                                                                
+                                                                                <div class="dropdown-divider"></div>
+                                                                                <a class="dropdown-item" href="#" data-cat-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>';

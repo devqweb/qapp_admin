@@ -1,4 +1,5 @@
 let count = 0;
+let selected_row;
 
 //////////////////////////////////////// EDIT CATEGORY /////////////////////////////////////////////
 function edit_category(categoryId, button) {    
@@ -137,45 +138,110 @@ function my_cat_enable_disable(button) {
 function confirm_modal(button) {
     const recordId = button.getAttribute("data-cat-id");
     const tableName = button.getAttribute("data-table-name");
-    const idField = button.getAttribute("data-table-field");
-    $("#hidden_delete_id").val(recordId);
+    const idField = button.getAttribute("data-table-id-field");
+    const order_field = button.getAttribute("data-order-field");
+    selected_row = $(button).parents(".record-row");
+
+    $("#hidden_record_id").val(recordId);
     $("#hidden_table_name").val(tableName);
     $("#hidden_field_name").val(idField);
-    $("#modal_confirm_category").show();
+    $("#hidden_order").val(order_field);
 }
 ////////////////////////////// END OF CALL CONFIRMATION MODAL //////////////////////////////////////
 
 
 ///////////////////////////////// COMMON DELETE RECORD FUNCTION ////////////////////////////////////
 function delete_record() {
-    const recordId = $("#hidden_delete_id").val();
+    const recordId = $("#hidden_record_id").val();
     const tableName = $("#hidden_table_name").val();
     const idField = $("#hidden_field_name").val();
-
+    const order_field_name = $("#hidden_order").val();
+    
     $.ajax({
         url: "http://localhost/qapp/admin/common_delete_ajax",
         method: 'POST',
         dataType: 'json',
-        data: { table: tableName, id: idField, record_id: recordId },
+        data: { table: tableName, id: idField, record_id: recordId, order_field: order_field_name },
         success:function(res) {
             if(res.response == 'success') {
                 $("#modal_confirm_category").hide();
-                $('#success_delete').modal('toggle');
-                // $(myRow).toggleClass("my-danger");
-                // $(myRow).find(".app-status").attr("data-enable-disable", cat_status);
-                // let myText =  $(myRow).find(".app-status");
-                // if($(myText).text() == "Enable") $(myText).text("Disable");
-                // else $(myText).text("Enable");
-                
+                $('#success_modal').modal('toggle');
+                selected_row.remove();
             }
             else {
                 $("#modal_confirm_category").hide();
-                $('#failed_box').modal('toggle');
+                $('#failed_modal').modal('toggle');
             }
         }
     });
 }
 //////////////////////////// END OF COMMON DELETE RECORD FUNCTION //////////////////////////////////
+
+
+/////////////////////////////// CALL COMMON MODAL FOR CHANGE IMAGE /////////////////////////////////
+function change_cat_image(button) {
+    const recordId = button.getAttribute("data-cat-id");
+    const tableName = button.getAttribute("data-table-name");
+    const idField = button.getAttribute("data-table-id-field");
+    const imageField = button.getAttribute("data-table-image-field");
+    const imgPath = button.getAttribute("data-img-path");
+    
+    selected_row = $(button).parents(".record-row");
+    
+    $("#hidden_image_row_id").val(recordId);
+    $("#hidden_image_table_name").val(tableName);
+    $("#hidden_imageId_field_name").val(idField);
+    $("#hidden_image_field_name").val(imageField);
+    $("#hidden_image_path").val(imgPath);
+}
+////////////////////////// END OF CALL COMMON MODAL FOR CHANGE IMAGE ///////////////////////////////
+
+
+///////////////////////////////////////// CHANGE IMAGE /////////////////////////////////////////////
+function change_image_process() {    
+    const recordId = $("#hidden_image_row_id").val();
+    const tableName = $("#hidden_image_table_name").val();
+    const idField = $("#hidden_imageId_field_name").val();
+    const imageFieldName = $("#hidden_image_field_name").val();
+    const imgPath = $("#hidden_image_path").val();
+    const newImage = $('#text_change_image')[0].files;
+    
+    let fd = new FormData();
+    
+    if(newImage.length > 0 ) {
+        fd.append('table', tableName);
+        fd.append('id', idField);
+        fd.append('record_id', recordId);
+        fd.append('image_field', imageFieldName);
+        fd.append('imageFile', newImage[0]);
+        fd.append('folderPath', imgPath);
+
+        $.ajax({
+            url: "http://localhost/qapp/admin/change_image_ajax",
+            type: 'post',
+            dataType: 'json',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(res){
+                if(res.response == "success") {
+                    $("#success_modal").modal("toggle");
+                    $("#success_modal").find("h1").text("Success!");
+                    $("#success_modal").find("p").text("Image has been changed.");
+                    $("#text_change_image").val("");
+                }
+                else{
+                    $('#failed_modal').modal('toggle');
+                }
+                $(selected_row).find(".data-img").attr("src", imgPath+'/'+res.image_name);
+            },
+        });
+    }
+    else{
+        alert("Please select a file.");
+    }
+}
+///////////////////////////////////// END OF CHANGE IMAGE //////////////////////////////////////////
 
 
 ////////////////////////////////////// EDIT HOME SLIDER ////////////////////////////////////////////

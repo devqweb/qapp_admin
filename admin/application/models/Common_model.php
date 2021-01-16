@@ -97,12 +97,9 @@ class Common_model extends CI_Model {
 		$this->upload->initialize($config);
 
 		$dataname = '';
-		if(!$this->upload->do_upload($filename))
-		{
-			return $dataname;
-		}
-		else
-		{
+		
+		if(!$this->upload->do_upload($filename)) return $dataname;
+		else {
 			$data = $this->upload->data();
 			$dataname = $data['file_name'];
 			return $dataname;

@@ -91,13 +91,14 @@
         <div class="modal fade modal-dialog" tabindex="-1" id="modal_confirm_category">
             <div class="modal-dialog">
                 <div class="modal-content confirmation-box">                        
-                    <div class="modal-body col-md-8 mx-auto flex align-items-center justify-content-center text-align-center">
-                        <input type="hidden" name="id" value="" id="hidden_delete_id">
+                    <div class="modal-body col-md-10 mx-auto flex align-items-center justify-content-center text-align-center">
+                        <input type="hidden" name="id" value="" id="hidden_record_id">
                         <input type="hidden" name="table" value="" id="hidden_table_name">
                         <input type="hidden" name="field" value="" id="hidden_field_name">
+                        <input type="hidden" name="order" value="" id="hidden_order">
                         <div class="full-width">
                             <h1>Are you sure?</h1>
-                            <p>You won't be able to revert this!</p>
+                            <p class="pd-bottom-1rem">You won't be able to revert this!</p>
                             <div class="flex justify-space-between">
                                 <button type="button" class="btn btn-primary my-btn-std" onclick = delete_record(); data-dismiss="modal">Yes I'm</button>
                                 <button type="button" class="btn btn-danger my-btn-std"  data-dismiss="modal" aria-label="Close">No I'm not</button>
@@ -109,14 +110,39 @@
         </div>
         <!---------------ENF OF COMMON CONFIRMATION FOR DELETE RECORD------------------>
 
+
+        <!----------------------- COMMON MODAL FOR CHANGE IMAGE ------------------------>
+        <div class="modal fade modal-dialog" tabindex="-1" id="change_image">
+            <div class="modal-dialog">
+                <div class="modal-content confirmation-box">                        
+                    <div class="modal-body col-md-10 mx-auto flex align-items-center justify-content-center text-align-center">                        
+                        <div class="full-width">
+                            <h1 class="pd-bottom-1rem">Browse New Image</h1>
+                            <form method="post" action="" enctype="multipart/form-data" id="form_change_image">
+                                <input type="hidden" name="id" value="" id="hidden_image_row_id">
+                                <input type="hidden" name="table" value="" id="hidden_image_table_name">
+                                <input type="hidden" name="id_field" value="" id="hidden_imageId_field_name">
+                                <input type="hidden" name="field" value="" id="hidden_image_field_name">
+                                <input type="hidden" name="field" value="" id="hidden_image_path">
+                                <input type="file" id="text_change_image" value="" class="form-control mar-bottom-1rem">
+                                <div class="flex justify-space-between">
+                                    <button type="button" class="btn btn-primary my-btn-std" onclick = change_image_process(); data-dismiss="modal">Upload</button>
+                                    <button type="button" class="btn btn-danger my-btn-std"  data-dismiss="modal" aria-label="Close">Cancel</button>                            
+                                </div>
+                            </form>
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------- END OF COMMON MODAL FOR CHANGE IMAGE --------------------->
+
+        
         <!------------------COMMON SUCCESS BOX FOR DELETE RECORD----------------------->
-        <div class="modal fade modal-dialog" tabindex="-1" id="success_delete">
+        <div class="modal fade modal-dialog" tabindex="-1" id="success_modal">
             <div class="modal-dialog">
                 <div class="modal-content confirmation-box">                        
                     <div class="modal-body col-md-8 mx-auto flex align-items-center justify-content-center text-align-center">
-                        <input type="hidden" name="id" value="" id="hidden_delete_id">
-                        <input type="hidden" name="table" value="" id="hidden_table_name">
-                        <input type="hidden" name="field" value="" id="hidden_field_name">
                         <div class="full-width">
                             <i class="fas fa-check acknowleg-big-icon"></i>
                             <h1>Deleted</h1>
@@ -129,29 +155,26 @@
                 </div>
             </div>
         </div>
-        <!------------ENF OF COMMON COMMON SUCCESS BOX FOR DELETE RECORD---------------->
+        <!------------ENF OF COMMON SUCCESS BOX FOR DELETE RECORD---------------->
 
-        <!------------------COMMON FAILED BOX FOR DELETE RECORD----------------------->
-        <div class="modal fade modal-dialog" tabindex="-1" id="failed_box">
+        <!---------------- COMMON FAILED MODAL FOR FAILED OPERATION -------------------->
+        <div class="modal fade modal-dialog" tabindex="-1" id="failed_modal">
             <div class="modal-dialog">
-                <div class="modal-content confirmation-box">                        
+                <div class="modal-content confirmation-box">
                     <div class="modal-body col-md-8 mx-auto flex align-items-center justify-content-center text-align-center">
-                        <input type="hidden" name="id" value="" id="hidden_delete_id">
-                        <input type="hidden" name="table" value="" id="hidden_table_name">
-                        <input type="hidden" name="field" value="" id="hidden_field_name">
                         <div class="full-width">
                             <i class="fas fa-times acknowleg-big-icon"></i>
                             <h1>Failed!</h1>
                             <p class="padding-bottom-1rem">Oops operation failed.</p>
                             <div class="flex justify-space-between">
-                                <button type="button" class="btn btn-primary my-btn-std"  data-dismiss="modal" aria-label="Close">OK</button>                            
+                                <button type="button" class="btn btn-primary my-btn-std"  data-dismiss="modal" aria-label="Close">OK</button>
                             </div>
-                        </div>                            
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!------------ENF OF COMMON COMMON FAILED BOX FOR DELETE RECORD---------------->
+        <!----------------- ENF OF COMMON FAILED MODAL OPERATION -------------------->
 
         <!-- Vendor js -->
         <script src="<?php echo base_url("assets/js/vendor.min.js") ?>"></script>

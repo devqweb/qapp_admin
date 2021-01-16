@@ -116,6 +116,7 @@
         .database-records td img {
             width:50px;
             height: auto;
+            max-height: 50px;
         }
 
 /* width */
@@ -258,4 +259,12 @@
 
 .acknowleg-big-icon {
     font-size: 70px;
+}
+
+.pd-bottom-1rem {
+    padding-bottom: 1rem;
+}
+
+.mar-bottom-1rem {
+    margin-bottom: 1rem;
 }
