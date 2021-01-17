@@ -1,45 +1,62 @@
 let count = 0;
 let selected_row;
 
+//////////////////////////// CLEAR REQUIRED ERROR WHEN FIELD HAS VALUE /////////////////////////////
+function clearError(field) {
+    $(field).next().text("");
+}
+////////////////////// END OF CLEAR REQUIRED ERROR WHEN FIELD HAS VALUE ////////////////////////////
+
+
 //////////////////////////////////////// EDIT CATEGORY /////////////////////////////////////////////
 function edit_category(categoryId, button) {    
     count++;
     const main_row = button.parents("tr");
     const btn_edit = button;
     const btn_cancel = button.next();
-    
+
+    let loopOrder;
+    let oldOrder;
+    let oldCatName;
+    let update_category = "#update_category";
     let catName = "#catName";
     let slider_order = "#slider_order";
     let max_order = "#max_order";
-    let myTable = $(".table-rep-plugin");
+    //let myTable = $(".table-rep-plugin");
 
+    oldCatName += count;
     catName += count;
     slider_order += count;
     max_order += count;
+    update_category += count;
 
     btn_edit.hide();                                                                     
     btn_cancel.removeClass("display-none");
     
     main_row.after('<tr class="data-edit" id="editing_form'+ count +'"><td colspan="30">'+
     '<div id="cat-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
-        '<div class="form-row">'+
-            '<div class="form-group col-md-6">'+
-                '<label class="col-form-label" for="catName">Category Name *</label>'+
-                '<input type="text" id="catName'+ count +'" name = "catName" value="" class="form-control catName" placeholder="Category Name" autofocus>'+
+        '<form>'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="catName">Category Name *</label>'+
+                    '<input type="text" id="catName'+ count +'" name = "catName" value="" onkeypress=clearError(this); class="form-control catName" placeholder="Category Name" autofocus>'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="order">Order in Slider </label>'+
+                    //'<input type="number" id="slider_order'+ count +'" name = "slider_order" value="" class="form-control" placeholder="Category Name" autofocus>'+
+                    '<select id="max_order'+ count +'" name="slider_order" class="form-control"></select>'+
+                '</div>'+
             '</div>'+
-            '<div class="form-group col-md-6">'+
-                '<label class="col-form-label" for="order">Order in Slider * (Total items <span id="max_order'+ count +'"></span>) </label>'+
-                '<input type="number" id="slider_order'+ count +'" name = "slider_order" value="" class="form-control" placeholder="Category Name" autofocus>'+
-            '</div>'+
-        '</div>'+
 
-        '<div class="form-row">'+
-            '<div class="form-group col-md-6">'+
-                '<input type = "button" name = "submit" class="btn btn-success waves-effect waves-light btn-update-category" value="Update Category">'+
-                '</a> &nbsp;&nbsp;&nbsp;'+
-                '<input type="reset" class="btn btn-danger" value="Cancel">'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_category'+count+'" class="btn btn-success waves-effect waves-light btn-update-category" value="Update Category">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
             '</div>'+
-        '</div>'+
+        '</form>'+
     '</td></tr>');
 
     $.ajax({
@@ -50,43 +67,85 @@ function edit_category(categoryId, button) {
         success:function(res){
             if(res.response == 'success'){
                 $(catName).val(res.app_data.name);
-                $(slider_order).val(res.app_data.order_in_slider);
-                $(max_order).text(res.maximum_order.order_in_slider);
+                oldCatName = res.app_data.name;                
+                //$(slider_order).val(res.app_data.order_in_slider);
+                //$(max_order).text(res.maximum_order.order_in_slider);
+                loopOrder = res.maximum_order.order_in_slider;
+                for(i = 1; i <= loopOrder; i++) {
+                    if(i == res.app_data.order_in_slider) {
+                        $(max_order).append("<option value='"+i+"' selected>"+i+"</option>");
+                        oldOrder = i;
+                    }
+                    else $(max_order).append("<option value='"+i+"'>"+i+"</option>");
+                }
             }
         }
     });
 
     $(catName).focus();
     
-    $(".btn-update-category").click(function() {
+    $(update_category).click(function() {
+        
         let myform = $(this).parents(".data-edit");
-        $.ajax({
-            url: "http://localhost/qapp/admin/update_category_ajax",
-            method: 'POST',
-            dataType: 'json',
-            data: { table: 'category', id: 'cat_id', cat_id: categoryId, cat_name: $(catName).val(), slider_order: $(slider_order).val() },
-            success:function(res) {
-                if(res.response == 'success') {                    
-                    setTimeout(function(){
-                        myform.find(".alert").addClass("alert-success");
-                        myform.find(".alert").removeClass("display-none");
-                        myform.find(".alert").html("<b>Success</b>! Category has been updated");
-                    },400);
-                    
-                    myform.prev().html(res.table_data);
-                    setTimeout(function(){ myform.fadeOut(1000); }, 1000);
-                    setTimeout(function(){ myform.remove(".data-edit"); }, 2000);
-                }
-                else {
-                    myform.find(".alert").hide();
-                    myform.find(".alert").addClass("alert-danger");
-                    myform.find(".alert").removeClass("display-none");
-                    myform.find(".alert").html("<b>Failed</b>! Category not updated");
-                    myform.find(".catName").focus();
-                    myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
-                }
+        let duplicate_status = 0;
+        $(catName).next().text("");
+        //alert($(catName).val());
+        if($(catName).val() != '') {            
+            
+            //if($(max_order).val() == oldOrder || (($(max_order).val() != oldOrder) && $(catName).val() != oldCatName) ) {
+            if($(max_order).val() == oldOrder || $(catName).val() != oldCatName) {
+                $.ajax({
+                    url: "http://localhost/qapp/admin/check_duplicate_ajax",
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { table: 'category', field: 'name', value: $(catName).val() },
+                    success:function(res) {
+                        if(res.duplicate == 'yes') {                                                
+                            $(catName).next().text("Category name must be unique.");
+                            duplicate_status = 1;                            
+                        }                       
+                    }
+                });
             }
-        });
+
+            setTimeout(function() {
+                if(duplicate_status == 0) {
+                    $.ajax({
+                        url: "http://localhost/qapp/admin/update_category_ajax",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: { table: 'category', id: 'cat_id', cat_id: categoryId, cat_name: $(catName).val(), slider_order: $(max_order).val() },
+                        success:function(res) {
+                            if(res.response == 'success') {                    
+                                //setTimeout(function(){
+                                    // myform.find(".alert").addClass("alert-success");
+                                    // myform.find(".alert").removeClass("display-none");
+                                    // myform.find(".alert").html("<b>Success</b>! Category has been updated");
+                                //},400);
+                                
+                                myform.prev().html(res.table_data);
+                                myform.remove(".data-edit");
+                                // setTimeout(function(){ myform.fadeOut(1000); }, 1000);
+                                // setTimeout(function(){ myform.remove(".data-edit"); }, 2000);
+                            }
+                            else {
+                                //setTimeout(function(){
+                                    myform.find(".alert").hide();
+                                    myform.find(".alert").addClass("alert-danger");
+                                    myform.find(".alert").removeClass("display-none");
+                                    myform.find(".alert").html("<b>Failed</b>! Category not updated");
+                                    myform.find(".catName").focus();
+                                    myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
+                                //}, 400);                          
+                            }
+                        }
+                    });
+                }
+            }, 300);
+        }
+        else {
+            $(catName).next().text("Please enter Category Name.");
+        }        
     });
     
     btn_cancel.click(function() {
@@ -97,26 +156,23 @@ function edit_category(categoryId, button) {
 }
 
 function my_cat_edit(button) {    
-    const categoryId = button.getAttribute("data-cat-id");
+    const categoryId = button.getAttribute("data-row-id");
     edit_category(categoryId, $(button));
 }
 //////////////////////////////////// END OF EDIT CATEGORY //////////////////////////////////////////
 
 ////////////////////////////////// ENABLE/DISABLE CATEGORY /////////////////////////////////////////
-function cat_enable_disable(categoryId, cat_status, myRow) {
-    cat_status ^= true;
+function enable_disable_process(rowId, row_status, table_name, idField, myRow) {
+    row_status ^= true;
     $.ajax({
-        url: "http://localhost/qapp/admin/enable_disable_category_ajax",
+        url: "http://localhost/qapp/admin/enable_disable_record_ajax",
         method: 'POST',
         dataType: 'json',
-        data: { table: 'category', id: 'cat_id', cat_id: categoryId, enable_disable: cat_status },
+        data: { table: table_name, id: idField, row_id: rowId, enable_disable: row_status },
         success:function(res) {
             if(res.response == 'success') {
                 $(myRow).toggleClass("my-danger");
-                $(myRow).find(".app-status").attr("data-enable-disable", cat_status);
-                // let myText =  $(myRow).find(".app-status");
-                // if($(myText).text() == "Enable") $(myText).text("Disable");
-                // else $(myText).text("Enable");
+                $(myRow).find(".app-status").attr("data-enable-disable", row_status);
             }
             else {
                 alert("Oops! opertion failed");
@@ -125,18 +181,20 @@ function cat_enable_disable(categoryId, cat_status, myRow) {
     });
 }
 
-function my_cat_enable_disable(button) {
-    const categoryId = button.getAttribute("data-cat-id");
-    const cat_status = button.getAttribute("data-enable-disable");
-    const myRow = $(button).parents(".record-row");
-    cat_enable_disable(categoryId, cat_status, $(myRow));
+function enable_disable_data(button) {
+    const rowId = button.getAttribute("data-row-id");
+    const row_status = button.getAttribute("data-enable-disable");
+    const table_name = button.getAttribute("data-table-name");
+    const idField = button.getAttribute("data-table-id-field");
+    const myRow = $(button).parents(".record-row");    
+    enable_disable_process(rowId, row_status, table_name, idField, $(myRow));
 }
 /////////////////////////////// END OF ENABLE/DISABLE CATEGORY /////////////////////////////////////
 
 
 /////////////////////////////////// CALL CONFIRMATION MODAL ////////////////////////////////////////
 function confirm_modal(button) {
-    const recordId = button.getAttribute("data-cat-id");
+    const recordId = button.getAttribute("data-row-id");
     const tableName = button.getAttribute("data-table-name");
     const idField = button.getAttribute("data-table-id-field");
     const order_field = button.getAttribute("data-order-field");
@@ -165,8 +223,12 @@ function delete_record() {
         success:function(res) {
             if(res.response == 'success') {
                 $("#modal_confirm_category").hide();
+                $("#success_modal").find("h1").text("Deleted!");
+                $("#success_modal").find("p").text("Your record has been deleted.");
                 $('#success_modal').modal('toggle');
+                const nextForm = $(selected_row).next(".data-edit");
                 selected_row.remove();
+                nextForm.remove();
             }
             else {
                 $("#modal_confirm_category").hide();
@@ -180,7 +242,7 @@ function delete_record() {
 
 /////////////////////////////// CALL COMMON MODAL FOR CHANGE IMAGE /////////////////////////////////
 function change_cat_image(button) {
-    const recordId = button.getAttribute("data-cat-id");
+    const recordId = button.getAttribute("data-row-id");
     const tableName = button.getAttribute("data-table-name");
     const idField = button.getAttribute("data-table-id-field");
     const imageField = button.getAttribute("data-table-image-field");
@@ -225,6 +287,7 @@ function change_image_process() {
             processData: false,
             success: function(res){
                 if(res.response == "success") {
+                    $("#change_image").modal("toggle");
                     $("#success_modal").modal("toggle");
                     $("#success_modal").find("h1").text("Success!");
                     $("#success_modal").find("p").text("Image has been changed.");
@@ -232,16 +295,24 @@ function change_image_process() {
                 }
                 else{
                     $('#failed_modal').modal('toggle');
-                }
+                }                
                 $(selected_row).find(".data-img").attr("src", imgPath+'/'+res.image_name);
             },
         });
     }
     else{
-        alert("Please select a file.");
+        $("#change_image").find(".required_error").text("Please select a file.");
     }
 }
 ///////////////////////////////////// END OF CHANGE IMAGE //////////////////////////////////////////
+
+
+///////////// CLEAR INPUT TYPE FILE AND REQUIRED ERROR WHEN CLICK ON CANCEL BUTTON /////////////////
+function clearFields() {
+    $("#text_change_image").val("");
+    $("#change_image").find(".required_error").text("");
+}
+////////////END OF CLEAR INPUT TYPE FILE AND REQUIRED ERROR WHEN CLICK ON CANCEL BUTTON ////////////
 
 
 ////////////////////////////////////// EDIT HOME SLIDER ////////////////////////////////////////////

@@ -245,7 +245,7 @@
     width: 130px;
 }
 
-.confirmation-box {
+.modal-md {
     height: 300px;
 }
 
@@ -267,4 +267,16 @@
 
 .mar-bottom-1rem {
     margin-bottom: 1rem;
+}
+
+.mar-top-1rem {
+    margin-top: 1rem;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.bold-500 {
+    font-weight: 500;
 }

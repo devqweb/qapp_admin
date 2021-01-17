@@ -481,14 +481,16 @@ class Home extends CI_Controller {
 
 
 	######################## ENABLE/DISABLE CATEGORY FROM DATABSE USING AJAX ##########################
-	public function enable_disable_category_ajax() {
+	public function enable_disable_record_ajax() {
 		$table_name = $this->input->post("table");
 		$where = $this->input->post("id");
-		$cat_id = $this->input->post("cat_id");
+		$row_id = $this->input->post("row_id");
 		$enable_disable = $this->input->post("enable_disable");
 		$data['response'] = 'success';
+
+		//print_r($_POST);
 		
-		$update_status = $this->Common_model->common_update($table_name, array('enable_disable'=>$enable_disable), array('cat_id'=>$cat_id));
+		$update_status = $this->Common_model->common_update($table_name, array('enable_disable'=>$enable_disable), array($where=>$row_id));
 		if($update_status) {
 			$data['response'] = "success";
 		}
@@ -496,6 +498,25 @@ class Home extends CI_Controller {
 		echo json_encode($data);
 	}	
 	##################### END OF ENABLE/DISABLE CATEGORY FROM DATABSE USING AJAX ######################
+
+	######################### Check if duplicate value exit or not ####################################
+	public function check_duplicate_ajax() {
+		$table = $this->input->post("table");
+		$where = $this->input->post("field");
+		$value = $this->input->post("value");
+		$array = array($where => $value);		
+
+		$check_duplicate = $this->Common_model->common_select_single_row('*', $table, $array);
+
+		if(empty($check_duplicate)) {			
+			$data['duplicate'] = 'no';
+		}
+		else {
+			$data['duplicate'] = 'yes';
+		}
+		echo json_encode($data);
+	}
+	########################## End of Check if duplicate value exit or not ############################
 
 
 	#################################### UPDATE CATEGORY FROM DATABSE USING AJAX ######################
@@ -509,6 +530,7 @@ class Home extends CI_Controller {
 		$update_status = "";
 		$array = array('order_in_slider' => $slider_order);
 		$get_order = $this->Common_model->common_select_single_row('order_in_slider', 'category', $array);
+		
 		
 		///////////////////////////////SWAP ORDER NUMBER IF ALREADY EXIST/////////////////////////////////
 		if(!empty($get_order) &&  $get_order['order_in_slider'] != '') {
@@ -554,7 +576,7 @@ class Home extends CI_Controller {
 				$sr_num = 0;				
 				$table_data .= '<th>'. ++$sr_num. '</th>';
 				$table_data .= '<td>'. $cat_data['cat_id'] .'</td>';
-				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'"></td>';
+				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'" class="data-img"></td>';
 				$table_data .= '<td>'. $cat_data['name'] .'</td>';
 				$table_data .= '<td>'. $cat_data['order_in_slider'] .'</td>';
 				$table_data .= '<td> </td>';
@@ -571,8 +593,9 @@ class Home extends CI_Controller {
 										</button>
 										<div class="dropdown-menu dropdown-menu-right">
 											<a class="dropdown-item" href="#" data-enable-disable="'.$cat_data['enable_disable'].'" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
+											<a class="dropdown-item app-status" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_cat_image(this);>Change Icon</a>
 											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#">Delete</a>
+											<a class="dropdown-item" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
 										</div>
 									</div>
 								</td>';

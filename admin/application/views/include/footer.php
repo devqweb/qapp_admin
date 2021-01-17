@@ -90,7 +90,7 @@
         <!------------------COMMON CONFIRMATION FOR DELETE RECORD----------------------->
         <div class="modal fade modal-dialog" tabindex="-1" id="modal_confirm_category">
             <div class="modal-dialog">
-                <div class="modal-content confirmation-box">                        
+                <div class="modal-content modal-md">                        
                     <div class="modal-body col-md-10 mx-auto flex align-items-center justify-content-center text-align-center">
                         <input type="hidden" name="id" value="" id="hidden_record_id">
                         <input type="hidden" name="table" value="" id="hidden_table_name">
@@ -114,7 +114,7 @@
         <!----------------------- COMMON MODAL FOR CHANGE IMAGE ------------------------>
         <div class="modal fade modal-dialog" tabindex="-1" id="change_image">
             <div class="modal-dialog">
-                <div class="modal-content confirmation-box">                        
+                <div class="modal-content modal-md">                        
                     <div class="modal-body col-md-10 mx-auto flex align-items-center justify-content-center text-align-center">                        
                         <div class="full-width">
                             <h1 class="pd-bottom-1rem">Browse New Image</h1>
@@ -124,10 +124,11 @@
                                 <input type="hidden" name="id_field" value="" id="hidden_imageId_field_name">
                                 <input type="hidden" name="field" value="" id="hidden_image_field_name">
                                 <input type="hidden" name="field" value="" id="hidden_image_path">
-                                <input type="file" id="text_change_image" value="" class="form-control mar-bottom-1rem">
-                                <div class="flex justify-space-between">
-                                    <button type="button" class="btn btn-primary my-btn-std" onclick = change_image_process(); data-dismiss="modal">Upload</button>
-                                    <button type="button" class="btn btn-danger my-btn-std"  data-dismiss="modal" aria-label="Close">Cancel</button>                            
+                                <input type="file" id="text_change_image" onchange = clearError(this); value="" class="form-control">
+                                <div class="required_error text-danger text-align-left"></div>
+                                <div class="flex justify-space-between mar-top-1rem">
+                                    <button type="button" class="btn btn-primary my-btn-std" onclick = change_image_process();>Upload</button>
+                                    <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields();  data-dismiss="modal" aria-label="Close">Cancel</button>                            
                                 </div>
                             </form>
                         </div>                            
@@ -141,12 +142,12 @@
         <!------------------COMMON SUCCESS BOX FOR DELETE RECORD----------------------->
         <div class="modal fade modal-dialog" tabindex="-1" id="success_modal">
             <div class="modal-dialog">
-                <div class="modal-content confirmation-box">                        
+                <div class="modal-content modal-md">                        
                     <div class="modal-body col-md-8 mx-auto flex align-items-center justify-content-center text-align-center">
                         <div class="full-width">
                             <i class="fas fa-check acknowleg-big-icon"></i>
-                            <h1>Deleted</h1>
-                            <p class="padding-bottom-1rem">Your record has been deleted.</p>
+                            <h1></h1>
+                            <p class="padding-bottom-1rem"></p>
                             <div class="flex justify-space-between">
                                 <button type="button" class="btn btn-primary my-btn-std"  data-dismiss="modal" aria-label="Close">OK</button>                            
                             </div>
@@ -160,7 +161,7 @@
         <!---------------- COMMON FAILED MODAL FOR FAILED OPERATION -------------------->
         <div class="modal fade modal-dialog" tabindex="-1" id="failed_modal">
             <div class="modal-dialog">
-                <div class="modal-content confirmation-box">
+                <div class="modal-content modal-md">
                     <div class="modal-body col-md-8 mx-auto flex align-items-center justify-content-center text-align-center">
                         <div class="full-width">
                             <i class="fas fa-times acknowleg-big-icon"></i>

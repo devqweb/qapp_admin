@@ -58,20 +58,22 @@
                                                                 echo '<td> </td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm btn-edit-category" onclick = my_cat_edit(this); type="button" title="Edit" data-cat-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
+                                                                            <button class="btn btn-info btn-sm btn-edit-category" onclick = my_cat_edit(this); type="button" title="Edit" data-row-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
                                                                             <button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
                                                                                 <i class="fas fa-times"></i>
                                                                             </button>
-                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <i class="mdi mdi-chevron-down"></i>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                                <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-cat-id="'.$row->cat_id.'" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-cat-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_cat_image(this);>Change Icon</a>
+                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                <i class="mdi mdi-chevron-down"></i>
+                                                                            </button>
+
+                                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                                <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_cat_image(this);>Change Icon</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item" href="#" data-cat-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
+                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>';
