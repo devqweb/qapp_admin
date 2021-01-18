@@ -24,7 +24,7 @@ function edit_category(categoryId, button) {
     let max_order = "#max_order";
     //let myTable = $(".table-rep-plugin");
 
-    oldCatName += count;
+    oldCatName += count;  
     catName += count;
     slider_order += count;
     max_order += count;
@@ -39,7 +39,7 @@ function edit_category(categoryId, button) {
             '<div class="form-row">'+
                 '<div class="form-group col-md-6">'+
                     '<label class="col-form-label" for="catName">Category Name *</label>'+
-                    '<input type="text" id="catName'+ count +'" name = "catName" value="" onkeypress=clearError(this); class="form-control catName" placeholder="Category Name" autofocus>'+
+                    '<input type="text" id="catName'+ count +'" name = "catName" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control catName" placeholder="Category Name" autofocus>'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
                 '<div class="form-group col-md-6">'+
@@ -58,18 +58,16 @@ function edit_category(categoryId, button) {
             '</div>'+
         '</form>'+
     '</td></tr>');
-
+    
     $.ajax({
         url: "http://localhost/qapp/admin/manage_category_ajax",
         method: 'POST',
         dataType: 'json',
         data: { cat_id: categoryId, table: 'category' },
-        success:function(res){
+        success:function(res){            
             if(res.response == 'success'){
                 $(catName).val(res.app_data.name);
-                oldCatName = res.app_data.name;                
-                //$(slider_order).val(res.app_data.order_in_slider);
-                //$(max_order).text(res.maximum_order.order_in_slider);
+                oldCatName = res.app_data.name;                  
                 loopOrder = res.maximum_order.order_in_slider;
                 for(i = 1; i <= loopOrder; i++) {
                     if(i == res.app_data.order_in_slider) {
@@ -90,9 +88,8 @@ function edit_category(categoryId, button) {
         let duplicate_status = 0;
         $(catName).next().text("");
         //alert($(catName).val());
-        if($(catName).val() != '') {            
+        if($(catName).val() != '') {                        
             
-            //if($(max_order).val() == oldOrder || (($(max_order).val() != oldOrder) && $(catName).val() != oldCatName) ) {
             if($(max_order).val() == oldOrder || $(catName).val() != oldCatName) {
                 $.ajax({
                     url: "http://localhost/qapp/admin/check_duplicate_ajax",
@@ -161,7 +158,180 @@ function my_cat_edit(button) {
 }
 //////////////////////////////////// END OF EDIT CATEGORY //////////////////////////////////////////
 
-////////////////////////////////// ENABLE/DISABLE CATEGORY /////////////////////////////////////////
+
+//////////////////////////////////// EDIT HOME SLIDER //////////////////////////////////////////////
+function edit_home_slider(sliderId, button) {
+    count++;
+    const main_row = button.parents("tr");
+    const btn_edit = button;
+    const btn_cancel = button.next();
+
+    let title = "#title";
+    let des = "#des";
+    let btn_link = "#btn_link";
+    let slider_order = "#slider_order";
+    let max_order = "#max_order";
+    let update_home_slider = "#update_home_slider";
+    let oldTitle;
+    let loopOrder;
+    let oldOrder;
+    let oldDes;
+    let oldButtonLink;
+
+    title += count;
+    des += count;
+    btn_link += count;
+    slider_order += count;
+    max_order += count;
+    update_home_slider += count;
+
+    btn_edit.hide();                                                                     
+    btn_cancel.removeClass("display-none");
+    
+    main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
+        '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<form action = "" >'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-12">'+
+                    '<label class="col-form-label" for="title">Title *</label>'+
+                    '<input type="text" id="title'+ count +'" name = "title" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Title">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+            '</div>'+
+            
+            '<div class="form-row">'+
+                '<div class="form-group col-md-12">'+
+                    '<label class="col-form-label" for="des">Description</label>'+
+                    '<textarea id="des'+ count +'" name="des" class="form-control" placeholder="Description" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);></textarea>'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="btn_link">Button Link *</label>'+
+                    '<input type="url" id="btn_link'+ count +'" name = "btn_link" value="" class="form-control" placeholder="Button Link" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="slider_order">Order in Slider *</label>'+
+                    '<select id="slider_order'+ count +'" name="slider_order" class="form-control"></select>'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_home_slider'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Update Home Slider">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+        '</td></tr>');
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/manage_home_slider_ajax",
+        method: 'POST',
+        dataType: 'json',
+        data: { slider_id: sliderId, table: 'home_slider' },
+        success:function(res){
+            if(res.response == 'success'){
+                $(title).val(res.app_data.title);
+                oldTitle = res.app_data.title;
+                $(des).val(res.app_data.description);
+                $(btn_link).val(res.app_data.button_link);
+                loopOrder = res.maximum_order.order_slider;
+                oldDes = res.app_data.description;
+                oldButtonLink = res.app_data.button_link;
+
+                for(i = 1; i <= loopOrder; i++) {
+                    if(i == res.app_data.order_slider) {
+                        $(slider_order).append("<option value='"+i+"' selected>"+i+"</option>");
+                        oldOrder = i;
+                    }
+                    else $(slider_order).append("<option value='"+i+"'>"+i+"</option>");
+                }
+            }
+        }
+    });
+
+    $(title).focus();
+    
+    $(update_home_slider).click(function() {
+        
+        let myform = $(this).parents(".data-edit");        
+        let duplicate_status = 0;
+        $(title).next().text("");
+            
+        if(($(des).val() == oldDes && $(btn_link).val() == oldButtonLink && $(slider_order).val() == oldOrder) || $(title).val() != oldTitle) {
+            $.ajax({
+                url: "http://localhost/qapp/admin/check_duplicate_ajax",
+                method: 'POST',
+                dataType: 'json',
+                data: { table: 'home_slider', field: 'title', value: $(title).val() },
+                success:function(res) {
+                    if(res.duplicate == 'yes') {                                                
+                        $(title).next().text("Home Slider name must be unique.");
+                        duplicate_status = 1;                            
+                    }                       
+                }
+            });
+        }
+
+        if($(title).val() == '' || $(btn_link).val() == '') {
+            if($(title).val() == '') {
+                $(title).next().text("Please enter Title.");
+            }
+            if($(btn_link).val() == '') {
+                $(btn_link).next().text("Please enter Button Link.");
+            }
+        }
+
+        else {                
+            setTimeout(function() {                    
+                if(duplicate_status == 0) {                        
+                    $.ajax({
+                        url: "http://localhost/qapp/admin/update_home_slider_ajax",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: { table: 'home_slider', id: 'home_slider_id ', slider_id: sliderId, slider_title: $(title).val(), description: $(des).val(), slider_btn_link: $(btn_link).val(), home_slider_order:  $(slider_order).val() },
+                        success:function(res) {
+                            if(res.response == 'success') {
+                                myform.prev().html(res.table_data);
+                                myform.remove(".data-edit");
+                            }
+                            else {
+                                //setTimeout(function(){
+                                    myform.find(".alert").hide();
+                                    myform.find(".alert").addClass("alert-danger");
+                                    myform.find(".alert").removeClass("display-none");
+                                    myform.find(".alert").html("<b>Failed</b>! Home slider not updated");
+                                    $(title).focus();
+                                    myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
+                                //}, 400);                          
+                            }
+                        }
+                    });                                
+                }
+            }, 300);
+        }            
+               
+    });
+    
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        $(this).addClass("display-none");
+        btn_edit.show();
+    });
+}
+
+function my_home_slider_edit(button) {    
+    const sliderId = button.getAttribute("data-row-id");
+    edit_home_slider(sliderId, $(button));
+}
+///////////////////////////////// END OF EDIT HOME SLIDER //////////////////////////////////////////
+
+
+/////////////////////////////// COMMON ENABLE/DISABLE RECORD ///////////////////////////////////////
 function enable_disable_process(rowId, row_status, table_name, idField, myRow) {
     row_status ^= true;
     $.ajax({
@@ -189,10 +359,10 @@ function enable_disable_data(button) {
     const myRow = $(button).parents(".record-row");    
     enable_disable_process(rowId, row_status, table_name, idField, $(myRow));
 }
-/////////////////////////////// END OF ENABLE/DISABLE CATEGORY /////////////////////////////////////
+//////////////////////////// END OF COMMON ENABLE/DISABLE RECORD ////////////////////////////////////
 
 
-/////////////////////////////////// CALL CONFIRMATION MODAL ////////////////////////////////////////
+/////////////////////////////////// COMMON CONFIRMATION MODAL ///////////////////////////////////////
 function confirm_modal(button) {
     const recordId = button.getAttribute("data-row-id");
     const tableName = button.getAttribute("data-table-name");
@@ -205,7 +375,7 @@ function confirm_modal(button) {
     $("#hidden_field_name").val(idField);
     $("#hidden_order").val(order_field);
 }
-////////////////////////////// END OF CALL CONFIRMATION MODAL //////////////////////////////////////
+//////////////////////////// END OF COMMON CONFIRMATION MODAL //////////////////////////////////////
 
 
 ///////////////////////////////// COMMON DELETE RECORD FUNCTION ////////////////////////////////////
@@ -240,13 +410,15 @@ function delete_record() {
 //////////////////////////// END OF COMMON DELETE RECORD FUNCTION //////////////////////////////////
 
 
-/////////////////////////////// CALL COMMON MODAL FOR CHANGE IMAGE /////////////////////////////////
-function change_cat_image(button) {
+////////////////////////////////// COMMON MODAL FOR CHANGE IMAGE ///////////////////////////////////
+function change_image_data(button) {
     const recordId = button.getAttribute("data-row-id");
     const tableName = button.getAttribute("data-table-name");
     const idField = button.getAttribute("data-table-id-field");
     const imageField = button.getAttribute("data-table-image-field");
     const imgPath = button.getAttribute("data-img-path");
+
+    //alert(recordId+", "+tableName+", "+idField+", "+imageField+", "+imgPath);
     
     selected_row = $(button).parents(".record-row");
     
@@ -256,10 +428,10 @@ function change_cat_image(button) {
     $("#hidden_image_field_name").val(imageField);
     $("#hidden_image_path").val(imgPath);
 }
-////////////////////////// END OF CALL COMMON MODAL FOR CHANGE IMAGE ///////////////////////////////
+///////////////////////////// END OF COMMON MODAL FOR CHANGE IMAGE //////////////////////////////////
 
 
-///////////////////////////////////////// CHANGE IMAGE /////////////////////////////////////////////
+////////////////////////////////////// COMMON CHANGE IMAGE /////////////////////////////////////////
 function change_image_process() {    
     const recordId = $("#hidden_image_row_id").val();
     const tableName = $("#hidden_image_table_name").val();
@@ -267,6 +439,8 @@ function change_image_process() {
     const imageFieldName = $("#hidden_image_field_name").val();
     const imgPath = $("#hidden_image_path").val();
     const newImage = $('#text_change_image')[0].files;
+
+    //alert(recordId+", "+tableName+", "+idField+", "+imageFieldName+", "+imgPath);
     
     let fd = new FormData();
     
@@ -295,7 +469,7 @@ function change_image_process() {
                 }
                 else{
                     $('#failed_modal').modal('toggle');
-                }                
+                }
                 $(selected_row).find(".data-img").attr("src", imgPath+'/'+res.image_name);
             },
         });
@@ -304,7 +478,7 @@ function change_image_process() {
         $("#change_image").find(".required_error").text("Please select a file.");
     }
 }
-///////////////////////////////////// END OF CHANGE IMAGE //////////////////////////////////////////
+///////////////////////////////// END OF COMMON CHANGE IMAGE ////////////////////////////////////////
 
 
 ///////////// CLEAR INPUT TYPE FILE AND REQUIRED ERROR WHEN CLICK ON CANCEL BUTTON /////////////////
@@ -313,115 +487,3 @@ function clearFields() {
     $("#change_image").find(".required_error").text("");
 }
 ////////////END OF CLEAR INPUT TYPE FILE AND REQUIRED ERROR WHEN CLICK ON CANCEL BUTTON ////////////
-
-
-////////////////////////////////////// EDIT HOME SLIDER ////////////////////////////////////////////
-$(document).ready(function() {    
-    let count = 0;
-    $(".btn-edit-home-slider").click(function() {
-        count++;
-        const x = $(this).parents("tr");
-        const btn_edit = $(this);
-        let title = "#title";
-        let des = "#des";
-        let btn_link = "#btn_link";
-        let slider_order = "#slider_order";
-        let max_order = "#max_order";    
-
-        title += count;
-        des += count;
-        btn_link += count;
-        slider_order += count;
-        max_order += count;
-        
-        const sliderId = $(this).attr("data-home-slider-id");
-
-        btn_edit.hide();                                                                     
-        $(this).next().addClass("btn-visible");
-        $(this).next().click(function() {
-            main_row.next().hide();
-            $(this).removeClass("btn-visible");
-            btn_edit.show();
-        });
-        
-        main_row.after('<tr><td colspan="30" class="data-edit">'+
-        '<div id="cat-edit-form-alert" class="alert alert-dismissible fade show col-md-6 update-status" role="alert"></div>'+
-        '<form action = "" >'+
-            '<div class="form-row">'+
-                '<div class="form-group col-md-12">'+
-                    '<label class="col-form-label" for="title">Title *</label>'+
-                    '<input type="text" id="title'+ count +'" name = "title" value="" class="form-control" placeholder="Title">'+
-                '</div>'+
-            '</div>'+
-            
-            '<div class="form-row">'+
-                '<div class="form-group col-md-12">'+
-                    '<label class="col-form-label" for="des">Description *</label>'+
-                    '<textarea id="des'+ count +'" name="des" class="form-control" placeholder="Description"></textarea>'+
-                '</div>'+
-            '</div>'+
-
-            '<div class="form-row">'+
-                '<div class="form-group col-md-6">'+
-                    '<label class="col-form-label" for="btn_link">Button Link *</label>'+
-                    '<input type="url" id="btn_link'+ count +'" name = "btn_link" value="" class="form-control" placeholder="Button Link">'+
-                '</div>'+
-                '<div class="form-group col-md-6">'+
-                    '<label class="col-form-label" for="slider_order">Order in Slider * (Total items <span id="max_order'+ count +'"></span>) </label>'+
-                    '<input type="number" id="slider_order'+ count +'" name = "slider_order" value="" class="form-control" placeholder="Slider Order">'+
-                '</div>'+
-            '</div>'+
-
-            '<div class="form-row">'+
-                '<div class="form-group col-md-6">'+
-                    '<input type = "button" name = "submit" class="btn btn-success waves-effect waves-light btn-update-category" value="Update Category">'+
-                    '</a> &nbsp;&nbsp;&nbsp;'+
-                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
-                '</div>'+
-            '</div>'+
-        '</form>'+
-        '</td></tr>');
-        
-        $.ajax({
-            url: "http://localhost/qapp/admin/manage_home_slider_ajax",
-            method: 'POST',
-            dataType: 'json',
-            data: { slider_id: sliderId, table: 'home_slider' },
-            success:function(res){
-                if(res.response=='success'){
-                    $(title).val(res.app_data.title);
-                    $(des).val(res.app_data.description);
-                    $(btn_link).val(res.app_data.button_link);
-                    $(slider_order).val(res.app_data.order_slider);
-                    $(max_order).text(res.maximum_order.order_slider);
-                }
-            }
-        });
-
-        $(title).focus();
-        
-        $(".btn-update-category").click(function() {
-            $.ajax({
-                url: "http://localhost/qapp/admin/update_home_slider_ajax",
-                method: 'POST',
-                dataType: 'json',
-                data: { table: 'home_slider', id: 'home_slider_id', slider_id: sliderId, title: $(title).val(), description: $(des).val(), btn_link: $(btn_link).val(), slider_order: $(slider_order).val() },
-                success:function(res) {
-                    if(res.response == 'success') {
-                        $("#cat-edit-form-alert").addClass("alert-success");
-                        $("#cat-edit-form-alert").css({"display": "block"});
-                        $("#cat-edit-form-alert").html("<b>Success</b>! Home Slider has been updated");
-                        $("#cat-edit-form-alert").fadeTo(2000, 500).slideUp(1000);
-                    }
-                    else {
-                        $("#cat-edit-form-alert").addClass("alert-danger");
-                        $("#cat-edit-form-alert").css({"display": "block"});
-                        $("#cat-edit-form-alert").html("<b>Failed</b>! Home Slider not updated");
-                        $("#cat-edit-form-alert").fadeTo(2000, 500).slideUp(1000);
-                    }
-                }
-            });
-        });
-    }); 
-});
-////////////////////////////////// END OF EDIT HOME SLIDER /////////////////////////////////////////

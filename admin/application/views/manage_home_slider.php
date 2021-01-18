@@ -55,19 +55,22 @@
                                                                 echo '<td class="scroll-field">'. $row->button_link .'</td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm btn-edit-home-slider" onclick = my_home_slider_edit(this); type="button" data-row-id="'.$row->home_slider_id.'"> <i class="mdi mdi-pencil"></i> </button>
-                                                                            <button class="btn btn-sm btn-cancel" style="display:none" type="button" title="Cancel Edit">
+                                                                            <button class="btn btn-info btn-sm btn-edit-home-slider" type="button" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" onclick = my_home_slider_edit(this);>
+                                                                                <i class="mdi mdi-pencil"></i>
+                                                                            </button>
+
+                                                                            <button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
                                                                                 <i class="fas fa-times"></i>
                                                                             </button>
 
-                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                                 <i class="mdi mdi-chevron-down"></i>
                                                                             </button>
 
                                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                                 <a class="dropdown-item app-status" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image" data-img-path="./upload/home_slider_img" data-toggle="modal" data-target="#change_image" onclick = change_home_slider_image(this);>Change Icon</a>
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
                                                                                 <a class="dropdown-item" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_home_slider" onclick = confirm_modal(this); >Delete</a>
@@ -76,128 +79,7 @@
                                                                     </td>';
                                                             echo '</tr>';
                                                         }
-                                                    ?>
-                                                    <!-- <tr>
-                                                    <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <th>1</th>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <a class="dropdown-item" href="#">Remove Promotion</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>500</td>
-                                                        <td>150</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr> -->
+                                                    ?>                                                    
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -21,3 +21,4 @@ $route['manage_home_slider_ajax'] = "home/manage_home_slider_ajax";
 $route['update_home_slider_ajax'] = "home/update_home_slider_ajax";
 $route['change_image_ajax'] = "home/change_image_ajax";
 $route['check_duplicate_ajax'] = "home/check_duplicate_ajax";
+$route['get_max_value_ajax'] = "home/get_max_value_ajax";

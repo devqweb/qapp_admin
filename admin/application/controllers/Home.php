@@ -475,6 +475,7 @@ class Home extends CI_Controller {
 		$data['response'] = 'success';
 		$data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_in_slider', '', 'category');
 		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('cat_id'=>$cat_id));
+		//print_r($_POST);
 		echo json_encode($data);		
 	}
 	############################## END OF GET RECORDS FROM CATEROGRY USING AJAX #######################
@@ -584,7 +585,9 @@ class Home extends CI_Controller {
 				$table_data .= '<td> </td>';
 				$table_data .= '<td>
 									<div class="btn-group">
-										<button class="btn btn-info btn-sm btn-edit-category" type="button" onclick = my_cat_edit(this); title="Edit" data-cat-id="'.$cat_data['cat_id'].'"> <i class="mdi mdi-pencil"></i> </button>
+										<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-row-id="'.$cat_data['cat_id'].'" onclick = my_cat_edit(this);>
+											<i class="mdi mdi-pencil"></i>
+										</button>
 										<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
 											<i class="fas fa-times"></i>
 										</button>
@@ -593,7 +596,7 @@ class Home extends CI_Controller {
 										</button>
 										<div class="dropdown-menu dropdown-menu-right">
 											<a class="dropdown-item" href="#" data-enable-disable="'.$cat_data['enable_disable'].'" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
-											<a class="dropdown-item app-status" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_cat_image(this);>Change Icon</a>
+											<a class="dropdown-item app-status" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 											<div class="dropdown-divider"></div>
 											<a class="dropdown-item" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
 										</div>
@@ -696,7 +699,14 @@ class Home extends CI_Controller {
 		$data['response'] = 'success';
 		$data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_slider', '', 'home_slider');
 		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('home_slider_id '=>$slider_id));
+		//print_r($data['app_data']);
+		//print_r($_POST);
 		echo json_encode($data);		
+
+		// $data['response'] = 'success';
+		// $data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_in_slider', '', 'category');
+		// $data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('cat_id'=>$cat_id));
+		// echo json_encode($data);
 	}
 	############################## END OF GET RECORDS FROM HOME SLIDER USING AJAX ######################
 
@@ -705,17 +715,19 @@ class Home extends CI_Controller {
 		$table_name = $this->input->post("table");
 		$where = $this->input->post("id");
 		$home_slider_id = $this->input->post("slider_id");
-		$title = $this->input->post("title");
+		$title = $this->input->post("slider_title");
 		$description = $this->input->post("description");
-		$btn_link = $this->input->post("btn_link");
-		$slider_order = $this->input->post("slider_order");
+		$btn_link = $this->input->post("slider_btn_link");
+		$slider_order = $this->input->post("home_slider_order");
 		$data['response'] = 'success';
 		$update_status = "";
+
 		$array = array('order_slider' => $slider_order);
 		$get_order = $this->Common_model->common_select_single_row('order_slider', 'home_slider', $array);
 		
 		///////////////////////////////SWAP ORDER NUMBER IF ALREADY EXIST/////////////////////////////////
 		if(!empty($get_order) &&  $get_order['order_slider'] != '') {
+			
 			$array = array('home_slider_id'=>$home_slider_id);
 			$old_home_slider_id = $this->Common_model->common_select_single_row('order_slider', 'home_slider', $array);
 			
@@ -751,7 +763,43 @@ class Home extends CI_Controller {
 		
 		if($update_status) {
 			$update_status = $this->Common_model->common_update($table_name, array('title'=>$title, 'description'=>$description, 'button_link'=>$btn_link, 'order_slider'=>$slider_order), array('home_slider_id'=>$home_slider_id));
-			if($update_status) $data['response'] = "success";
+			if($update_status) {
+				$data['response'] = "success";				
+				$table_data = "";
+				$get_data = $this->Common_model->common_select_single_row('*', 'home_slider', array('home_slider_id '=>$home_slider_id));				
+				
+				$table_data .= '<td>'. $get_data['home_slider_id'] .'</td>';
+				$table_data .= '<td>'. $get_data['title'] .'</td>';
+				$table_data .= '<td><img src="./upload/home_slider_img/'.$get_data['image_name'].'" class="data-img"></td>';
+				$table_data .= '<td>'. $get_data['order_slider'] .'</td>';
+				$table_data .= '<td class="scroll-field">'. $get_data['description'] .'</td>';			
+				$table_data .= '<td>
+									<div class="btn-group">
+										<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-row-id="'.$get_data['home_slider_id'].'" onclick = my_home_slider_edit(this);>
+											<i class="mdi mdi-pencil"></i>
+										</button>
+
+										<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
+											<i class="fas fa-times"></i>
+										</button>
+
+										<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<i class="mdi mdi-chevron-down"></i>
+										</button>
+
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item" href="#" data-enable-disable="'.$get_data['enable_disable'].'" data-row-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
+
+											<a class="dropdown-item app-status" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
+										</div>
+									</div>
+								</td>';
+					
+				$data['table_data'] = $table_data;
+			} 
 			else $data['response'] = "failed";
 		}
 		else {

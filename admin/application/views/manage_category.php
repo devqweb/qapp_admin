@@ -58,7 +58,10 @@
                                                                 echo '<td> </td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm btn-edit-category" onclick = my_cat_edit(this); type="button" title="Edit" data-row-id="'.$row->cat_id.'"> <i class="mdi mdi-pencil"></i> </button>
+                                                                            <button class="btn btn-info btn-sm btn-edit-category" onclick = my_cat_edit(this); type="button" title="Edit" data-row-id="'.$row->cat_id.'">
+                                                                                <i class="mdi mdi-pencil"></i>
+                                                                            </button>
+
                                                                             <button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
                                                                                 <i class="fas fa-times"></i>
                                                                             </button>
@@ -70,7 +73,7 @@
                                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                                 <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_cat_image(this);>Change Icon</a>
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
                                                                                 <a class="dropdown-item" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
