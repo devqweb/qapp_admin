@@ -132,8 +132,8 @@
                                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                                 <a class="dropdown-item" href="#">Details</a>
                                                                                 <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                                <a class="dropdown-item" href="#">Remove Promotion</a>
-                                                                                <a class="dropdown-item" href="#">Add To Promotion</a>
+                                                                                <a class="dropdown-item" href="#">Add to Promotion</a>
+                                                                                <a class="dropdown-item" href="#">Remove Promotion</a>                                                                                
                                                                                 <div class="dropdown-divider"></div>
                                                                                 <a class="dropdown-item" href="#">Delete</a>
                                                                             </div>

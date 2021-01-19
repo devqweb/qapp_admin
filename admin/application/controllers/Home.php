@@ -211,6 +211,7 @@ class Home extends CI_Controller {
 		$data['app_data'] = $this->Common_model->common_select(array(), 'app', array());
 		$this->CommonPage("manage_app", $data);
 	}
+	##################################### END OF MANAGE APPS ##########################################
 
 	############################################ ADD NEW CATEGORY #####################################
 	public function new_category() {
@@ -301,6 +302,8 @@ class Home extends CI_Controller {
 		$data['cat_data'] = $this->Common_model->common_select('*', 'category', array());
 		$this->CommonPage("manage_category", $data);
 	}
+	##################################### END OF MANGAGE CATEGORIES ###################################
+
 
 	############################################ ADD NEW HOME SLIDER ##################################	
 	public function new_home_slider() {
@@ -394,6 +397,8 @@ class Home extends CI_Controller {
 		$data['home_slider_data'] = $this->Common_model->common_select('*', 'home_slider', array());
 		$this->CommonPage("manage_home_slider", $data);
 	}
+	##################################### END OF MANAGE HOME SLIDER ###################################
+
 
 	############################################ ADD NEW TRENDING BANNER ##############################
 	public function new_trending_banner() {
@@ -418,8 +423,8 @@ class Home extends CI_Controller {
 				$image_name = $this->Common_model->image_upload('./upload/trending_img/', 'banner_image');
 
 				if($image_name != '') {
-					$max_order['order_slider'] = $this->Common_model->common_select_max('order_slider', '', 'trending_banner');
-					$max_value = $max_order['order_slider'][0]->order_slider;
+					$max_order = $this->Common_model->common_select_max_single_row('order_slider', '', 'trending_banner');
+					$max_value = $max_order['order_slider'];					
 					
 					///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
 					if($max_value) {
@@ -520,13 +525,14 @@ class Home extends CI_Controller {
 	########################## End of Check if duplicate value exit or not ############################
 
 
-	#################################### UPDATE CATEGORY FROM DATABSE USING AJAX ######################
+	############################# UPDATE CATEGORY FROM DATABSE USING AJAX #############################
 	public function update_category_ajax() {
 		$table_name = $this->input->post("table");
 		$where = $this->input->post("id");
 		$cat_id = $this->input->post("cat_id");
 		$cat_name = $this->input->post("cat_name");
 		$slider_order = $this->input->post("slider_order");
+		$sr_num = $this->input->post("sr_num");
 		$data['response'] = 'success';
 		$update_status = "";
 		$array = array('order_in_slider' => $slider_order);
@@ -574,8 +580,7 @@ class Home extends CI_Controller {
 				$data['response'] = "success";				
 				$table_data = "";
 				$cat_data = $this->Common_model->common_select_single_row('*', 'category', array('cat_id'=>$cat_id));				
-				$sr_num = 0;				
-				$table_data .= '<th>'. ++$sr_num. '</th>';
+				$table_data .= '<th>'.$sr_num. '</th>';
 				$table_data .= '<td>'. $cat_data['cat_id'] .'</td>';
 				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'" class="data-img"></td>';
 				$table_data .= '<td>'. $cat_data['name'] .'</td>';
@@ -585,7 +590,7 @@ class Home extends CI_Controller {
 				$table_data .= '<td> </td>';
 				$table_data .= '<td>
 									<div class="btn-group">
-										<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-row-id="'.$cat_data['cat_id'].'" onclick = my_cat_edit(this);>
+										<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$cat_data['cat_id'].'" onclick = my_cat_edit(this);>
 											<i class="mdi mdi-pencil"></i>
 										</button>
 										<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
@@ -660,6 +665,7 @@ class Home extends CI_Controller {
 
 		////////////////////////////////// Get old image and delete it//////////////////////////////////////
 		$old_image = $this->Common_model->common_select_single_row($image_field, $table_name, $array);
+		
 		if(!empty($old_image)) {
 			if(file_exists($folderPath."/".$old_image[$image_field])) {
 				unlink($folderPath."/".$old_image[$image_field]);
@@ -699,16 +705,22 @@ class Home extends CI_Controller {
 		$data['response'] = 'success';
 		$data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_slider', '', 'home_slider');
 		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('home_slider_id '=>$slider_id));
-		//print_r($data['app_data']);
-		//print_r($_POST);
-		echo json_encode($data);		
-
-		// $data['response'] = 'success';
-		// $data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_in_slider', '', 'category');
-		// $data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('cat_id'=>$cat_id));
-		// echo json_encode($data);
+		echo json_encode($data);
 	}
 	############################## END OF GET RECORDS FROM HOME SLIDER USING AJAX ######################
+
+	
+	################################ GET RECORDS FROM TRENDING BANNER USING AJAX ########################	
+	public function manage_trending_banner_ajax() {
+		$banner_id = $this->input->post("banner_id");
+		$table_name = $this->input->post("table");
+		$data['response'] = 'success';
+		$data['maximum_order'] = $this->Common_model->common_select_max_single_row('order_slider', '', 'trending_banner');
+		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('trending_id'=>$banner_id));
+		echo json_encode($data);
+	}
+	########################## END OF GET RECORDS FROM TRENDING BANNER USING AJAX ######################
+
 
 	################################### UPDATE HOME SLIDER USING AJAX ##################################
 	public function update_home_slider_ajax() {
@@ -719,6 +731,7 @@ class Home extends CI_Controller {
 		$description = $this->input->post("description");
 		$btn_link = $this->input->post("slider_btn_link");
 		$slider_order = $this->input->post("home_slider_order");
+		$sr_num = $this->input->post("sr_num");
 		$data['response'] = 'success';
 		$update_status = "";
 
@@ -767,7 +780,7 @@ class Home extends CI_Controller {
 				$data['response'] = "success";				
 				$table_data = "";
 				$get_data = $this->Common_model->common_select_single_row('*', 'home_slider', array('home_slider_id '=>$home_slider_id));				
-				
+				$table_data .= '<td>'.$sr_num.'</td>';
 				$table_data .= '<td>'. $get_data['home_slider_id'] .'</td>';
 				$table_data .= '<td>'. $get_data['title'] .'</td>';
 				$table_data .= '<td><img src="./upload/home_slider_img/'.$get_data['image_name'].'" class="data-img"></td>';
@@ -775,7 +788,7 @@ class Home extends CI_Controller {
 				$table_data .= '<td class="scroll-field">'. $get_data['description'] .'</td>';			
 				$table_data .= '<td>
 									<div class="btn-group">
-										<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-row-id="'.$get_data['home_slider_id'].'" onclick = my_home_slider_edit(this);>
+										<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['home_slider_id'].'" onclick = my_home_slider_edit(this);>
 											<i class="mdi mdi-pencil"></i>
 										</button>
 
@@ -808,5 +821,103 @@ class Home extends CI_Controller {
 		echo json_encode($data);	
 	}
 	############################### END OF UPDATE HOME SLIDER USING AJAX ###############################
+
+	
+	################################ UPDATE TRENDING BANNER USING AJAX #################################
+	public function update_trending_banner_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$bannerId = $this->input->post("banner_id");		
+		$slider_order = $this->input->post("trending_slider_order");
+		$sr_num = $this->input->post("sr_num");
+		$data['response'] = 'success';
+		$update_status = "";
+		
+		$array = array('order_slider' => $slider_order);
+		$get_order = $this->Common_model->common_select_single_row('order_slider', 'trending_banner', $array);
+
+		///////////////////////////////SWAP ORDER NUMBER IF ALREADY EXIST/////////////////////////////////
+		if(!empty($get_order) &&  $get_order['order_slider'] != '') {
+			
+			$array = array('trending_id'=>$bannerId);
+			$old_trending_id = $this->Common_model->common_select_single_row('order_slider', 'trending_banner', $array);
+			
+			if($old_trending_id['order_slider'] < $slider_order) {				
+				$old_record = array();
+				for($i = $old_trending_id['order_slider']; $i <= $slider_order; $i++) {
+					$where = array('order_slider' => $i);
+					$x_data = $this->Common_model->common_select_single_row('trending_id', 'trending_banner', $where);
+					if($x_data['trending_id']) {
+						$old_record[$x_data['trending_id']] = $i-1;
+					}
+				}
+
+				foreach($old_record as $key => $get_data) {
+					$update_status = $this->Common_model->common_update($table_name, array('order_slider'=>$get_data), array('trending_id'=>$key));
+				}
+			}
+			else if($old_trending_id['order_slider'] > $slider_order) {
+				$old_record = array();
+				for($i = $old_trending_id['order_slider']; $i >= $slider_order; $i--) {
+					$where = array('order_slider' => $i);
+					$x_data = $this->Common_model->common_select_single_row('trending_id', 'trending_banner', $where);
+					if($x_data['trending_id']) {
+						$old_record[$x_data['trending_id']] = $i+1;
+					}
+				}
+				foreach($old_record as $key => $get_data) {
+					$update_status = $this->Common_model->common_update($table_name, array('order_slider'=>$get_data), array('trending_id'=>$key));
+				} 
+			}
+			else $update_status = true;
+		}
+		
+		if($update_status) {
+			$update_status = $this->Common_model->common_update($table_name, array('order_slider'=>$slider_order), array('trending_id'=>$bannerId));
+			if($update_status) {
+				$data['response'] = "success";				
+				$table_data = "";
+				$get_data = $this->Common_model->common_select_single_row('*', 'trending_banner', array('trending_id'=>$bannerId));				
+				
+				$table_data .= '<td>'.$sr_num.'</td>';
+				$table_data .= '<td>'. $get_data['trending_id'] .'</td>';
+				$table_data .= '<td><img src="./upload/trending_img/'.$get_data['trending_img'].'" class="data-img"></td>';
+				$table_data .= '<td>'. $get_data['order_slider'] .'</td>';
+				$table_data .= '<td>
+									<div class="btn-group">
+										<button class="btn btn-info btn-sm btn-edit-category" data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['trending_id'].'" onclick = my_trending_banner_edit(this); type="button" title="Edit">
+											<i class="mdi mdi-pencil"></i>
+										</button>
+
+										<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
+											<i class="fas fa-times"></i>
+										</button>
+										
+										<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<i class="mdi mdi-chevron-down"></i>
+										</button>
+
+										<div class="dropdown-menu dropdown-menu-right">
+											<a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['trending_id'].'" data-table-name="trending_banner" data-table-id-field="trending_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+
+											<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+											
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+										</div>
+									</div>
+								</td>';
+					
+				$data['table_data'] = $table_data;
+			} 
+			else $data['response'] = "failed";
+		}
+		else {
+			$data['response'] = "failed";
+		}
+		echo json_encode($data);	
+		
+	}
+	########################### END OF UPDATE TRENDING BANNER USING AJAX ###############################
 }
 ?>

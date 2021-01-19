@@ -88,7 +88,7 @@
         </a>
 
         <!------------------COMMON CONFIRMATION FOR DELETE RECORD----------------------->
-        <div class="modal fade modal-dialog" tabindex="-1" id="modal_confirm_category">
+        <div class="modal fade modal-dialog" tabindex="-1" id="modal_confirm_delete">
             <div class="modal-dialog">
                 <div class="modal-content modal-md">                        
                     <div class="modal-body col-md-10 mx-auto flex align-items-center justify-content-center text-align-center">

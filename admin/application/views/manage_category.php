@@ -58,7 +58,7 @@
                                                                 echo '<td> </td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm btn-edit-category" onclick = my_cat_edit(this); type="button" title="Edit" data-row-id="'.$row->cat_id.'">
+                                                                            <button class="btn btn-info btn-sm btn-edit-category" onclick = my_cat_edit(this); type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$row->cat_id.'">
                                                                                 <i class="mdi mdi-pencil"></i>
                                                                             </button>
 
@@ -76,7 +76,7 @@
                                                                                 <a class="dropdown-item app-status" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
+                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>';

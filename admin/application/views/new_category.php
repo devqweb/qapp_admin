@@ -56,17 +56,23 @@
 
                                                     <div class="form-row">                                                        
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="dsOrder">Order in Drag Slider *</label>
+                                                            <label class="col-form-label" for="dsOrder">Order in Drag Slider</label>
                                                             <?php
                                                                 $largest = 0;
                                                                 if(set_value('dsOrder') != null && !isset($save_status)) $largest = set_value('dsOrder');
                                                                 else if(isset($save_status) && $save_status == 0)  {
                                                                     $largest = set_value('dsOrder');
                                                                 }
-                                                                else $largest = $order_in_slider['order_in_slider'] + 1;
-                                                                //print_r($order_in_slider);
-                                                            ?>
-                                                            <input type="number" id="dsOrder" name = "dsOrder" value="<?php echo $largest; ?>" class="form-control">
+                                                                else  $largest = $order_in_slider['order_in_slider'] + 1;
+                                                            ?>                                                            
+                                                            <select class="form-control" id="dsOrder" name = "dsOrder">
+                                                                <?php
+                                                                    for($i = 1; $i <= $order_in_slider['order_in_slider']+1; $i++) {
+                                                                        if($i == $largest) echo "<option value='".$i."' selected>".$i."</option>";                                                                        
+                                                                        else echo "<option value='".$i."'>".$i."</option>";
+                                                                    }
+                                                                ?>
+                                                            </select>
                                                             <?php echo form_error('dsOrder'); ?>
                                                         </div>                                                       
                                                     </div>

@@ -35,139 +35,45 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <?php
-                                                        $sr_num = 0;
-                                                        foreach($trending_banner_data as $row) {
-                                                            echo '<tr>'; 
-                                                                echo '<th>'. ++$sr_num. '</th>';
-                                                                echo '<td>'. $row->trending_id  .'</td>';
-                                                                echo '<td><img src="./upload/trending_img/'.$row->trending_img.'"></td>';
-                                                                echo '<td>'. $row->order_slider .'</td>';
-                                                                echo '<td>
-                                                                        <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                            <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                            <i class="mdi mdi-chevron-down"></i>
-                                                                            </button>
-                                                                            <div class="dropdown-menu dropdown-menu-right">
-                                                                                <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                                <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                        <?php
+                                                            $sr_num = 0;
+                                                            foreach($trending_banner_data as $row) {
+                                                                if($row->enable_disable == 0)
+                                                                    echo '<tr class="record-row my-danger">';
+                                                                else
+                                                                    echo '<tr class="record-row">';
+                                                                    echo '<th>'.++$sr_num.'</th>';
+                                                                    echo '<td>'. $row->trending_id  .'</td>';
+                                                                    echo '<td><img src="./upload/trending_img/'.$row->trending_img.'" class="data-img"></td>';
+                                                                    echo '<td>'. $row->order_slider .'</td>';
+                                                                    echo '<td>
+                                                                            <div class="btn-group">
+                                                                                <button class="btn btn-info btn-sm btn-edit-trending_banner" onclick = my_trending_banner_edit(this); type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$row->trending_id.'">
+                                                                                    <i class="mdi mdi-pencil"></i>
+                                                                                </button>
+
+                                                                                <button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
+                                                                                    <i class="fas fa-times"></i>
+                                                                                </button>
+                                                                                
+                                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="mdi mdi-chevron-down"></i>
+                                                                                </button>
+
+                                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                                    <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+
+                                                                                    <a class="dropdown-item app-status" href="#" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" 
+                                                                                    data-table-image-field="trending_img" data-img-path="./upload/trending_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+                                                                                    
+                                                                                    <div class="dropdown-divider"></div>
+                                                                                    <a class="dropdown-item" href="#" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" data-order-field="order_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </td>';
-                                                            echo '</tr>';
-                                                        }
-                                                    ?>
-                                                    <!-- <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <a class="dropdown-item" href="#">Remove Promotion</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>1</th>
-                                                        <th>E-Commerse</th>
-                                                        <td>1</td>
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <button class="btn btn-info btn-sm" type="button"> Edit </button>
-                                                                <button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                <i class="mdi mdi-chevron-down"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu dropdown-menu-right">
-                                                                    <a class="dropdown-item" href="#">Enable/Disable</a>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <a class="dropdown-item" href="#">Delete</a>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr> -->
+                                                                        </td>';
+                                                                echo '</tr>';
+                                                            }
+                                                        ?>
                                                     </tbody>
                                                 </table>
                                             </div>

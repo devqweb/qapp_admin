@@ -27,13 +27,13 @@
                                                 <table id="responsive-datatable" class="table table-striped table-sm table-bordered table-bordered dt-responsive nowrap database-records">
                                                     <thead class="thead-dark">
                                                     <tr>
-                                                        <th>#</th>
+                                                        <th data-priority="1">#</th>
                                                         <th data-priority="1">Slider ID</th>
                                                         <th data-priority="1">Title</th>
                                                         <th data-priority="1">Image</th>
                                                         <th data-priority="1">Order in Slider</th>
                                                         <th data-priority="1">Description</th>
-                                                        <th data-priority="2">Button Link</th>                                                        
+                                                        <th data-priority="0">Button Link</th>                                                        
                                                         <th data-priority="1">Action</th>
                                                     </tr>
                                                     </thead>
@@ -55,7 +55,7 @@
                                                                 echo '<td class="scroll-field">'. $row->button_link .'</td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm btn-edit-home-slider" type="button" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" onclick = my_home_slider_edit(this);>
+                                                                            <button class="btn btn-info btn-sm btn-edit-home-slider" type="button" data-sr-num="'.$sr_num.'" data-row-id="'.$row->home_slider_id.'" onclick = my_home_slider_edit(this);>
                                                                                 <i class="mdi mdi-pencil"></i>
                                                                             </button>
 
@@ -73,7 +73,7 @@
                                                                                 <a class="dropdown-item app-status" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_home_slider" onclick = confirm_modal(this); >Delete</a>
+                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>';

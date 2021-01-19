@@ -55,7 +55,14 @@
                                                                 }
                                                                 else $largest = $order_slider['order_slider'] + 1;
                                                             ?>
-                                                            <input type="number" id="order_slider" name="order_slider" value="<?php echo $largest; ?>" class="form-control" placeholder="Order in Drag Slider">
+                                                            <select id="order_slider" name="order_slider" class="form-control">
+                                                                <?php
+                                                                    for($i = 1; $i <= $order_slider['order_slider'] + 1; $i++) {
+                                                                        if($i == $largest) echo "<option value='".$i."' selected>".$i."</option>";                                                                        
+                                                                        else echo "<option value='".$i."'>".$i."</option>";
+                                                                    }
+                                                                ?>                                                                
+                                                            </select>
                                                         </div>                                                       
                                                     </div>
 

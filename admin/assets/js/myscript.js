@@ -9,7 +9,7 @@ function clearError(field) {
 
 
 //////////////////////////////////////// EDIT CATEGORY /////////////////////////////////////////////
-function edit_category(categoryId, button) {    
+function edit_category(categoryId, srNum, button) {    
     count++;
     const main_row = button.parents("tr");
     const btn_edit = button;
@@ -111,7 +111,7 @@ function edit_category(categoryId, button) {
                         url: "http://localhost/qapp/admin/update_category_ajax",
                         method: 'POST',
                         dataType: 'json',
-                        data: { table: 'category', id: 'cat_id', cat_id: categoryId, cat_name: $(catName).val(), slider_order: $(max_order).val() },
+                        data: { table: 'category', id: 'cat_id', cat_id: categoryId, cat_name: $(catName).val(), slider_order: $(max_order).val(), sr_num: srNum },
                         success:function(res) {
                             if(res.response == 'success') {                    
                                 //setTimeout(function(){
@@ -154,13 +154,14 @@ function edit_category(categoryId, button) {
 
 function my_cat_edit(button) {    
     const categoryId = button.getAttribute("data-row-id");
-    edit_category(categoryId, $(button));
+    const srNum = button.getAttribute("data-sr-num");
+    edit_category(categoryId, srNum, $(button));
 }
 //////////////////////////////////// END OF EDIT CATEGORY //////////////////////////////////////////
 
 
 //////////////////////////////////// EDIT HOME SLIDER //////////////////////////////////////////////
-function edit_home_slider(sliderId, button) {
+function edit_home_slider(sliderId, srNum, button) {
     count++;
     const main_row = button.parents("tr");
     const btn_edit = button;
@@ -293,7 +294,7 @@ function edit_home_slider(sliderId, button) {
                         url: "http://localhost/qapp/admin/update_home_slider_ajax",
                         method: 'POST',
                         dataType: 'json',
-                        data: { table: 'home_slider', id: 'home_slider_id ', slider_id: sliderId, slider_title: $(title).val(), description: $(des).val(), slider_btn_link: $(btn_link).val(), home_slider_order:  $(slider_order).val() },
+                        data: { table: 'home_slider', id: 'home_slider_id ', slider_id: sliderId, slider_title: $(title).val(), description: $(des).val(), slider_btn_link: $(btn_link).val(), home_slider_order:  $(slider_order).val(), sr_num: srNum },
                         success:function(res) {
                             if(res.response == 'success') {
                                 myform.prev().html(res.table_data);
@@ -326,9 +327,112 @@ function edit_home_slider(sliderId, button) {
 
 function my_home_slider_edit(button) {    
     const sliderId = button.getAttribute("data-row-id");
-    edit_home_slider(sliderId, $(button));
+    const srNum = button.getAttribute("data-sr-num");
+    edit_home_slider(sliderId, srNum, $(button));
 }
 ///////////////////////////////// END OF EDIT HOME SLIDER //////////////////////////////////////////
+
+
+///////////////////////////////////// EDIT TRANDING BANNER /////////////////////////////////////////
+function edit_trending_banner(bannerId, srNum, button) {
+    count++;
+    const main_row = button.parents("tr");
+    const btn_edit = button;
+    const btn_cancel = button.next();
+    
+    let slider_order = "#slider_order";
+    let max_order = "#max_order";
+    let update_trending_banner = "#update_trending_banner";    
+    let loopOrder;
+    let oldOrder;    
+    
+    slider_order += count;
+    max_order += count;
+    update_trending_banner += count;
+
+    btn_edit.hide();                                                                     
+    btn_cancel.removeClass("display-none");
+    
+    main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
+        '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<form action = "" >'+
+            '<div class="form-row">'+                
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="slider_order">Order in Slider </label>'+
+                    '<select id="slider_order'+ count +'" name="slider_order" class="form-control"></select>'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_trending_banner'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Update Home Slider">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+        '</td></tr>');
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/manage_trending_banner_ajax",
+        method: 'POST',
+        dataType: 'json',
+        data: { banner_id: bannerId, table: 'trending_banner' },
+        success:function(res){
+            if(res.response == 'success'){                
+                loopOrder = res.maximum_order.order_slider;                   
+                for($i = 1; $i <= loopOrder; $i++) {
+                    if($i == res.app_data.order_slider) {
+                        $(slider_order).append("<option value='"+$i+"' selected>"+$i+"</option>");
+                        //oldOrder = i;
+                    }
+                    else $(slider_order).append("<option value='"+$i+"'>"+$i+"</option>");
+                }
+            }
+        }
+    });
+    
+    $(update_trending_banner).click(function() {
+        
+        let myform = $(this).parents(".data-edit");        
+        
+		$.ajax({
+			url: "http://localhost/qapp/admin/update_trending_banner_ajax",
+			method: 'POST',
+			dataType: 'json',
+			data: { table: 'trending_banner', id: 'trending_id ', banner_id: bannerId, trending_slider_order:  $(slider_order).val(), sr_num: srNum },
+			success:function(res) {
+				if(res.response == 'success') {
+					myform.prev().html(res.table_data);
+					myform.remove(".data-edit");
+				}
+				else {
+					//setTimeout(function(){
+						myform.find(".alert").hide();
+						myform.find(".alert").addClass("alert-danger");
+						myform.find(".alert").removeClass("display-none");
+						myform.find(".alert").html("<b>Failed</b>! Home slider not updated");
+						$(title).focus();
+						myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
+					//}, 400);                          
+				}
+			}
+		});  
+    });
+    
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        $(this).addClass("display-none");
+        btn_edit.show();
+    });
+}
+
+function my_trending_banner_edit(button) {    
+    const bannerId = button.getAttribute("data-row-id");
+    const srNum = button.getAttribute("data-sr-num");
+    edit_trending_banner(bannerId, srNum, $(button));
+}
+///////////////////////////////// END OF EDIT TRANDING BANNER //////////////////////////////////////
 
 
 /////////////////////////////// COMMON ENABLE/DISABLE RECORD ///////////////////////////////////////
@@ -363,7 +467,7 @@ function enable_disable_data(button) {
 
 
 /////////////////////////////////// COMMON CONFIRMATION MODAL ///////////////////////////////////////
-function confirm_modal(button) {
+function confirm_modal_delete(button) {
     const recordId = button.getAttribute("data-row-id");
     const tableName = button.getAttribute("data-table-name");
     const idField = button.getAttribute("data-table-id-field");
