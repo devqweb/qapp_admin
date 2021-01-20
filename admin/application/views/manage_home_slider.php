@@ -42,7 +42,7 @@
                                                         $sr_num = 0;
                                                         foreach($home_slider_data as $row) {
                                                             if($row->enable_disable == 0)
-                                                                    echo '<tr class="record-row my-danger">';
+                                                                    echo '<tr class="record-row bg-dark-blur text-white">';
                                                                 else
                                                                     echo '<tr class="record-row">';
                                                             

@@ -198,17 +198,17 @@ class Home extends CI_Controller {
 		//$data['id'] = $save_data;
 		//$this->CommonPage("new_home_slider", $data);
 
-		$id = array('cat_id', 'name');
-		$data['category'] = $this->Common_model->common_select($id, 'category', array());
+		$fields = array('cat_id', 'name', 'enable_disable');
+		$order_by = array('name', 'ASC');
+		$data['category'] = $this->Common_model->common_select($fields, 'category', array(), $order_by);
 		$data['id'] = $save_data;
-		//print_r($data);
 		$this->CommonPage("new_app", $data);
 	}
 
 	############################################ MANAGE APPS ##########################################
 	public function manage_app() {
 		///////////////////////////////////SELECT RECORDS FROM APP///////////////////////////////////////
-		$data['app_data'] = $this->Common_model->common_select(array(), 'app', array());
+		$data['app_data'] = $this->Common_model->common_select(array(), 'app', array(), array());
 		$this->CommonPage("manage_app", $data);
 	}
 	##################################### END OF MANAGE APPS ##########################################
@@ -299,7 +299,7 @@ class Home extends CI_Controller {
 	############################################ MANGAGE CATEGORIES ###################################
 	public function manage_category() {		
 		//////////////////////////////////SELECT RECORDS FROM CATEGORY///////////////////////////////////
-		$data['cat_data'] = $this->Common_model->common_select('*', 'category', array());
+		$data['cat_data'] = $this->Common_model->common_select('*', 'category', array(), array());
 		$this->CommonPage("manage_category", $data);
 	}
 	##################################### END OF MANGAGE CATEGORIES ###################################
@@ -394,7 +394,7 @@ class Home extends CI_Controller {
 	############################################ MANAGE HOME SLIDER ###################################
 	public function manage_home_slider() {
 		////////////////////////////////SELECT RECORDS FROM HOME SLIDER////////////////////////////////
-		$data['home_slider_data'] = $this->Common_model->common_select('*', 'home_slider', array());
+		$data['home_slider_data'] = $this->Common_model->common_select('*', 'home_slider', array(), array());
 		$this->CommonPage("manage_home_slider", $data);
 	}
 	##################################### END OF MANAGE HOME SLIDER ###################################
@@ -467,7 +467,7 @@ class Home extends CI_Controller {
 	############################################ MANAGE TRENDING BANNER ###############################
 	public function manage_trending_banner() {
 		///////////////////////////////SELECT RECORDS FROM TRENDING BANNER////////////////////////////////
-		$data['trending_banner_data'] = $this->Common_model->common_select('*', 'trending_banner', array());
+		$data['trending_banner_data'] = $this->Common_model->common_select('*', 'trending_banner', array(), array());
 		$this->CommonPage("manage_trending_banner", $data);
 	}
 	
@@ -486,15 +486,13 @@ class Home extends CI_Controller {
 	############################## END OF GET RECORDS FROM CATEROGRY USING AJAX #######################
 
 
-	######################## ENABLE/DISABLE CATEGORY FROM DATABSE USING AJAX ##########################
+	######################## ENABLE/DISABLE RECORD FROM DATABSE USING AJAX ############################
 	public function enable_disable_record_ajax() {
 		$table_name = $this->input->post("table");
 		$where = $this->input->post("id");
 		$row_id = $this->input->post("row_id");
 		$enable_disable = $this->input->post("enable_disable");
 		$data['response'] = 'success';
-
-		//print_r($_POST);
 		
 		$update_status = $this->Common_model->common_update($table_name, array('enable_disable'=>$enable_disable), array($where=>$row_id));
 		if($update_status) {
@@ -503,7 +501,7 @@ class Home extends CI_Controller {
 		else $data['response'] = "failed";
 		echo json_encode($data);
 	}	
-	##################### END OF ENABLE/DISABLE CATEGORY FROM DATABSE USING AJAX ######################
+	##################### END OF ENABLE/DISABLE RECORDS FROM DATABSE USING AJAX #######################
 
 	######################### Check if duplicate value exit or not ####################################
 	public function check_duplicate_ajax() {

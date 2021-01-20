@@ -65,6 +65,10 @@
     border-color: rgba(232,122,26)
 }
 
+.bg-dark-blur {
+    background-color: #00000070 !important
+}
+
 .table-striped tbody tr {
     -webkit-transition: all 0.1s ease-in;
     transition: all 0.1s ease-in;
@@ -72,6 +76,7 @@
 
 .table-striped tbody tr:hover {
     background-color:#ffdec1;
+    
     -webkit-transition: all 0.1s ease-out;
     transition: all 0.1s ease-out;
 }
@@ -156,7 +161,7 @@
     }
 
     .dtr-details li:hover {
-        background-color: #ffdec1;
+        background-color: #ffdec1;        
         -webkit-transition: all 0.1s ease-out;
         transition: all 0.1s ease-out;
     }
@@ -168,32 +173,6 @@
 .fa-times:before {
     color: #b10101;
 }
-
-.my-success {
-    background-color: #79f3b5!important;
-    color: #5d5d5d !important;
-}
-
-    .my-success td, .my-success th {
-        border-color:#8cdd99;
-    }
-
-.my-warning {
-    background-color: #f3f179!important;
-    color: #5d5d5d !important;
-}
-
-    .my-warning td, .my-warning th {
-        border-color:#dcda71;
-    }
-
-.my-danger {
-    background-color: #ff5b5b!important;
-    color: #ffffff !important;
-}
-    .my-danger td, .my-danger th {
-        border-color:#f39b9b;
-    }
 
 .btn-group-last {
     border-left: 1px solid #85e2ff;

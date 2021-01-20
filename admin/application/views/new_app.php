@@ -85,17 +85,17 @@
                                                             <label class="col-form-label" for="category">Category of The App  <span class="text-danger">*</span></label>
                                                             <select class="form-control" id="category" name="category">
                                                                 <option value="">-- Select Category --</option>
+                                                                
                                                                  <?php
                                                                     foreach($category as $row) {
-                                                                        if(!$id && $row->cat_id == set_value('category')) {
-                                                                            echo '<option value="'.$row->cat_id.'" selected>'.$row->name.'</option>';
-                                                                            continue;
+                                                                        //echo $row->enable_disable;
+                                                                        if($row->enable_disable == 1) {
+                                                                            if(!$id && $row->cat_id == set_value('category')) {
+                                                                                echo '<option value="'.$row->cat_id.'" selected>'.$row->name.'</option>';
+                                                                                continue;
+                                                                            }
+                                                                            echo '<option value="'.$row->cat_id.'">'.$row->name.'</option>';
                                                                         }
-                                                                        // if(isset($save_status) && $save_status == 0) {
-                                                                        //     echo '<option value="'.$row->cat_id.'" selected>'.$row->name.'</option>';
-                                                                        //     continue;
-                                                                        // }
-                                                                        echo '<option value="'.$row->cat_id.'">'.$row->name.'</option>';
                                                                     }
                                                                 ?>
                                                             </select>
@@ -113,7 +113,7 @@
                                                         </div>
                                                     </div>
                                                     
-                                                    <div class="form-row">                                                        
+                                                    <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="androidLink">Android Link</label>
                                                             <input type="url" id="androidLink" name="androidLink" value="<?php echo ($id) ? "" : set_value('androidLink'); ?>" class="form-control" placeholder="https://www.playstore.com/myapp">
@@ -178,7 +178,19 @@
                                                     </div>
 
                                                     <div class="form-row">
-                                                        
+                                                        <div class="form-group col-md-12">
+                                                            <label class="col-form-label" for="tags">Tags *</label>
+                                                            <input type="text" class="form-control" name = "tags" value="<?php echo ($id) ? "" : set_value('tags'); ?>" data-role="tagsinput">
+                                                            <?php echo form_error('tags'); ?>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-12">
+                                                            <label class="col-form-label" for="description">App Description*</label>
+                                                            <textarea name="description" id="description" name="description" cols="30" rows="5" class="form-control" placeholder="App Description"><?php echo ($id) ? "" : set_value('description'); ?></textarea>
+                                                            <?php echo form_error('description'); ?>
+                                                        </div>
                                                     </div>
                                                     
                                                     <div class="form-row">

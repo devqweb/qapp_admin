@@ -39,7 +39,7 @@
                                                             $sr_num = 0;
                                                             foreach($trending_banner_data as $row) {
                                                                 if($row->enable_disable == 0)
-                                                                    echo '<tr class="record-row my-danger">';
+                                                                    echo '<tr class="record-row bg-dark-blur text-white">';
                                                                 else
                                                                     echo '<tr class="record-row">';
                                                                     echo '<th>'.++$sr_num.'</th>';
@@ -61,7 +61,7 @@
                                                                                 </button>
 
                                                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                                                    <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+                                                                                    <a class="dropdown-item app-status" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
                                                                                     <a class="dropdown-item app-status" href="#" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" 
                                                                                     data-table-image-field="trending_img" data-img-path="./upload/trending_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>

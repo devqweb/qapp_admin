@@ -74,9 +74,6 @@
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href="<?php echo base_url("new_app") ?>">Add New App</a></li>
                                     <li><a href="<?php echo base_url("manage_app") ?>">Manage Apps</a></li>
-                                    <!-- <li><a href="tables-responsive.html">Responsive Table</a></li>
-                                    <li><a href="tables-editable.html">Editable Table</a></li>
-                                    <li><a href="tables-tablesaw.html">Tablesaw Table</a></li> -->
                                 </ul>
                             </li>
 
@@ -114,6 +111,41 @@
                                     <li><a href="<?php echo base_url("new_trending_banner")?>">Add New Trending Banner</a></li>
                                     <li><a href="<?php echo base_url("manage_trending_banner")?>">Manage Trending Banners</a></li>
                                 </ul>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo base_url("manage_trending_banner")?>">
+                                    <i class="fas fa-th-large"></i>
+                                    <span> App of the month </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo base_url("manage_trending_banner")?>">
+                                    <i class="fas fa-th-large"></i>
+                                    <span> App of the week </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo base_url("manage_trending_banner")?>">
+                                    <i class="fas fa-th-large"></i>
+                                    <span> Featured Apps </span>
+                                </a>                                
+                            </li>
+
+                            <li>
+                                <a href="<?php echo base_url("manage_trending_banner")?>">
+                                    <i class="fas fa-th-large"></i>
+                                    <span> Latest Release </span>
+                                </a>                                
+                            </li>
+
+                            <li>
+                                <a href="<?php echo base_url("manage_trending_banner")?>">
+                                    <i class="fas fa-th-large"></i>
+                                    <span> Usefull Apps </span>
+                                </a>                                
                             </li>
                             
                         </ul>

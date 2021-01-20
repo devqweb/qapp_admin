@@ -160,6 +160,163 @@ function my_cat_edit(button) {
 //////////////////////////////////// END OF EDIT CATEGORY //////////////////////////////////////////
 
 
+///////////////////////////////////////// EDIT APP /////////////////////////////////////////////////
+function edit_app(appId, srNum, button) {    
+    count++;
+    const main_row = button.parents("tr");
+    const btn_edit = button;
+    const btn_cancel = button.next();
+
+    let = "#nameOfApp";
+    let = "#companyName";
+
+    btn_edit.hide();                                                                     
+    btn_cancel.removeClass("display-none");
+
+    main_row.after('<tr class="data-edit" id="editing_form'+ count +'"><td colspan="30">'+
+    '<div id="cat-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<form>'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="nameOfApp">Name of the App <span class="text-danger"> <span class="text-danger">*</span></label>'+  
+                    '<input type="text" id="nameOfApp" name="nameOfApp" value="" class="form-control" placeholder="Name of the App" autofocus>'+
+                    
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="companyName">Company Name <span class="text-danger">*</span></label>'+
+                    '<input type="text" id="companyName" name="companyName" value="" class="form-control" placeholder="Company Name">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="contactPerson">Contact Person <span class="text-danger">*</span></label>'+
+                    '<input type="text" id="contactPerson" name="contactPerson" value="" class="form-control" placeholder="Contact Person">'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="mobileNumber">Mobile Number <span class="text-danger">*</span></label>'+
+                    '<input type="mobile" id="mobileNumber" name="mobileNumber" value="" class="form-control" placeholder="Mobile Number">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="whatsapp">WhatsApp Number</label>'+
+                    '<input type="mobile" id="whatsapp" name="whatsapp" value="" class="form-control" placeholder="WhatsApp Number">'+                    
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="email">E-Mail <span class="text-danger">*</span></label>'+
+                    '<input type="email" name="email" id="email" value="" class="form-control" placeholder="E-Mail">'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="category">Category of The App  <span class="text-danger">*</span></label>'+
+                    '<select class="form-control" id="category" name="category">'+
+                        '<option value="">-- Select Category --</option>'+
+                    '</select>'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="dateOfLastUpdate">Date of Last Update</label>'+
+                    '<input type="date" id="dateOfLastUpdate" name="dateOfLastUpdate" value="" class="form-control">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="videoLink">Video Link</label>'+
+                    '<input type="url" id="videoLink" name="videoLink" value="" class="form-control" placeholder="https://www.youtube.com/myvideo">'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="androidLink">Android Link</label>'+
+                    '<input type="url" id="androidLink" name="androidLink" value="" class="form-control" placeholder="https://www.playstore.com/myapp">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="iosLink">IOS Link</label>'+
+                    '<input type="url" id="iosLink" name="iosLink" value="" class="form-control" placeholder="https://www.appstore.com/myapp">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="instaLink">Instagram Link</label>'+
+                    '<input type="url" id="instaLink" name="instaLink" value="" class="form-control" placeholder="https://www.instagram.com/myapp">'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="fbLink">Facebook Link</label>'+
+                    '<input type="url" id="fbLink" name="fbLink" value="" class="form-control" placeholder="https://www.facebook.com/myapp">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="website">Website</label>'+
+                    '<input type="url" id="website" name="website" value="" class="form-control" placeholder="https://www.myapp.com">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="rating">App Rating <span class="text-danger">*</span></label>'+
+                    '<input type="text" id="rating" name="rating" value="" class="form-control" placeholder="3.5, 4.4, etc">'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="appIstalls">Number of App Installs <span class="text-danger">*</span></label>'+
+                    '<input type="number" id="appIstalls" name="appIstalls" value="" class="form-control" placeholder="Number of App Installs">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="appsize">Size of The App(MB) <span class="text-danger">*</span></label>'+
+                    '<input type="text" name="appsize" value="" id="appsize" class="form-control" placeholder="Size in MB">'+
+                '</div>'+
+                '<div class="form-group col-md-4">'+
+                    '<label class="col-form-label" for="appLanguage">Languages in the App  <span class="text-danger">*</span></label>'+
+                    '<div class="col-md-6 checkbox checkbox-blue">'+
+                        '<span>'+
+                            '<input id="english" name="english" value=1 type="checkbox" data-parsley-multiple="group1">'+
+                            '<label for="english"> English </label>'+
+                        '</span>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                        '<span>'+
+                            '<input id="arabic" name="arabic" value=1 type="checkbox" data-parsley-multiple="group1">'+
+                            '<label for="arabic"> Arabic </label>'+
+                        '</span>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-12">'+
+                    '<label class="col-form-label" for="tags">Tags *</label>'+
+                    '<input type="text" class="form-control" name = "tags" value="" data-role="tagsinput">'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-12">'+
+                    '<label class="col-form-label" for="description">App Description*</label>'+
+                    '<textarea name="description" id="description" name="description" cols="30" rows="5" class="form-control" placeholder="App Description"></textarea>'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_category'+count+'" class="btn btn-success waves-effect waves-light btn-update-category" value="Update Category">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+    '</td></tr>');
+
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        $(this).addClass("display-none");
+        btn_edit.show();
+    });
+}
+
+function my_app_edit(button) {    
+    const appId = button.getAttribute("data-row-id");
+    const srNum = button.getAttribute("data-sr-num");
+    edit_app(appId, srNum, $(button));
+}
+////////////////////////////////////// END OF EDIT APP /////////////////////////////////////////////
+
+
 //////////////////////////////////// EDIT HOME SLIDER //////////////////////////////////////////////
 function edit_home_slider(sliderId, srNum, button) {
     count++;
@@ -445,7 +602,7 @@ function enable_disable_process(rowId, row_status, table_name, idField, myRow) {
         data: { table: table_name, id: idField, row_id: rowId, enable_disable: row_status },
         success:function(res) {
             if(res.response == 'success') {
-                $(myRow).toggleClass("my-danger");
+                $(myRow).toggleClass("bg-dark-blur text-white");
                 $(myRow).find(".app-status").attr("data-enable-disable", row_status);
             }
             else {
