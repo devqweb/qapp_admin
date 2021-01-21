@@ -511,7 +511,8 @@ class Home extends CI_Controller {
 		$array = array($where => $value);		
 
 		$check_duplicate = $this->Common_model->common_select_single_row('*', $table, $array);
-
+		// print_r($_POST);
+		// die();
 		if(empty($check_duplicate)) {			
 			$data['duplicate'] = 'no';
 		}
@@ -694,6 +695,21 @@ class Home extends CI_Controller {
 		
 	}
 	############################ END OF CHANGE IMAGE FROM DATABSE USING AJAX ###########################
+
+
+	################################### GET RECORDS FROM APP USING AJAX ################################
+	function manage_app_ajax() {
+		$app_id = $this->input->post("app_id");
+		$table_name = $this->input->post("table");
+		$data['response'] = 'success';
+		$fields = array('cat_id', 'name', 'enable_disable');
+		$order_by = array('name', 'ASC');
+
+		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('app_id'=>$app_id));
+		$data['cat_data'] = $this->Common_model->common_select($fields, 'category', array(), $order_by);
+		echo json_encode($data);
+	}
+	################################### GET RECORDS FROM APP USING AJAX ################################
 
 
 	################################### GET RECORDS FROM HOME SLIDER USING AJAX ########################	

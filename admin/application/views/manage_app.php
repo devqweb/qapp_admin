@@ -14,8 +14,7 @@
                 <div class="content">
 
                     <!-- Start Content-->
-                    <div class="container-fluid">
-
+                    <div class="container-fluid">                    
                         <div class="row">
                             <div class="col-12">
                                 <div class="card-box table-responsive">
@@ -88,7 +87,7 @@
                                                                 echo '<td>'. $row->app_name .'</td>';
                                                                 echo '<td>'. $row->added_by .'</td>';
                                                                 echo '<td><img src="./upload/app_icon/'.$row->app_icon.'" class="data-img"></td>';
-                                                                echo '<td>'. $row->category  .'</td>';
+                                                                echo '<td>'. $row->category.'</td>';
                                                                 echo '<td>'. $row->company_name .'</td>';
                                                                 echo '<td>'. $row->contact_person	 .'</td>';
                                                                 echo '<td>'. $row->mobile .'</td>';
@@ -153,6 +152,7 @@
 
                                                                                 <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
+                                                                                <a class="dropdown-item" href="#">Edit Description</a>
                                                                                 <a class="dropdown-item" href="#">Screenshots</a>
                                                                                 <a class="dropdown-item" href="#">Add to Promotion</a> 
                                                                                 <a class="dropdown-item" href="#">Remove Promotion</a>

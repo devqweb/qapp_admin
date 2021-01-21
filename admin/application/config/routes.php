@@ -23,4 +23,4 @@ $route['change_image_ajax'] = "home/change_image_ajax";
 $route['check_duplicate_ajax'] = "home/check_duplicate_ajax";
 $route['get_max_value_ajax'] = "home/get_max_value_ajax";
 $route['manage_trending_banner_ajax'] = "home/manage_trending_banner_ajax";
-$route['update_trending_banner_ajax'] = "home/update_trending_banner_ajax";
+$route['manage_app_ajax'] = "home/manage_app_ajax";

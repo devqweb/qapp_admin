@@ -88,7 +88,6 @@
                                                                 
                                                                  <?php
                                                                     foreach($category as $row) {
-                                                                        //echo $row->enable_disable;
                                                                         if($row->enable_disable == 1) {
                                                                             if(!$id && $row->cat_id == set_value('category')) {
                                                                                 echo '<option value="'.$row->cat_id.'" selected>'.$row->name.'</option>';
