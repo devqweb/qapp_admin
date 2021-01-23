@@ -220,9 +220,8 @@
 
         <!-- Init js -->
         <script src="<?php echo base_url("assets/js/pages/responsive-table.init.js") ?>"></script>
-
+        
         <!-- App js -->
         <script src="<?php echo base_url("assets/js/app.min.js") ?>"></script>
-        
     </body>
 </html>

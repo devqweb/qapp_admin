@@ -50,6 +50,7 @@ class Home extends CI_Controller {
 			$this->form_validation->set_rules('nameOfApp','<b>Name of the App</b>','trim|required');
 			$this->form_validation->set_rules('companyName','<b>Company Name</b>','trim|required');
 			$this->form_validation->set_rules('contactPerson','<b>Contact Person</b>','trim|required');
+			$this->form_validation->set_rules('telcode_mobile','<b>Tel Code</b>','trim|required');
 			$this->form_validation->set_rules('mobileNumber','<b>Mobile Number</b>','trim|required');
 			$this->form_validation->set_rules('email','<b>E-Mail</b>','trim|required');
 			$this->form_validation->set_rules('category','<b>Category</b>','trim|required');
@@ -93,7 +94,9 @@ class Home extends CI_Controller {
 					$nameOfApp = $this->input->post('nameOfApp');
 					$companyName = $this->input->post('companyName');
 					$contactPerson = $this->input->post('contactPerson');
+					$telcode_mobile = $this->input->post('telcode_mobile');
 					$mobileNumber = $this->input->post('mobileNumber');
+					$telcode_whatsapp = $this->input->post('telcode_whatsapp');
 					$whatsapp = $this->input->post('whatsapp');
 					$email = $this->input->post('email');
 					$category = $this->input->post('category');
@@ -112,11 +115,13 @@ class Home extends CI_Controller {
 					$icon = $this->input->post('icon');
 					$tnc = ($this->input->post('tnc') == 1) ? 1 : 0;
 					$authorConfirm = ($this->input->post('authorConfirm') == 1) ? 1 : 0;
-
+					
 					$values = array('app_name' => $nameOfApp,
 									'company_name' => $companyName,
 									'contact_person' => $contactPerson,
+									'telcode_mobile' => $telcode_mobile,
 									'mobile' => $mobileNumber,
+									'telcode_whatsapp' => $telcode_whatsapp,
 									'whatsapp' => $whatsapp,
 									'email'	=> $email,
 									'category' => $category,

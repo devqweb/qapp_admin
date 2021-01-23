@@ -65,14 +65,60 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="mobileNumber">Mobile Number <span class="text-danger">*</span></label>
-                                                            <input type="mobile" id="mobileNumber" name="mobileNumber" value="<?php echo ($id) ? "" : set_value('mobileNumber'); ?>" class="form-control" placeholder="Mobile Number">
-                                                            <?php echo form_error('mobileNumber'); ?>
+                                                            <div class="flex">
+                                                                <div class="col-md-5 padding-0">                                                                    
+                                                                    <input type="hidden" id="hidden_telcode_mobile" value="<?php echo ($id) ? "" : set_value('telcode_mobile'); ?>">
+                                                                    <select id="telcode_mobile" name="telcode_mobile" class="form-control telCode">
+                                                                        <option value=''>-- Tel code --</option>
+                                                                        <script>
+                                                                            for(i = 0; i < telObj.length; i++) {
+                                                                                let country_name, dial_code, code;
+                                                                                country_name = telObj[i]['name'];
+                                                                                dial_code = telObj[i]['dial_code'];
+                                                                                code = telObj[i]['code'];
+                                                                                if(document.getElementById("hidden_telcode_mobile").value == dial_code) {
+                                                                                    document.getElementById("telcode_mobile").innerHTML += "<option value='"+dial_code+"' selected>"+country_name+" ("+code+") "+dial_code+"</option>";    
+                                                                                }
+                                                                                else document.getElementById("telcode_mobile").innerHTML += "<option value='"+dial_code+"'>"+country_name+" ("+code+") "+dial_code+"</option>";
+                                                                            }
+                                                                        </script>
+                                                                    </select>
+                                                                    <?php echo form_error('telcode_mobile'); ?>
+                                                                </div>
+                                                                <div class="col-md-6 offset-md-1 padding-0">
+                                                                    <input type="tel" id="mobileNumber" name="mobileNumber" value="<?php echo ($id) ? "" : set_value('mobileNumber'); ?>" class="form-control" placeholder="Mobile Number">
+                                                                    <?php echo form_error('mobileNumber'); ?>
+                                                                </div>                                                                
+                                                            </div>                                                            
                                                         </div>
+
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="whatsapp">WhatsApp Number</label>
-                                                            <input type="mobile" id="whatsapp" name="whatsapp" value="<?php echo ($id) ? "" : set_value('whatsapp'); ?>" class="form-control" placeholder="WhatsApp Number">
-                                                            <?php echo form_error('whatsapp'); ?>
+                                                            <div class="flex">
+                                                                <div class="col-md-5 padding-0">
+                                                                    <input type="hidden" id="hidden_telcode_whatsapp" value="<?php echo ($id) ? "" : set_value('telcode_whatsapp'); ?>">
+                                                                    <select id="telcode_whatsapp" name="telcode_whatsapp" class="form-control telCode">
+                                                                        <option value=''>-- Tel code --</option>
+                                                                        <script>
+                                                                            for(i = 0; i < telObj.length; i++) {
+                                                                                let country_name, dial_code, code;
+                                                                                country_name = telObj[i]['name'];
+                                                                                dial_code = telObj[i]['dial_code'];
+                                                                                code = telObj[i]['code'];
+                                                                                if(document.getElementById("hidden_telcode_whatsapp").value == dial_code) {
+                                                                                    document.getElementById("telcode_whatsapp").innerHTML += "<option value='"+dial_code+"' selected>"+country_name+" ("+code+") "+dial_code+"</option>";    
+                                                                                }
+                                                                                else document.getElementById("telcode_whatsapp").innerHTML += "<option value='"+dial_code+"'>"+country_name+" ("+code+") "+dial_code+"</option>";
+                                                                            }
+                                                                        </script>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-6 offset-md-1 padding-0">
+                                                                    <input type="tel" id="whatsappNumber" name="whatsapp" value="<?php echo ($id) ? "" : set_value('whatsapp'); ?>" class="form-control" placeholder="WhatsApp Number">
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                        
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="email">E-Mail <span class="text-danger">*</span></label>
                                                             <input type="email" name="email" id="email" value="<?php echo ($id) ? "" : set_value('email'); ?>" class="form-control" placeholder="E-Mail">
@@ -84,8 +130,7 @@
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="category">Category of The App  <span class="text-danger">*</span></label>
                                                             <select class="form-control" id="category" name="category">
-                                                                <option value="">-- Select Category --</option>
-                                                                
+                                                                <option value="">-- Select Category --</option>                                                                
                                                                  <?php
                                                                     foreach($category as $row) {
                                                                         if($row->enable_disable == 1) {

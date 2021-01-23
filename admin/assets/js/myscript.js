@@ -1,8 +1,13 @@
 let count = 0;
 let selected_row;
 
+
 //////////////////////////// CLEAR REQUIRED ERROR WHEN FIELD HAS VALUE /////////////////////////////
 function clearError(field) {
+    $(field).next().text("");
+}
+
+function clearErrorCheckBox(field) {
     $(field).next().text("");
 }
 ////////////////////// END OF CLEAR REQUIRED ERROR WHEN FIELD HAS VALUE ////////////////////////////
@@ -167,96 +172,30 @@ function edit_app(appId, srNum, button) {
     const btn_edit = button;
     const btn_cancel = button.next();
 
-    let nameOfApp = "#nameOfApp";
-    let companyName = "#companyName";
-    let contactPerson = "#contactPerson";
-    let mobileNumber = "#mobileNumber";
-    let whatsapp = "#whatsapp";
-    let email= "#email";
-    let category= "#category";
-    let dateOfLastUpdate = "#dateOfLastUpdate";
-    let videoLink = "#videoLink";
-    let androidLink = "#androidLink";
-    let iosLink = "#iosLink";
-    let instaLink = "#instaLink";
-    let fbLink = "#fbLink";
-    let website = "#website";
-    let rating = "#rating";
-    let appIstalls = "#appIstalls";
-    let appsize = "#appsize";
-    let english = "#english";
-    let arabic = "#arabic";
-    let tags = "#tags";
-    let description = "#description";
-    let update_app = "#update_app";
+    let nameOfApp = "#nameOfApp"; let companyName = "#companyName"; let contactPerson = "#contactPerson";
+    let telcode_mobile = "#telcode_mobile"; let mobileNumber = "#mobileNumber"; let telcode_whatsapp = "#telcode_whatsapp";
+    let whatsapp = "#whatsapp"; let email= "#email"; let category= "#category"; let dateOfLastUpdate = "#dateOfLastUpdate";
+    let videoLink = "#videoLink"; let androidLink = "#androidLink"; let iosLink = "#iosLink"; let instaLink = "#instaLink";
+    let fbLink = "#fbLink"; let website = "#website"; let rating = "#rating"; let appIstalls = "#appIstalls";
+    let appsize = "#appsize"; let english = "#english"; let arabic = "#arabic"; let app_language = "#app_language";
+    let tags = "#tags"; let description = "#description"; let update_app = "#update_app";
     
-    let old_nameOfApp;
-    let old_companyName;
-    let old_contactPerson;
-    let old_mobileNumber;
-    let old_whatsapp;
-    let old_email;
-    let old_category;
-    let old_dateOfLastUpdate;
-    let old_videoLink;
-    let old_androidLink;
-    let old_iosLink;
-    let old_instaLink;
-    let old_fbLink;
-    let old_website;
-    let old_rating;
-    let old_appIstalls;
-    let old_appsize;
-    let old_english;
-    let old_arabic;
-    let old_tags;
-    let old_description;
-    let new_english;
-    let new_arabic;
+    let old_nameOfApp, old_companyName, old_contactPerson, old_telcode_mobile, old_mobileNumber, old_telcode_whatsapp,
+    old_whatsapp, old_email, old_category, old_dateOfLastUpdate, old_videoLink, old_androidLink, old_iosLink,
+    old_instaLink, old_fbLink, old_website, old_rating, old_appIstalls, old_appsize, old_english, old_arabic, old_tags,
+    old_description, new_english, new_arabic;
 
-    nameOfApp += count;
-    companyName += count;
-    contactPerson += count;
-    mobileNumber += count;
-    whatsapp += count;
-    email += count;
-    category += count;
-    dateOfLastUpdate += count;
-    videoLink += count;
-    androidLink += count;
-    iosLink += count;
-    instaLink += count;
-    fbLink += count;
-    website += count;
-    rating += count;
-    appIstalls += count;
-    appsize += count;
-    english += count;
-    arabic += count;
-    tags += count;
-    description += count;
-    update_app += count;
+    nameOfApp += count; companyName += count; contactPerson += count; telcode_mobile += count; mobileNumber += count;
+    telcode_whatsapp += count; whatsapp += count; email += count; category += count; dateOfLastUpdate += count;
+    videoLink += count; androidLink += count; iosLink += count; instaLink += count; fbLink += count; website += count;
+    rating += count; appIstalls += count; appsize += count; english += count; arabic += count; app_language += count;
+    tags += count; description += count; update_app += count;
 
-    old_nameOfApp += count;
-    old_companyName += count;
-    old_contactPerson += count;
-    old_mobileNumber += count;
-    old_whatsapp += count;
-    old_email += count;
-    old_category += count;
-    old_dateOfLastUpdate += count;
-    old_videoLink += count;
-    old_androidLink += count;
-    old_iosLink += count;
-    old_instaLink += count;
-    old_fbLink += count;
-    old_website += count;
-    old_rating += count;
-    old_appIstalls += count;
-    old_appsize += count;
-    old_english += count;
-    old_arabic += count;
-    old_tags += count;
+    old_nameOfApp += count; old_companyName += count; old_contactPerson += count; old_telcode_mobile += count;
+    old_mobileNumber += count; old_telcode_whatsapp += count; old_whatsapp += count; old_email += count;
+    old_category += count; old_dateOfLastUpdate += count; old_videoLink += count; old_androidLink += count;
+    old_iosLink += count; old_instaLink += count; old_fbLink += count; old_website += count; old_rating += count;
+    old_appIstalls += count; old_appsize += count; old_english += count; old_arabic += count; old_tags += count;
     old_description += count;
 
     btn_edit.hide();                                                                     
@@ -268,17 +207,17 @@ function edit_app(appId, srNum, button) {
             '<div class="form-row">'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="nameOfApp">Name of the App <span class="text-danger"> <span class="text-danger">*</span></label>'+  
-                    '<input type="text" id="nameOfApp'+ count +'" name="nameOfApp" value="" class="form-control" placeholder="Name of the App" autofocus>'+
+                    '<input type="text" id="nameOfApp'+ count +'" name="nameOfApp" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Name of the App" autofocus>'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="companyName">Company Name <span class="text-danger">*</span></label>'+
-                    '<input type="text" id="companyName'+ count +'" name="companyName" value="" class="form-control" placeholder="Company Name">'+
+                    '<input type="text" id="companyName'+ count +'" name="companyName" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Company Name">'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
                 '<div class="form-group col-md-4">'+
-                    '<label class="col-form-label" for="contactPerson">Contact Person <span class="text-danger">*</span></label>'+
-                    '<input type="text" id="contactPerson'+ count +'" name="contactPerson" value="" class="form-control" placeholder="Contact Person">'+
+                    '<label class="col-form-label" for="contactPerson">Contact Person Name <span class="text-danger">*</span></label>'+
+                    '<input type="text" id="contactPerson'+ count +'" name="contactPerson" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Contact Person">'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
             '</div>'+
@@ -286,16 +225,35 @@ function edit_app(appId, srNum, button) {
             '<div class="form-row">'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="mobileNumber">Mobile Number <span class="text-danger">*</span></label>'+
-                    '<input type="mobile" id="mobileNumber'+ count +'" name="mobileNumber" value="" class="form-control" placeholder="Mobile Number">'+
-                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                    '<div class="flex">'+
+                        '<div class="col-md-5 padding-0">'+
+                            '<select id="telcode_mobile'+ count +'" name="telcode_mobile" class="form-control telCode">'+
+                                '<option value="">-- Tel Code --</option>'+                                
+                            '</select>'+                            
+                            '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                        '</div>'+
+                        '<div class="col-md-6 offset-md-1 padding-0">'+
+                            '<input type="tel"" id="mobileNumber'+ count +'" name="mobileNumber" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Mobile Number" required>'+
+                            '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                        '</div>'+                        
+                    '</div>'+
                 '</div>'+
+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="whatsapp">WhatsApp Number</label>'+
-                    '<input type="mobile" id="whatsapp'+ count +'" name="whatsapp" value="" class="form-control" placeholder="WhatsApp Number">'+                    
+                    '<div class="flex">'+
+                        '<div class="col-md-5 padding-0">'+
+                            '<select id="telcode_whatsapp'+ count +'" name="telcode_whatsapp" class="form-control telCode"></select>'+
+                            '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                        '</div>'+
+                        '<div class="col-md-6 offset-md-1 padding-0">'+
+                            '<input type="tel"" id="whatsapp'+ count +'" name="whatsapp" value="" class="form-control" placeholder="WhatsApp Number" required>'+
+                        '</div>'+
+                    '</div>'+
                 '</div>'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="email">E-Mail <span class="text-danger">*</span></label>'+
-                    '<input type="email" name="email" id="email'+ count +'" value="" class="form-control" placeholder="E-Mail">'+
+                    '<input type="email" name="email" id="email'+ count +'" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="E-Mail">'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
             '</div>'+
@@ -303,7 +261,7 @@ function edit_app(appId, srNum, button) {
             '<div class="form-row">'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="category">Category of The App  <span class="text-danger">*</span></label>'+
-                    '<select class="form-control" id="category'+ count +'" name="category">'+
+                    '<select class="form-control" id="category'+ count +'"  onchange=clearError(this); name="category">'+
                         '<option value="">-- Select Category --</option>'+
                     '</select>'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
@@ -344,32 +302,36 @@ function edit_app(appId, srNum, button) {
                 '</div>'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="rating">App Rating <span class="text-danger">*</span></label>'+
-                    '<input type="text" id="rating'+ count +'" name="rating" value="" class="form-control" placeholder="3.5, 4.4, etc">'+
+                    '<input type="text" id="rating'+ count +'" name="rating" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="3.5, 4.4, etc">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
             '</div>'+
 
             '<div class="form-row">'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="appIstalls">Number of App Installs <span class="text-danger">*</span></label>'+
-                    '<input type="number" id="appIstalls'+ count +'" name="appIstalls" value="" class="form-control" placeholder="Number of App Installs">'+
+                    '<input type="number" id="appIstalls'+ count +'" name="appIstalls" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Number of App Installs">'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="appsize">Size of The App(MB) <span class="text-danger">*</span></label>'+
-                    '<input type="text" name="appsize" value="" id="appsize'+ count +'" class="form-control" placeholder="Size in MB">'+
+                    '<input type="text" name="appsize" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); id="appsize'+ count +'" class="form-control" placeholder="Size in MB">'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
                 '<div class="form-group col-md-4">'+
                     '<label class="col-form-label" for="appLanguage">Languages in the App  <span class="text-danger">*</span></label>'+
                     '<div class="col-md-6 checkbox checkbox-blue">'+
-                        '<span>'+
-                            '<input id="english'+ count +'" name="english" value=1 type="checkbox" data-parsley-multiple="group1">'+
-                            '<label for="english'+ count +'"> English </label>'+
-                        '</span>&nbsp;&nbsp;&nbsp;&nbsp;'+
-                        '<span>'+
-                            '<input id="arabic'+ count +'" name="arabic" value=1 type="checkbox" data-parsley-multiple="group1">'+
-                            '<label for="arabic'+ count +'"> Arabic </label>'+
-                        '</span>'+
+                        '<div id="app_language'+ count +'">'+
+                            '<span>'+
+                                '<input id="english'+ count +'" name="english" onchange=clearErrorCheckBox(app_language'+count+'); value=1 type="checkbox" data-parsley-multiple="group1">'+
+                                '<label for="english'+ count +'"> English </label>'+
+                            '</span>&nbsp;&nbsp;&nbsp;&nbsp;'+
+                            '<span>'+
+                                '<input id="arabic'+ count +'" name="arabic" onchange=clearErrorCheckBox(app_language'+count+'); value=1 type="checkbox" data-parsley-multiple="group1">'+
+                                '<label for="arabic'+ count +'"> Arabic </label>'+
+                            '</span>'+
+                        '</div>'+
+                        '<div class="required_error text-danger text-align-left bold-500"></div>'+
                     '</div>'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
@@ -377,8 +339,8 @@ function edit_app(appId, srNum, button) {
 
             '<div class="form-row">'+
                 '<div class="form-group col-md-12">'+
-                    '<label class="col-form-label" for="tags">Tags *</label>'+
-                    '<input type="text" id="tags'+ count +'" class="form-control" name = "tags" value="" data-role="tagsinput">'+
+                    '<label class="col-form-label" for="tags">Tags <span class="text-danger">*</span></label>'+
+                    '<input type="text" id="tags'+ count +'" class="form-control" name = "tags" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); data-role="tagsinput">'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
             '</div>'+
@@ -425,7 +387,6 @@ function edit_app(appId, srNum, button) {
                 $(appIstalls).val(res.app_data.app_installs); old_appIstalls = res.app_data.app_installs;
                 $(appsize).val(res.app_data.app_size); old_appsize = res.app_data.app_size;
                 $(tags).val(res.app_data.tags); old_tags = res.app_data.tags;
-                //$(description).val(res.app_data.description); old_description = res.app_data.description;
 
                 if(res.app_data.english == 1) {
                     $(english).attr("checked", "checked");
@@ -434,7 +395,29 @@ function edit_app(appId, srNum, button) {
                 if(res.app_data.arabic == 1) {
                     $(arabic).attr("checked", "checked");
                     old_arabic = 1;
-                } 
+                }
+
+                for(i = 0; i < telObj.length; i++) {
+                    let country_name, dial_code, code;
+                    country_name = telObj[i]['name'];
+                    dial_code = telObj[i]['dial_code'];
+                    code = telObj[i]['code'];
+                    if(res.app_data.telcode_mobile == dial_code) {
+                        $(telcode_mobile).append("<option value='"+dial_code+"' selected>"+country_name+" ("+code+") "+dial_code+"</option>");
+                    }
+                    else $(telcode_mobile).append("<option value='"+dial_code+"'>"+country_name+" ("+code+") "+dial_code+"</option>");
+                }
+
+                for(i = 0; i < telObj.length; i++) {
+                    let country_name, dial_code, code;
+                    country_name = telObj[i]['name'];
+                    dial_code = telObj[i]['dial_code'];
+                    code = telObj[i]['code'];
+                    if(res.app_data.telcode_whatsapp == dial_code) {
+                        $(telcode_whatsapp).append("<option value='"+dial_code+"' selected>"+country_name+" ("+code+") "+dial_code+"</option>");
+                    }
+                    else $(telcode_whatsapp).append("<option value='"+dial_code+"'>"+country_name+" ("+code+") "+dial_code+"</option>");
+                }
 
                 for(i = 0; i < res.cat_data.length; i++) {
                     myObj = res.cat_data[i];
@@ -460,8 +443,8 @@ function edit_app(appId, srNum, button) {
         if($(arabic+':checkbox:checked').length > 0) new_arabic = 1;
         else new_arabic = 0;
 
-        console.log($(description).val());
-        console.log(old_description);
+        // console.log($(description).val());
+        // console.log(old_description);
         
         if(($(companyName).val() == old_companyName && $(contactPerson).val() == old_contactPerson && $(mobileNumber).val() == old_mobileNumber && $(whatsapp).val() == old_whatsapp && $(email).val() == old_email && $(category).val() == old_category && $(dateOfLastUpdate).val() == old_dateOfLastUpdate && $(videoLink).val() == old_videoLink && $(androidLink).val() == old_androidLink && $(iosLink).val() == old_iosLink && $(instaLink).val() == old_instaLink && $(fbLink).val() == old_fbLink && $(website).val() == old_website && $(rating).val() == old_rating && $(appIstalls).val() == old_appIstalls && $(appsize).val() == old_appsize && $(tags).val() == old_tags && new_english == old_english && new_arabic == old_arabic) || $(nameOfApp).val() != old_nameOfApp) {
 
@@ -471,14 +454,33 @@ function edit_app(appId, srNum, button) {
                 dataType: 'json',
                 data: { table: 'app', field: 'app_name', value: $(nameOfApp).val() },
                 success:function(res) {
-                    if(res.duplicate == 'yes') {   
-                        //alert("yes");                                             
+                    if(res.duplicate == 'yes') {
                         $(nameOfApp).next().text("App name must be unique.");
                         duplicate_status = 1;                            
                     }                       
                 }
             });
-        } 
+        }
+
+        let phoneno = /^\d{8}$/;
+        
+        if($(nameOfApp).val() == '' || $(companyName).val() == '' || $(contactPerson).val() == '' || $(mobileNumber).val() == '' || $(email).val() == '' || $(category).val() == '' || $(rating).val() == '' || (new_english == 0 && new_arabic == 0) || $(appIstalls).val() == '' || $(appsize).val() == '' || $(tags).val() == '') {
+            
+            if($(nameOfApp).val() == '') $(nameOfApp).next().text("Please enter App Name.");
+            if($(companyName).val() == '') $(companyName).next().text("Please enter Company Name.");
+            if($(contactPerson).val() == '') $(contactPerson).next().text("Please enter Contact Person.");
+            if($(mobileNumber).val() == '') $(mobileNumber).next().text("Please enter Mobile Number.");
+            if($(email).val() == '') $(email).next().text("Please enter E-Mail.");            
+            if($(category).val() == '') $(category).next().text("Please select App Category.");
+            if($(rating).val() == '') $(rating).next().text("Please enter App Rating.");
+            if(new_english == 0 && new_arabic == 0) $(app_language).next().text("Please select Language.");
+            if($(appIstalls).val() == '') $(appIstalls).next().text("Please enter Number of App Installs.");
+            if($(appsize).val() == '') $(appsize).next().text("Please enter Size of the App.");
+            if($(tags).val() == '') $(tags).next().text("Please enter Tags.");
+        }
+
+        // if(!('mobileNumber'+count.value.match(phoneno))) $(mobileNumber).next().text("Please enter 8 digit Mobile Number with correct format.");
+        // if(!('whatsapp'+count.value.match(phoneno))) $(whatsapp).next().text("Please enter 8 digit WhatsApp Number with correct format.");
     });
 
     btn_cancel.click(function() {

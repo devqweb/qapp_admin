@@ -36,8 +36,13 @@
         <!-- JQuery -->
         <script src="<?php echo base_url("assets/js/jquery.min.js") ?>"></script>
 
-        <!-- My Script js -->
+        <!-- International Phone Number -->        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js" integrity="sha512-DNeDhsl+FWnx5B1EQzsayHMyP6Xl/Mg+vcnFPXGNjUZrW28hQaa1+A4qL9M+AiOMmkAhKAWYHh1a+t6qxthzUw==" crossorigin="anonymous"></script>
+
+        <!-- CUSTOM My Script js -->
         <script src="<?php echo base_url("assets/js/myscript.js") ?>"></script>
+        <!-- CUSTOM International Telephone Code -->
+        <script src="<?php echo base_url("assets/js/int_tel_code.js") ?>"></script>
     </head>
 
     <body>
