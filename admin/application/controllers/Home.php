@@ -711,6 +711,7 @@ class Home extends CI_Controller {
 		$order_by = array('name', 'ASC');
 
 		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('app_id'=>$app_id));
+		// $data['app_data']['tags'] = explode(',', $data['app_data']['tags']);
 		$data['cat_data'] = $this->Common_model->common_select($fields, 'category', array(), $order_by);
 		echo json_encode($data);
 	}
@@ -840,6 +841,176 @@ class Home extends CI_Controller {
 		echo json_encode($data);	
 	}
 	############################### END OF UPDATE HOME SLIDER USING AJAX ###############################
+
+
+
+	###################################### UPDATE APP USING AJAX #######################################
+	public function update_app_ajax() {		
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$app_id = $this->input->post("app_id");
+		$app_name = $this->input->post("app_name");
+		$company_name = $this->input->post("company_name");
+		$contact_person = $this->input->post("contact_person");
+		$telcode_mobile = $this->input->post("telcode_mobile");
+		$mobile = $this->input->post("mobile");
+		$telcode_whatsapp = $this->input->post("telcode_whatsapp");
+		$whatsapp = $this->input->post("whatsapp");
+		$email = $this->input->post("email");
+		$category = $this->input->post("category");
+		$last_update = $this->input->post("last_update");
+		$video_link = $this->input->post("video_link");
+		$android_link = $this->input->post("android_link");
+		$ios_link = $this->input->post("ios_link");
+		$instagram_link = $this->input->post("instagram_link");
+		$facebook_link = $this->input->post("facebook_link");
+		$website = $this->input->post("website");
+		$app_rating = $this->input->post("app_rating");
+		$app_installs = $this->input->post("app_installs");
+		$english = $this->input->post("english");
+		$arabic = $this->input->post("arabic");
+		$tags = $this->input->post("tags");
+		$sr_num = $this->input->post("sr_num");
+		$data['response'] = 'success';
+		$update_status = "";
+		
+		$update_data = array('app_name' => $app_name,
+							'company_name' => $company_name,
+							'contact_person' => $contact_person,
+							'telcode_mobile' => $telcode_mobile,
+							'mobile' => $mobile,
+							'telcode_whatsapp' => $telcode_whatsapp,
+							'whatsapp' => $whatsapp,
+							'email' => $email,
+							'category' => $category,
+							'last_update' => $last_update,
+							'video_link' => $video_link,
+							'android_link' => $android_link,
+							'ios_link' => $ios_link,
+							'instagram_link' => $instagram_link,
+							'facebook_link' => $facebook_link,
+							'website' => $website,
+							'app_rating' => $app_rating,
+							'app_installs' => $app_installs,
+							'english' => $english,
+							'arabic' => $arabic,
+							'tags' => $tags						
+						);
+		
+		$update_status = $this->Common_model->common_update($table_name, $update_data, array($where => $app_id));
+		if($update_status) {
+		 	$data['response'] = "success";
+			$table_data = "";
+			$get_data = $this->Common_model->common_select_single_row('*', $table_name, array($where => $app_id));
+
+			if($get_data['promotion'] == 1) {
+				$promotion = "bg-success text-white";
+				$ed_operatoin = "disabled";
+			} 
+			else if($get_data['promotion'] == 2) {
+				$promotion = "bg-warning text-dark";
+				$ed_operatoin = "disabled";
+			} 
+			else if($get_data['promotion'] == 3) {
+				$promotion = "bg-danger text-white";
+				$ed_operatoin = "";
+			}
+			else {
+				$promotion = "";
+				$ed_operatoin = "";
+			}
+			
+			$table_data .= '<td>'.$sr_num.'</td>';
+			$table_data .= '<td>'. $get_data['app_id'] .'</td>';
+			$table_data .= '<td>'. $get_data['app_name'] .'</td>';
+			$table_data .= '<td><img src="./upload/app_icon/'.$get_data['app_icon'].'" class="data-img"></td>';
+			$table_data .= '<td>'. $get_data['category'] .'</td>';
+			$table_data .= '<td>'. $get_data['company_name'] .'</td>';
+			$table_data .= '<td>'. $get_data['contact_person'] .'</td>';
+			$table_data .= '<td>('. $get_data['telcode_mobile'] .') '.$get_data['mobile'].'</td>';
+			$table_data .= '<td>('. $get_data['telcode_whatsapp'] .') '.$get_data['whatsapp'].'</td>';
+			$table_data .= '<td>'. $get_data['email'] .'</td>';
+			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['android_link'] .'</td>';
+			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['ios_link'] .'</td>';
+			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['video_link'] .'</td>';
+			$table_data .= '<td>'. $get_data['last_update'] .'</td>';
+			$table_data .= '<td>'. $get_data['tags'] .'</td>';
+			$table_data .= '<td class="scroll-field">'. $get_data['description'] .'</td>';
+			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['website'] .'</td>';
+			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['instagram_link'] .'</td>';
+			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['facebook_link'] .'</td>';
+			$table_data .= '<td>'. $get_data['app_size'] .'</td>';
+			$table_data .= '<td>'. $get_data['app_rating'] .'</td>';
+			$table_data .= '<td>'. $get_data['app_installs'] .'</td>';
+
+			if($get_data['english'] == 1) {
+				$table_data .= '<td><i class="fas fa-check"></i></td>';
+			}
+			else {
+				$table_data .= '<td><i class="fas fa-times"></i></td>';
+			}
+			if($get_data['arabic'] == 1) {
+				$table_data .= '<td><i class="fas fa-check"></i></td>';
+			}
+			else {
+				$table_data .= '<td><i class="fas fa-times"></i></td>';
+			}
+			if($get_data['t_c'] == 1) {
+				$table_data .= '<td><i class="fas fa-check"></i></td>';
+			}
+			else {
+				$table_data .= '<td><i class="fas fa-times"></i></td>';
+			}
+			if($get_data['a_c'] == 1) {
+				$table_data .= '<td><i class="fas fa-check"></i></td>';
+			}
+			else {
+				$table_data .= '<td><i class="fas fa-times"></i></td>';
+			}			
+			$table_data .= '<td>'. $get_data['datetime'] .'</td>';
+			$table_data .= '<td>'. $get_data['details_update'] .'</td>';
+			$table_data .= '<td>'. $get_data['added_by'] .'</td>';
+			$table_data .= '<td>
+								<div class="btn-group">
+									<button class="btn btn-info btn-sm btn-edit-category" type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['app_id'].'" onclick = my_app_edit(this);>
+										<i class="mdi mdi-pencil"></i>
+									</button>
+
+									<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
+										<i class="fas fa-times"></i>
+									</button>
+
+									<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="mdi mdi-chevron-down"></i>
+									</button>
+
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item" href="#">Details</a>
+
+										<a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+
+										<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
+
+										<a class="dropdown-item" href="#">Edit Description</a>
+										<a class="dropdown-item" href="#">Screenshots</a>
+										<a class="dropdown-item" href="#">Add to Promotion</a> 
+										<a class="dropdown-item" href="#">Remove Promotion</a>
+										
+										<div class="dropdown-divider"></div>
+
+										<a class="dropdown-item" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-order-field="order_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+									</div>
+								</div>
+							</td>';
+				
+			$data['table_data'] = $table_data;
+		} 
+		else $data['response'] = "failed";
+		
+		echo json_encode($data);	
+	}
+	################################## END OF UPDATE APP USING AJAX ####################################
+
 
 	
 	################################ UPDATE TRENDING BANNER USING AJAX #################################

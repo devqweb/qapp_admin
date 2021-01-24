@@ -12,7 +12,7 @@
             
             <div class="content-page">
                 <div class="content">
-
+    
                     <!-- Start Content-->
                     <div class="container-fluid">                    
                         <div class="row">
@@ -25,43 +25,42 @@
                                                 <table id="responsive-datatable" class="table table-striped table-sm table-bordered table-bordered dt-responsive nowrap database-records">
                                                     <thead class="thead-dark">
                                                     <tr>
-                                                        <th>#</th>
-                                                        <th data-priority="1">App ID</th>
-                                                        <th data-priority="2">App Name</th>
-                                                        <th data-priority="29">Added By</th>
-                                                        <th data-priority="3">App Logo</th>
-                                                        <th data-priority="4">Category</th>
-                                                        <th data-priority="5">Company</th>
-                                                        <th data-priority="6">Person Name</th>
-                                                        <th data-priority="7">Mobile</th>
-                                                        <th data-priority="8">WhatsApp</th>
-                                                        <th data-priority="9">E-Mail</th>
-                                                        <th data-priority="10">Android</th>
+                                                        <th data-priority="1">#</th>
+                                                        <th data-priority="2">App ID</th>
+                                                        <th data-priority="3">App Name</th>                                                        
+                                                        <th data-priority="4">App Logo</th>
+                                                        <th data-priority="5">Category</th>
+                                                        <th data-priority="6">Company</th>
+                                                        <th data-priority="7">Person Name</th>
+                                                        <th data-priority="8">Mobile</th>
+                                                        <th data-priority="9">WhatsApp</th>
+                                                        <th data-priority="10">E-Mail</th>
+                                                        <th data-priority="11">Android</th>
                                                         <th data-priority="12">IOS</th>
-                                                        <th data-priority="13">Video Link</th>
-                                                        <th data-priority="14">Last Update</th>
-                                                        <th data-priority="15">Tags</th>
-                                                        <th data-priority="16">Description</th>
-                                                        <th data-priority="17">Website</th>
-                                                        <th data-priority="18">Instagram</th>
-                                                        <th data-priority="19">Facebook</th>
-                                                        <th data-priority="20">Size</th>
-                                                        <th data-priority="21">Rating</th>
-                                                        <th data-priority="22">Installs</th>
-                                                        <th data-priority="23">English</th>
-                                                        <th data-priority="24">Arabic</th>
-                                                        <th data-priority="25">T&C</th>
-                                                        <th data-priority="26">AC</th>
-                                                        <th data-priority="27">Added On</th>
-                                                        <th data-priority="28">Update On</th>
-                                                        <th data-priority="11">Action</th>                                                        
+                                                        <th data-priority="14">Video Link</th>
+                                                        <th data-priority="15">Last Update</th>
+                                                        <th data-priority="16">Tags</th>
+                                                        <th data-priority="17">Description</th>
+                                                        <th data-priority="18">Website</th>
+                                                        <th data-priority="19">Instagram</th>
+                                                        <th data-priority="20">Facebook</th>
+                                                        <th data-priority="21">Size</th>
+                                                        <th data-priority="22">Rating</th>
+                                                        <th data-priority="23">Installs</th>
+                                                        <th data-priority="24">English</th>
+                                                        <th data-priority="25">Arabic</th>
+                                                        <th data-priority="26">T&C</th>
+                                                        <th data-priority="27">AC</th>
+                                                        <th data-priority="28">Added On</th>
+                                                        <th data-priority="29">Update On</th>
+                                                        <th data-priority="30">Added By</th>
+                                                        <th data-priority="13">Action</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <?php
                                                         $sr_num = 0;
-                                                        foreach($app_data as $row) {
-                                                            
+                                                        foreach($app_data as $row) {                                                            
                                                             if($row->promotion == 1) {
                                                                 $promotion = "bg-success text-white";
                                                                 $ed_operatoin = "disabled";
@@ -85,18 +84,17 @@
                                                                 echo '<th>'. ++$sr_num. '</th>';
                                                                 echo '<td>'. $row->app_id .'</td>';
                                                                 echo '<td>'. $row->app_name .'</td>';
-                                                                echo '<td>'. $row->added_by .'</td>';
                                                                 echo '<td><img src="./upload/app_icon/'.$row->app_icon.'" class="data-img"></td>';
                                                                 echo '<td>'. $row->category.'</td>';
                                                                 echo '<td>'. $row->company_name .'</td>';
                                                                 echo '<td>'. $row->contact_person	 .'</td>';
-                                                                echo '<td>'. $row->mobile .'</td>';
-                                                                echo '<td>'. $row->whatsapp .'</td>';
+                                                                echo '<td>('. $row->telcode_mobile .') ' .$row->mobile.'</td>';
+                                                                echo '<td>('. $row->telcode_whatsapp .') '.$row->whatsapp.'</td>';
                                                                 echo '<td>'. $row->email .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->android_link .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->ios_link .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->video_link .'</td>';
-                                                                echo '<td class="scroll-field scroll-field-link">'. $row->last_update .'</td>';
+                                                                echo '<td>'. $row->last_update .'</td>';
                                                                 echo '<td>'. $row->tags .'</td>';
                                                                 echo '<td class="scroll-field">'. $row->description .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->website .'</td>';
@@ -130,7 +128,8 @@
                                                                     echo '<td><i class="fas fa-times"></i></td>';
                                                                 }
                                                                 echo '<td>'. $row->datetime .'</td>';
-                                                                echo '<td>'. $row->details_update .'</td>';
+                                                                echo '<td>'. $row->details_update .'</td>';                                                                
+                                                                echo '<td>'. $row->added_by .'</td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
                                                                             <button class="btn btn-info btn-sm" onclick = my_app_edit(this); type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'">
@@ -153,7 +152,14 @@
                                                                                 <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
                                                                                 <a class="dropdown-item" href="#">Edit Description</a>
-                                                                                <a class="dropdown-item" href="#">Screenshots</a>
+                                                                                <div class="dropdown-submenu">
+                                                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">Service C</span><span class="caret"></span></a>
+                                                                                    <ul class="dropdown-menu">
+                                                                                        <li><a href="#">Add New Screenshots</a></li>
+                                                                                        <li><a href="#">Edit Existing Screenshots</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                                
                                                                                 <a class="dropdown-item" href="#">Add to Promotion</a> 
                                                                                 <a class="dropdown-item" href="#">Remove Promotion</a>
                                                                                 

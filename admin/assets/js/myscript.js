@@ -227,7 +227,7 @@ function edit_app(appId, srNum, button) {
                     '<label class="col-form-label" for="mobileNumber">Mobile Number <span class="text-danger">*</span></label>'+
                     '<div class="flex">'+
                         '<div class="col-md-5 padding-0">'+
-                            '<select id="telcode_mobile'+ count +'" name="telcode_mobile" class="form-control telCode">'+
+                            '<select id="telcode_mobile'+ count +'" name="telcode_mobile" onchange=clearError(this); class="form-control telCode">'+
                                 '<option value="">-- Tel Code --</option>'+                                
                             '</select>'+                            
                             '<div class="required_error text-danger text-align-left bold-500"></div>'+
@@ -243,11 +243,14 @@ function edit_app(appId, srNum, button) {
                     '<label class="col-form-label" for="whatsapp">WhatsApp Number</label>'+
                     '<div class="flex">'+
                         '<div class="col-md-5 padding-0">'+
-                            '<select id="telcode_whatsapp'+ count +'" name="telcode_whatsapp" class="form-control telCode"></select>'+
+                            '<select id="telcode_whatsapp'+ count +'" name="telcode_whatsapp" onchange=clearError(this); class="form-control telCode">'+
+                                '<option value="">-- Tel Code --</option>'+                                
+                            '</select>'+
                             '<div class="required_error text-danger text-align-left bold-500"></div>'+
                         '</div>'+
                         '<div class="col-md-6 offset-md-1 padding-0">'+
-                            '<input type="tel"" id="whatsapp'+ count +'" name="whatsapp" value="" class="form-control" placeholder="WhatsApp Number" required>'+
+                            '<input type="tel"" id="whatsapp'+ count +'" name="whatsapp" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="WhatsApp Number">'+
+                            '<div class="required_error text-danger text-align-left bold-500"></div>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
@@ -336,7 +339,7 @@ function edit_app(appId, srNum, button) {
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
             '</div>'+
-
+            
             '<div class="form-row">'+
                 '<div class="form-group col-md-12">'+
                     '<label class="col-form-label" for="tags">Tags <span class="text-danger">*</span></label>'+
@@ -344,7 +347,7 @@ function edit_app(appId, srNum, button) {
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
             '</div>'+
-
+            '<script src="assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>'+
             // '<div class="form-row">'+
             //     '<div class="form-group col-md-12">'+
             //         '<label class="col-form-label" for="description">App Description*</label>'+
@@ -386,16 +389,22 @@ function edit_app(appId, srNum, button) {
                 $(rating).val(res.app_data.app_rating); old_rating = res.app_data.app_rating;
                 $(appIstalls).val(res.app_data.app_installs); old_appIstalls = res.app_data.app_installs;
                 $(appsize).val(res.app_data.app_size); old_appsize = res.app_data.app_size;
-                $(tags).val(res.app_data.tags); old_tags = res.app_data.tags;
+                //$(tags).val(res.app_data.tags); old_tags = res.app_data.tags;
+                // $('#NEWTAG').val(res.app_data.tags).trigger('change');
+                $(tags).tagsinput('add', res.app_data.tags); old_tags = res.app_data.tags;
+                // setTimeout(function(){$(tags).val(res.app_data.tags).trigger('change'); alert(res.app_data.tags); }, 4000);
+                old_telcode_mobile = res.app_data.telcode_mobile; old_telcode_whatsapp = res.app_data.telcode_whatsapp;
 
                 if(res.app_data.english == 1) {
                     $(english).attr("checked", "checked");
                     old_english = 1;
-                } 
+                }
+                else old_english = 0;
                 if(res.app_data.arabic == 1) {
                     $(arabic).attr("checked", "checked");
                     old_arabic = 1;
                 }
+                else old_arabic = 0;
 
                 for(i = 0; i < telObj.length; i++) {
                     let country_name, dial_code, code;
@@ -436,18 +445,15 @@ function edit_app(appId, srNum, button) {
     $(update_app).click(function() {
         let myform = $(this).parents(".data-edit");        
         let duplicate_status = 0;
-        $(nameOfApp).next().text("");
+        $(".required_error").text("");
 
         if($(english+':checkbox:checked').length > 0) new_english = 1;
         else new_english = 0;
         if($(arabic+':checkbox:checked').length > 0) new_arabic = 1;
         else new_arabic = 0;
-
-        // console.log($(description).val());
-        // console.log(old_description);
         
-        if(($(companyName).val() == old_companyName && $(contactPerson).val() == old_contactPerson && $(mobileNumber).val() == old_mobileNumber && $(whatsapp).val() == old_whatsapp && $(email).val() == old_email && $(category).val() == old_category && $(dateOfLastUpdate).val() == old_dateOfLastUpdate && $(videoLink).val() == old_videoLink && $(androidLink).val() == old_androidLink && $(iosLink).val() == old_iosLink && $(instaLink).val() == old_instaLink && $(fbLink).val() == old_fbLink && $(website).val() == old_website && $(rating).val() == old_rating && $(appIstalls).val() == old_appIstalls && $(appsize).val() == old_appsize && $(tags).val() == old_tags && new_english == old_english && new_arabic == old_arabic) || $(nameOfApp).val() != old_nameOfApp) {
-
+        if(($(companyName).val() == old_companyName && $(contactPerson).val() == old_contactPerson && $(telcode_mobile).val() == old_telcode_mobile && $(mobileNumber).val() == old_mobileNumber && $(telcode_whatsapp).val() == old_telcode_whatsapp && $(whatsapp).val() == old_whatsapp && $(email).val() == old_email && $(category).val() == old_category && $(dateOfLastUpdate).val() == old_dateOfLastUpdate && $(videoLink).val() == old_videoLink && $(androidLink).val() == old_androidLink && $(iosLink).val() == old_iosLink && $(instaLink).val() == old_instaLink && $(fbLink).val() == old_fbLink && $(website).val() == old_website && $(rating).val() == old_rating && $(appIstalls).val() == old_appIstalls && $(rating).val() == old_rating && $(appIstalls).val() == old_appIstalls && $(appsize).val() == old_appsize && $(tags).val() == old_tags && new_english == old_english) || $(nameOfApp).val() != old_nameOfApp) {
+            
             $.ajax({
                 url: "http://localhost/qapp/admin/check_duplicate_ajax",
                 method: 'POST',
@@ -456,19 +462,19 @@ function edit_app(appId, srNum, button) {
                 success:function(res) {
                     if(res.duplicate == 'yes') {
                         $(nameOfApp).next().text("App name must be unique.");
-                        duplicate_status = 1;                            
-                    }                       
+                        duplicate_status = 1;
+                    }
                 }
             });
         }
 
-        let phoneno = /^\d{8}$/;
+        //let phoneno = /^\d{8}$/;
         
-        if($(nameOfApp).val() == '' || $(companyName).val() == '' || $(contactPerson).val() == '' || $(mobileNumber).val() == '' || $(email).val() == '' || $(category).val() == '' || $(rating).val() == '' || (new_english == 0 && new_arabic == 0) || $(appIstalls).val() == '' || $(appsize).val() == '' || $(tags).val() == '') {
-            
+        if($(nameOfApp).val() == '' || $(companyName).val() == '' || $(contactPerson).val() == '' || $(telcode_mobile).val() == '' || $(mobileNumber).val() == '' || $(email).val() == '' || $(category).val() == '' || $(rating).val() == '' || (new_english == 0 && new_arabic == 0) || $(appIstalls).val() == '' || $(appsize).val() == '' || $(tags).val() == '') {
             if($(nameOfApp).val() == '') $(nameOfApp).next().text("Please enter App Name.");
             if($(companyName).val() == '') $(companyName).next().text("Please enter Company Name.");
             if($(contactPerson).val() == '') $(contactPerson).next().text("Please enter Contact Person.");
+            if($(telcode_mobile).val() == '') $(telcode_mobile).next().text("Please select Tel Code.");
             if($(mobileNumber).val() == '') $(mobileNumber).next().text("Please enter Mobile Number.");
             if($(email).val() == '') $(email).next().text("Please enter E-Mail.");            
             if($(category).val() == '') $(category).next().text("Please select App Category.");
@@ -477,6 +483,38 @@ function edit_app(appId, srNum, button) {
             if($(appIstalls).val() == '') $(appIstalls).next().text("Please enter Number of App Installs.");
             if($(appsize).val() == '') $(appsize).next().text("Please enter Size of the App.");
             if($(tags).val() == '') $(tags).next().text("Please enter Tags.");
+        }
+        //alert($(nameOfApp).val()+" "+old_nameOfApp);
+        if($(telcode_whatsapp).val() != '' && $(whatsapp).val() == '')
+            $(whatsapp).next().text("Please enter WhatsApp Number, or reset the tel code if you don't want to fill WhatsApp Number.");
+        if($(whatsapp).val() != '' && $(telcode_whatsapp).val() == '')
+            $(telcode_whatsapp).next().text("Please select Tel Code.");
+
+        else {
+            setTimeout(function() {
+                if(duplicate_status == 0) {
+                    $.ajax({
+                        url: "http://localhost/qapp/admin/update_app_ajax",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: { table: 'app', id: 'app_id', app_id: appId, app_name: $(nameOfApp).val(), company_name: $(companyName).val(), contact_person: $(contactPerson).val(), telcode_mobile:  $(telcode_mobile).val(), mobile: $(mobileNumber).val(), telcode_whatsapp: $(telcode_whatsapp).val() , whatsapp: $(whatsapp).val() , email: $(email).val() , category: $(category).val() , last_update: $(dateOfLastUpdate).val() , video_link: $(videoLink).val() , android_link: $(androidLink).val(), ios_link: $(iosLink).val() , instagram_link: $(instaLink).val(), facebook_link: $(fbLink).val(), website: $(website).val() , app_rating: $(rating).val() , app_installs: $(appIstalls).val(), english: new_english, arabic: new_arabic, tags: $(tags).val(), sr_num: srNum },
+                        success:function(res) {
+                            if(res.response == 'success') {
+                                myform.prev().html(res.table_data);
+                                myform.remove(".data-edit");
+                            }
+                            else {                                
+                                myform.find(".alert").hide();
+                                myform.find(".alert").addClass("alert-danger");
+                                myform.find(".alert").removeClass("display-none");
+                                myform.find(".alert").html("<b>Failed</b>! Home slider not updated");
+                                $(nameOfApp).focus();
+                                myform.find(".alert").fadeTo(2000, 500).slideUp(1000);                                
+                            }
+                        }
+                    });                                
+                }
+            }, 300);
         }
 
         // if(!('mobileNumber'+count.value.match(phoneno))) $(mobileNumber).next().text("Please enter 8 digit Mobile Number with correct format.");
