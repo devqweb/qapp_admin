@@ -210,6 +210,7 @@ class Home extends CI_Controller {
 		$this->CommonPage("new_app", $data);
 	}
 
+
 	############################################ MANAGE APPS ##########################################
 	public function manage_app() {
 		///////////////////////////////////SELECT RECORDS FROM APP///////////////////////////////////////
@@ -217,6 +218,7 @@ class Home extends CI_Controller {
 		$this->CommonPage("manage_app", $data);
 	}
 	##################################### END OF MANAGE APPS ##########################################
+
 
 	############################################ ADD NEW CATEGORY #####################################
 	public function new_category() {
@@ -702,6 +704,49 @@ class Home extends CI_Controller {
 	############################ END OF CHANGE IMAGE FROM DATABSE USING AJAX ###########################
 
 
+	################################### ADD NEW IMAGE USING AJAX #######################################
+		public function add_new_image_ajax() {
+			$table_name = $this->input->post("table");
+			$where = $this->input->post("id");
+			$record_id = $this->input->post("record_id");
+			$image_field = $this->input->post("image_field");
+			$folderPath = $this->input->post("folderPath");
+			$array = array($where => $record_id);
+			$image_name = '';
+			$data['response'] = '';
+			
+			/////////////////////// Upload new image and update the record in the database//////////////////////
+			$screenshots = array();
+			if(isset($_FILES['imageFile']) && $_FILES['imageFile']['name'] != '') {
+				$files = $_FILES;
+				$total_screenshots = count($_FILES['imageFile']['name']);
+				for($i = 0; $i < $total_screenshots; $i++) {
+					$_FILES['imageFile']['name'] = $files['imageFile']['name'][$i];
+					$_FILES['imageFile']['type'] = $files['imageFile']['type'][$i];
+					$_FILES['imageFile']['tmp_name'] = $files['imageFile']['tmp_name'][$i];
+					$_FILES['imageFile']['error'] = $files['imageFile']['error'][$i];
+					$_FILES['imageFile']['size'] = $files['imageFile']['size'][$i];
+
+					$screenshot_name = $this->Common_model->image_upload('./upload/app_screenshots/', 'imageFile');
+					
+					if($screenshot_name != '') {
+						//////////////////////////////// INSERT SCREENSHOT IN DATABSE ////////////////////////////////
+						$screenshots[] = array('app_id'=>$record_id, 'image'=>$screenshot_name);
+					}
+				}
+				
+				if(!empty($screenshots)) {
+					$upload_status = $this->Common_model->common_batch_insert('screenshots', $screenshots);
+					if($upload_status) $data['response'] = "success";
+					else $data['response'] = "failed";
+				}
+				else $data['response'] = "failed";
+			}
+			echo json_encode($data);
+		}
+	################################ END OF ADD NEW IMAGE USING AJAX ###################################
+
+
 	################################### GET RECORDS FROM APP USING AJAX ################################
 	function manage_app_ajax() {
 		$app_id = $this->input->post("app_id");
@@ -716,6 +761,32 @@ class Home extends CI_Controller {
 		echo json_encode($data);
 	}
 	################################### GET RECORDS FROM APP USING AJAX ################################
+
+
+	################################### GET RECORDS FROM APP USING AJAX ################################
+	function manage_app_description_ajax() {
+		$app_id = $this->input->post("app_id");
+		$table_name = $this->input->post("table");
+		$data['response'] = 'success';		
+		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('app_id'=>$app_id));
+		if(!empty($data['app_data'])) $data['response'] = 'success';
+		else $data['response'] = 'failed';
+		echo json_encode($data);
+	}
+	################################### GET RECORDS FROM APP USING AJAX ################################
+
+
+	############################ GET RECORDS FROM SCREENSHOTS USING AJAX ###############################
+	function manage_app_screens_ajax() {
+		$app_id = $this->input->post("app_id");
+		$table_name = $this->input->post("table");
+		$data['response'] = '';
+		$data['app_screen_data'] = $this->Common_model->common_select('*', 'screenshots', array('app_id'=>$app_id), array());
+		if(!empty($data['app_screen_data'])) $data['response'] = 'success';
+		else $data['response'] = 'failed';
+		echo json_encode($data);
+	}
+	############################## GET RECORDS FROM SCREENSHOTS USING AJAX #############################
 
 
 	################################### GET RECORDS FROM HOME SLIDER USING AJAX ########################	
@@ -923,7 +994,7 @@ class Home extends CI_Controller {
 			$table_data .= '<td>'.$sr_num.'</td>';
 			$table_data .= '<td>'. $get_data['app_id'] .'</td>';
 			$table_data .= '<td>'. $get_data['app_name'] .'</td>';
-			$table_data .= '<td><img src="./upload/app_icon/'.$get_data['app_icon'].'" class="data-img"></td>';
+			$table_data .= '<td><img src="./upload/app_icon/'.$get_data['app_icon'].'" class="data-img row-icon"></td>';
 			$table_data .= '<td>'. $get_data['category'] .'</td>';
 			$table_data .= '<td>'. $get_data['company_name'] .'</td>';
 			$table_data .= '<td>'. $get_data['contact_person'] .'</td>';
@@ -934,8 +1005,8 @@ class Home extends CI_Controller {
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['ios_link'] .'</td>';
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['video_link'] .'</td>';
 			$table_data .= '<td>'. $get_data['last_update'] .'</td>';
-			$table_data .= '<td>'. $get_data['tags'] .'</td>';
-			$table_data .= '<td class="scroll-field">'. $get_data['description'] .'</td>';
+			$table_data .= '<td class="scroll-field">'. $get_data['tags'] .'</td>';
+			$table_data .= '<td class="scroll-field single_refresh">'. $get_data['description'] .'</td>';
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['website'] .'</td>';
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['instagram_link'] .'</td>';
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['facebook_link'] .'</td>';
@@ -984,15 +1055,28 @@ class Home extends CI_Controller {
 										<i class="mdi mdi-chevron-down"></i>
 									</button>
 
-									<div class="dropdown-menu dropdown-menu-right">
+									<div class="dropdown-menu dropdown-menu-right text-align-right">
 										<a class="dropdown-item" href="#">Details</a>
 
 										<a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
 										<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
-										<a class="dropdown-item" href="#">Edit Description</a>
-										<a class="dropdown-item" href="#">Screenshots</a>
+										<a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['app_id'].'">
+											Edit Description
+										</a>
+
+										<div class="dropdown-submenu">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+												<span class="caret"></span>
+												<span class="nav-label">Screenshots</span>
+											</a>
+											<div class="dropdown-menu text-align-right">
+												<a class="dropdown-item" href="#"data-row-id="'.$get_data['app_id'].'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);>Add New Screenshots</a>
+												<a class="dropdown-item edit_screenshots" href="#">Edit Existing Screenshots</a>
+											</div>
+										</div>
+
 										<a class="dropdown-item" href="#">Add to Promotion</a> 
 										<a class="dropdown-item" href="#">Remove Promotion</a>
 										
@@ -1012,6 +1096,26 @@ class Home extends CI_Controller {
 	################################## END OF UPDATE APP USING AJAX ####################################
 
 
+
+	############################### END OF APP DESCRIPTION USING AJAX ##################################
+
+	############################### END OF UPDATE APP DESCRIPTION AJAX #################################
+
+	public function update_app_des_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$app_id = $this->input->post("app_id");
+		$description = $this->input->post("description");
+		$data['response'] = 'success';
+		$update_status = "";
+		$update_status = $this->Common_model->common_update($table_name, array('description'=>$description), array($where=>$app_id));
+
+		if($update_status) {
+			$data['response'] = 'success';
+		}
+		else $data['response'] = 'failed';
+		echo json_encode($data);
+	}
 	
 	################################ UPDATE TRENDING BANNER USING AJAX #################################
 	public function update_trending_banner_ajax() {

@@ -124,11 +124,11 @@
                                 <input type="hidden" name="id_field" value="" id="hidden_imageId_field_name">
                                 <input type="hidden" name="field" value="" id="hidden_image_field_name">
                                 <input type="hidden" name="field" value="" id="hidden_image_path">
-                                <input type="file" id="text_change_image" onchange = clearError(this); value="" class="form-control">
+                                <input type="file" id="text_change_image" onchange = clearError(this); value="" class="form-control file-field">
                                 <div class="required_error text-danger text-align-left"></div>
                                 <div class="flex justify-space-between mar-top-1rem">
                                     <button type="button" class="btn btn-primary my-btn-std" onclick = change_image_process();>Upload</button>
-                                    <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields();  data-dismiss="modal" aria-label="Close">Cancel</button>                            
+                                    <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields(change_image);  data-dismiss="modal" aria-label="Close">Cancel</button>                            
                                 </div>
                             </form>
                         </div>                            
@@ -137,6 +137,34 @@
             </div>
         </div>
         <!------------------- END OF COMMON MODAL FOR CHANGE IMAGE --------------------->
+
+
+        <!----------------------- COMMON MODAL FOR ADD NEW IMAGE ------------------------>
+        <div class="modal fade modal-dialog" tabindex="-1" id="new_image">
+            <div class="modal-dialog">
+                <div class="modal-content modal-md">                        
+                    <div class="modal-body col-md-10 mx-auto flex align-items-center justify-content-center text-align-center">                        
+                        <div class="full-width">
+                            <h1 class="pd-bottom-1rem">Browse New Images</h1>
+                            <form method="post" action="" enctype="multipart/form-data">
+                                <input type="hidden" name="id" value="" class="hidden_image_row_id">
+                                <input type="hidden" name="table" value="" class="hidden_image_table_name">
+                                <input type="hidden" name="id_field" value="" class="hidden_imageId_field_name">
+                                <input type="hidden" name="field" value="" class="hidden_image_field_name">
+                                <input type="hidden" name="field" value="" class="hidden_image_path">
+                                <input type="file" id="text_new_image" name="screenshots[]" multiple onchange = clearError(this); value="" class="form-control file-field">
+                                <div class="required_error text-danger text-align-left"></div>
+                                <div class="flex justify-space-between mar-top-1rem">
+                                    <button type="button" class="btn btn-primary my-btn-std" onclick = add_new_image_process();>Upload</button>
+                                    <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields(new_image);  data-dismiss="modal" aria-label="Close">Cancel</button>                            
+                                </div>
+                            </form>
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------- END OF COMMON MODAL FOR ADD NEW IMAGE --------------------->
 
         
         <!------------------COMMON SUCCESS BOX FOR DELETE RECORD----------------------->

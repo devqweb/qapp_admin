@@ -84,7 +84,7 @@
                                                                 echo '<th>'. ++$sr_num. '</th>';
                                                                 echo '<td>'. $row->app_id .'</td>';
                                                                 echo '<td>'. $row->app_name .'</td>';
-                                                                echo '<td><img src="./upload/app_icon/'.$row->app_icon.'" class="data-img"></td>';
+                                                                echo '<td><img src="./upload/app_icon/'.$row->app_icon.'" class="data-img row-icon"></td>';
                                                                 echo '<td>'. $row->category.'</td>';
                                                                 echo '<td>'. $row->company_name .'</td>';
                                                                 echo '<td>'. $row->contact_person	 .'</td>';
@@ -95,8 +95,8 @@
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->ios_link .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->video_link .'</td>';
                                                                 echo '<td>'. $row->last_update .'</td>';
-                                                                echo '<td>'. $row->tags .'</td>';
-                                                                echo '<td class="scroll-field">'. $row->description .'</td>';
+                                                                echo '<td class="scroll-field">'. $row->tags .'</td>';
+                                                                echo '<td class="scroll-field single_refresh">'. $row->description .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->website .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->instagram_link .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->facebook_link .'</td>';
@@ -132,7 +132,7 @@
                                                                 echo '<td>'. $row->added_by .'</td>';
                                                                 echo '<td>
                                                                         <div class="btn-group">
-                                                                            <button class="btn btn-info btn-sm" onclick = my_app_edit(this); type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'">
+                                                                            <button class="btn btn-info btn-sm btn-edit" type="button" title="Edit" onclick = my_app_edit(this); data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'">
                                                                                 <i class="mdi mdi-pencil"></i>
                                                                             </button>
 
@@ -144,20 +144,30 @@
                                                                                 <i class="mdi mdi-chevron-down"></i>
                                                                             </button>
 
-                                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                            <div class="dropdown-menu dropdown-menu-right text-align-right">
                                                                                 <a class="dropdown-item" href="#">Details</a>
                                                                                 
                                                                                 <a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
                                                                                 <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
-                                                                                <a class="dropdown-item" href="#">Edit Description</a>
+                                                                                <a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'">
+                                                                                    Edit Description
+                                                                                </a>
+
                                                                                 <div class="dropdown-submenu">
-                                                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <span class="nav-label">Service C</span><span class="caret"></span></a>
-                                                                                    <ul class="dropdown-menu">
-                                                                                        <li><a href="#">Add New Screenshots</a></li>
-                                                                                        <li><a href="#">Edit Existing Screenshots</a></li>
-                                                                                    </ul>
+                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                                                        <span class="caret"></span>
+                                                                                        <span class="nav-label">App Screens</span>
+                                                                                    </a>
+                                                                                    <div class="dropdown-menu text-align-right">
+                                                                                        <a class="dropdown-item" href="#" data-row-id="'.$row->app_id.'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);>
+                                                                                            Add New App Screens
+                                                                                        </a>
+                                                                                        <a class="dropdown-item edit_screenshots" href="#" onclick = my_app_edit_screenshots(this); data-row-id="'.$row->app_id.'">
+                                                                                            Edit Existing App Screens
+                                                                                        </a>
+                                                                                    </div>
                                                                                 </div>
                                                                                 
                                                                                 <a class="dropdown-item" href="#">Add to Promotion</a> 

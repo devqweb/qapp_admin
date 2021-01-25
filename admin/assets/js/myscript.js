@@ -1,4 +1,5 @@
 let count = 0;
+let imgRow = 0;
 let selected_row;
 
 
@@ -165,12 +166,15 @@ function my_cat_edit(button) {
 //////////////////////////////////// END OF EDIT CATEGORY //////////////////////////////////////////
 
 
-///////////////////////////////////////// EDIT APP /////////////////////////////////////////////////
+/////////////////////////////////////// EDIT APP BASIC DETAILS /////////////////////////////////////
 function edit_app(appId, srNum, button) {    
     count++;
     const main_row = button.parents("tr");
     const btn_edit = button;
     const btn_cancel = button.next();
+
+    main_row.find(".edit_des").addClass("disabled");
+    main_row.find(".edit_screenshots").addClass("disabled");
 
     let nameOfApp = "#nameOfApp"; let companyName = "#companyName"; let contactPerson = "#contactPerson";
     let telcode_mobile = "#telcode_mobile"; let mobileNumber = "#mobileNumber"; let telcode_whatsapp = "#telcode_whatsapp";
@@ -348,12 +352,6 @@ function edit_app(appId, srNum, button) {
                 '</div>'+
             '</div>'+
             '<script src="assets/libs/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>'+
-            // '<div class="form-row">'+
-            //     '<div class="form-group col-md-12">'+
-            //         '<label class="col-form-label" for="description">App Description*</label>'+
-            //         '<textarea name="description" id="description'+ count +'" name="description" cols="30" value="" rows="5" class="form-control" placeholder="App Description"></textarea>'+
-            //     '</div>'+
-            // '</div>'+
 
             '<div class="form-row">'+
                 '<div class="form-group col-md-6">'+
@@ -524,6 +522,8 @@ function edit_app(appId, srNum, button) {
     btn_cancel.click(function() {
         main_row.next().remove(".data-edit");
         $(this).addClass("display-none");
+        main_row.find(".edit_des").removeClass("disabled");
+        main_row.find(".edit_screenshots").removeClass("disabled");
         btn_edit.show();
     });
 }
@@ -533,7 +533,229 @@ function my_app_edit(button) {
     const srNum = button.getAttribute("data-sr-num");
     edit_app(appId, srNum, $(button));
 }
-////////////////////////////////////// END OF EDIT APP /////////////////////////////////////////////
+///////////////////////////////// END OF EDIT APP BASIC DETAILS /////////////////////////////////////
+
+
+////////////////////////////////// END OF EDIT APP DESCRIPTION //////////////////////////////////////
+function edit_app_des(appId, srNum, button) {
+    count++;    
+    const optn_edit = button;
+    const main_row = button.parents("tr");
+    const btn_group = button.parents(".btn-group");    
+    const btn_cancel = $(btn_group).children("button.btn-cancel");
+    const btn_edit = $(btn_group).children("button.btn-edit");
+    
+    $(btn_edit).hide();
+    btn_cancel.removeClass("display-none");
+    optn_edit.addClass("disabled");
+    main_row.find(".edit_screenshots").addClass("disabled");
+
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        $(this).addClass("display-none");
+        optn_edit.removeClass("disabled");
+        main_row.find(".edit_screenshots").removeClass("disabled");
+        $(this).prev().show();
+    });
+
+    let description = "#description";
+    let update_description = "#update_description";
+    description += count;
+    update_description += count;
+
+    main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
+        '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<form action = "" >'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-12">'+
+                    '<label class="col-form-label" for="description">App Description <span class="text-danger">*</span></label>'+
+                    '<textarea name="description" id="description'+ count +'" name="description" cols="30" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); rows="5" class="form-control" placeholder="App Description"></textarea>'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+            '</div>'+
+            
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_description'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Update Description">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+        '</td></tr>');
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/manage_app_description_ajax",
+        method: 'POST',
+        dataType: 'json',
+        data: { app_id: appId, table: 'app' },
+        success:function(res) {
+            if(res.response == 'success'){
+                $(description).val(res.app_data.description);
+            }
+        }
+    });
+
+    $(description).focus();
+
+    $(update_description).click(function() {
+        
+        let myform = $(this).parents(".data-edit");
+        $(description).next().text("");
+        
+        if($(description).val() == '') {
+            $(description).next().text("Please enter App Description.");
+        }
+        else {
+            setTimeout(function() {
+                $.ajax({
+                    url: "http://localhost/qapp/admin/update_app_des_ajax",
+                    method: 'POST',
+                    dataType: 'json',
+                    data: { table: 'app', id: 'app_id ', app_id: appId, description: $(description).val() },
+                    success:function(res) {
+                        if(res.response == 'success') {                          
+                            myform.prev().find(".single_refresh").text($(description).val());
+                            btn_cancel.addClass("display-none");
+                            $(btn_edit).show();
+                            optn_edit.removeClass("disabled");                            
+                            myform.remove(".data-edit");
+                        }
+                        else {
+                            myform.find(".alert").hide();
+                            myform.find(".alert").addClass("alert-danger");
+                            myform.find(".alert").removeClass("display-none");
+                            myform.find(".alert").html("<b>Failed</b>! App Description not updated");
+                            $(title).focus();
+                            myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
+                        }
+                    }
+                });            
+            }, 300);
+        }
+    });
+}
+
+function my_app_edit_des(button) {    
+    const appId = button.getAttribute("data-row-id");
+    const srNum = button.getAttribute("data-sr-num");
+    edit_app_des(appId, srNum, $(button));
+}
+///////////////////////////////// END OF EDIT APP DESCRIPTION ///////////////////////////////////////
+
+
+///////////////////////////////// END OF EDIT APP SCREENSHOTS ///////////////////////////////////////
+function edit_app_screenshots(appId, button) {
+    count++; imgRow++;
+    const optn_edit = button;
+    const main_row = button.parents("tr");
+    const btn_group = button.parents(".btn-group");    
+    const btn_cancel = $(btn_group).children("button.btn-cancel");
+    const btn_edit = $(btn_group).children("button.btn-edit");
+    
+    $(btn_edit).hide();
+    btn_cancel.removeClass("display-none");
+    optn_edit.addClass("disabled");
+    main_row.find(".edit_des").addClass("disabled");
+
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        $(this).addClass("display-none");
+        optn_edit.removeClass("disabled");
+        main_row.find(".edit_des").removeClass("disabled");
+        $(this).prev().show();
+    });
+
+    let appScreens = "#appScreens";
+    appScreens += count;
+
+    main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
+        '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<h1>Edit App Screens</h1>'+
+        '<form action = "" >'+
+            '<div id="appScreens'+ count +'">'+
+                '<div class="row text-align-center img-row" id="img-row'+ imgRow +'"> </div>'+
+            '</div>'+
+            
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_description'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Update Description">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+        '</td></tr>');
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/manage_app_screens_ajax",
+        method: 'POST',
+        dataType: 'json',
+        data: { app_id: appId, table: 'screenshots' },
+        success:function(res) {
+            if(res.response == 'success'){
+                let myObj;
+                let x = 0;
+                for(i = 0; i < res.app_screen_data.length; i++) {
+                    x++;
+                    myObj = res.app_screen_data[i];
+                    if(x <= 3) {
+                        $('#img-row'+ imgRow +'').append("<div class='col-md-4'><img src='././upload/app_screenshots/"+myObj.image+"'></div>");
+                    }
+                    else {
+                        $('#img-row'+ imgRow +'').after('<div class="row text-align-center img-row" id="img-row'+ (++imgRow) +'"> </div>');
+                        x = 0; i--;
+                    }
+                }
+            }
+        }
+    });
+
+    // $(description).focus();
+
+    // $(update_description).click(function() {
+        
+    //     let myform = $(this).parents(".data-edit");
+    //     $(description).next().text("");
+        
+    //     if($(description).val() == '') {
+    //         $(description).next().text("Please enter App Description.");
+    //     }
+    //     else {
+    //         setTimeout(function() {
+    //             $.ajax({
+    //                 url: "http://localhost/qapp/admin/update_app_des_ajax",
+    //                 method: 'POST',
+    //                 dataType: 'json',
+    //                 data: { table: 'app', id: 'app_id ', app_id: appId, description: $(description).val() },
+    //                 success:function(res) {
+    //                     if(res.response == 'success') {                          
+    //                         myform.prev().find(".single_refresh").text($(description).val());
+    //                         btn_cancel.addClass("display-none");
+    //                         $(btn_edit).show();
+    //                         optn_edit.removeClass("disabled");                            
+    //                         myform.remove(".data-edit");
+    //                     }
+    //                     else {
+    //                         myform.find(".alert").hide();
+    //                         myform.find(".alert").addClass("alert-danger");
+    //                         myform.find(".alert").removeClass("display-none");
+    //                         myform.find(".alert").html("<b>Failed</b>! App Description not updated");
+    //                         $(title).focus();
+    //                         myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
+    //                     }
+    //                 }
+    //             });            
+    //         }, 300);
+    //     }
+    // });
+}
+
+function my_app_edit_screenshots(button) {    
+    const appId = button.getAttribute("data-row-id");
+    edit_app_screenshots(appId, $(button));
+}
+///////////////////////////////// END OF EDIT APP SCREENSHOTS ///////////////////////////////////////
 
 
 //////////////////////////////////// EDIT HOME SLIDER //////////////////////////////////////////////
@@ -690,8 +912,7 @@ function edit_home_slider(sliderId, srNum, button) {
                     });                                
                 }
             }, 300);
-        }            
-               
+        } 
     });
     
     btn_cancel.click(function() {
@@ -911,6 +1132,76 @@ function change_image_data(button) {
 ///////////////////////////// END OF COMMON MODAL FOR CHANGE IMAGE //////////////////////////////////
 
 
+////////////////////////////////// COMMON MODAL FOR ADD NEW IMAGE //////////////////////////////////
+function new_image_data(button) {
+    const recordId = button.getAttribute("data-row-id");
+    const tableName = button.getAttribute("data-table-name");
+    const idField = button.getAttribute("data-table-id-field");
+    const imageField = button.getAttribute("data-table-image-field");
+    const imgPath = button.getAttribute("data-img-path");
+
+    //alert(recordId+", "+tableName+", "+idField+", "+imageField+", "+imgPath);
+    
+    selected_row = $(button).parents(".record-row");
+    
+    $("#new_image").find(".hidden_image_row_id").val(recordId);
+    $("#new_image").find(".hidden_image_table_name").val(tableName);
+    $("#new_image").find(".hidden_imageId_field_name").val(idField);
+    $("#new_image").find(".hidden_image_field_name").val(imageField);
+    $("#new_image").find(".hidden_image_path").val(imgPath);
+}
+//////////////////////////// END OF COMMON MODAL FOR ADD NEW IMAGE /////////////////////////////////
+
+
+////////////////////////////////////// COMMON CHANGE IMAGE /////////////////////////////////////////
+function add_new_image_process() {    
+    const recordId = $("#new_image").find(".hidden_image_row_id").val();
+    const tableName = $("#new_image").find(".hidden_image_table_name").val();
+    const idField = $("#new_image").find(".hidden_imageId_field_name").val();
+    const imageFieldName = $("#new_image").find(".hidden_image_field_name").val();
+    const imgPath = $("#new_image").find(".hidden_image_path").val();
+    const newImage = $('#text_new_image')[0];
+    
+    let fd = new FormData();
+    
+    if(newImage.files.length > 0 ) {
+        fd.append('table', tableName);
+        fd.append('id', idField);
+        fd.append('record_id', recordId);
+        fd.append('image_field', imageFieldName);
+        fd.append('folderPath', imgPath);
+        $.each(newImage.files, function(k, file){
+            fd.append('imageFile[]', file);
+        });
+
+        $.ajax({
+            url: "http://localhost/qapp/admin/add_new_image_ajax",
+            type: 'post',
+            dataType: 'json',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(res){
+                if(res.response == "success") {
+                    $("#new_image").modal("toggle");
+                    $("#success_modal").modal("toggle");
+                    $("#success_modal").find("h1").text("Success!");
+                    $("#success_modal").find("p").text("Images has been uploaded.");
+                    $("#text_new_image").val("");
+                }
+                else{
+                    $('#failed_modal').modal('toggle');
+                }
+            },
+        });
+    }
+    else {
+        $("#new_image").find(".required_error").text("Please select at least one file.");
+    }
+}
+///////////////////////////////// END OF COMMON CHANGE IMAGE ////////////////////////////////////////
+
+
 ////////////////////////////////////// COMMON CHANGE IMAGE /////////////////////////////////////////
 function change_image_process() {    
     const recordId = $("#hidden_image_row_id").val();
@@ -962,8 +1253,8 @@ function change_image_process() {
 
 
 ///////////// CLEAR INPUT TYPE FILE AND REQUIRED ERROR WHEN CLICK ON CANCEL BUTTON /////////////////
-function clearFields() {
-    $("#text_change_image").val("");
-    $("#change_image").find(".required_error").text("");
+function clearFields(field) {
+    $(field).find(".file-field").val("");
+    $(field).find(".required_error").text("");
 }
 ////////////END OF CLEAR INPUT TYPE FILE AND REQUIRED ERROR WHEN CLICK ON CANCEL BUTTON ////////////

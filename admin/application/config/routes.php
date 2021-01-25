@@ -25,3 +25,7 @@ $route['get_max_value_ajax'] = "home/get_max_value_ajax";
 $route['manage_trending_banner_ajax'] = "home/manage_trending_banner_ajax";
 $route['manage_app_ajax'] = "home/manage_app_ajax";
 $route['update_app_ajax'] = "home/update_app_ajax";
+$route['manage_app_description_ajax'] = "home/manage_app_description_ajax";
+$route['update_app_des_ajax'] = "home/update_app_des_ajax";
+$route['add_new_image_ajax'] = "home/add_new_image_ajax";
+$route['manage_app_screens_ajax'] = "home/manage_app_screens_ajax";
