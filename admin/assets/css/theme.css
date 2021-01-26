@@ -216,8 +216,12 @@
     display:flex;
 }
 
-.justify-space-between {
+.justify-space-around {
     justify-content: space-around;
+}
+
+.justify-space-between {
+    justify-content: space-between;
 }
 
 .my-btn-std {
@@ -242,6 +246,10 @@
 
 .pd-bottom-1rem {
     padding-bottom: 1rem;
+}
+
+.pd-bottom-2rem {
+    padding-bottom: 2rem;
 }
 
 .mar-bottom-1rem {
@@ -329,4 +337,16 @@
     height: auto;
     width: auto;
     max-width: 400px;
+}
+
+.justify-space-evenly {
+    justify-content: space-evenly;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.flex-direction-column {
+    flex-direction: column;
 }

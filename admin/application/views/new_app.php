@@ -241,11 +241,13 @@
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="icon">App Icon <span class="text-danger">*</span></label>
                                                             <input type="file" id="icon" name="icon" class="form-control">
+                                                            <span>GIF/JPG/JPEG/PNG Only</span>
                                                             <?php echo form_error('icon'); ?>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="screenshots">Screenshots <span class="text-danger">*</span></label>
                                                             <input type="file" id="screenshots" name="screenshots[]" multiple="multiple" class="form-control">
+                                                            <span>GIF/JPG/JPEG/PNG Only</span>
                                                             <?php echo form_error('screenshots'); ?>
                                                         </div>
                                                     </div>

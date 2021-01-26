@@ -50,7 +50,7 @@
 
                                                                 echo '<th>'. ++$sr_num. '</th>';
                                                                 echo '<td>'. $row->cat_id .'</td>';
-                                                                echo '<td><img src="./upload/category_img/'.$row->image.'" class="data-img"></td>';
+                                                                echo '<td><img src="./upload/category_img/'.$row->image.'" class="data-img row-icon"></td>';
                                                                 echo '<td>'. $row->name .'</td>';
                                                                 echo '<td>'. $row->order_in_slider .'</td>';
                                                                 echo '<td> </td>';
@@ -73,10 +73,10 @@
                                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                                 <a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
-                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->cat_id.'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-table-image-field="image" data-img-path="./upload/category_img/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>';

@@ -149,33 +149,20 @@
                                                                                 
                                                                                 <a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
                                                                                 <a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'">
                                                                                     Edit Description
                                                                                 </a>
 
-                                                                                <div class="dropdown-submenu">
-                                                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                                                                        <span class="caret"></span>
-                                                                                        <span class="nav-label">App Screens</span>
-                                                                                    </a>
-                                                                                    <div class="dropdown-menu text-align-right">
-                                                                                        <a class="dropdown-item" href="#" data-row-id="'.$row->app_id.'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);>
-                                                                                            Add New App Screens
-                                                                                        </a>
-                                                                                        <a class="dropdown-item edit_screenshots" href="#" onclick = my_app_edit_screenshots(this); data-row-id="'.$row->app_id.'">
-                                                                                            Edit Existing App Screens
-                                                                                        </a>
-                                                                                    </div>
-                                                                                </div>
+                                                                                <a class="dropdown-item edit_screenshots" href="#" onclick = my_app_edit_screenshots(this); data-row-id="'.$row->app_id.'"> App Screens </a>
                                                                                 
-                                                                                <a class="dropdown-item" href="#">Add to Promotion</a> 
-                                                                                <a class="dropdown-item" href="#">Remove Promotion</a>
+                                                                                <a class="dropdown-item disabled" href="#">Add to Promotion</a> 
+                                                                                <a class="dropdown-item disabled" href="#">Remove Promotion</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
 
-                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-order-field="order_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-order-field="" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>';

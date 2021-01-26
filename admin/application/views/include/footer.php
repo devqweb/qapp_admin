@@ -96,10 +96,12 @@
                         <input type="hidden" name="table" value="" id="hidden_table_name">
                         <input type="hidden" name="field" value="" id="hidden_field_name">
                         <input type="hidden" name="order" value="" id="hidden_order">
+                        <input type="hidden" name="image" value="" id="hidden_image_field_data">
+                        <input type="hidden" name="folder" value="" id="hidden_folder_field">
                         <div class="full-width">
                             <h1>Are you sure?</h1>
                             <p class="pd-bottom-1rem">You won't be able to revert this!</p>
-                            <div class="flex justify-space-between">
+                            <div class="flex justify-space-around">
                                 <button type="button" class="btn btn-primary my-btn-std" onclick = delete_record(); data-dismiss="modal">Yes I'm</button>
                                 <button type="button" class="btn btn-danger my-btn-std"  data-dismiss="modal" aria-label="Close">No I'm not</button>
                             </div>
@@ -126,7 +128,7 @@
                                 <input type="hidden" name="field" value="" id="hidden_image_path">
                                 <input type="file" id="text_change_image" onchange = clearError(this); value="" class="form-control file-field">
                                 <div class="required_error text-danger text-align-left"></div>
-                                <div class="flex justify-space-between mar-top-1rem">
+                                <div class="flex justify-space-around mar-top-1rem">
                                     <button type="button" class="btn btn-primary my-btn-std" onclick = change_image_process();>Upload</button>
                                     <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields(change_image);  data-dismiss="modal" aria-label="Close">Cancel</button>                            
                                 </div>
@@ -154,7 +156,7 @@
                                 <input type="hidden" name="field" value="" class="hidden_image_path">
                                 <input type="file" id="text_new_image" name="screenshots[]" multiple onchange = clearError(this); value="" class="form-control file-field">
                                 <div class="required_error text-danger text-align-left"></div>
-                                <div class="flex justify-space-between mar-top-1rem">
+                                <div class="flex justify-space-around mar-top-1rem">
                                     <button type="button" class="btn btn-primary my-btn-std" onclick = add_new_image_process();>Upload</button>
                                     <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields(new_image);  data-dismiss="modal" aria-label="Close">Cancel</button>                            
                                 </div>
@@ -176,7 +178,7 @@
                             <i class="fas fa-check acknowleg-big-icon"></i>
                             <h1></h1>
                             <p class="padding-bottom-1rem"></p>
-                            <div class="flex justify-space-between">
+                            <div class="flex justify-space-around">
                                 <button type="button" class="btn btn-primary my-btn-std"  data-dismiss="modal" aria-label="Close">OK</button>                            
                             </div>
                         </div>                            
@@ -195,7 +197,7 @@
                             <i class="fas fa-times acknowleg-big-icon"></i>
                             <h1>Failed!</h1>
                             <p class="padding-bottom-1rem">Oops operation failed.</p>
-                            <div class="flex justify-space-between">
+                            <div class="flex justify-space-around">
                                 <button type="button" class="btn btn-primary my-btn-std"  data-dismiss="modal" aria-label="Close">OK</button>
                             </div>
                         </div>

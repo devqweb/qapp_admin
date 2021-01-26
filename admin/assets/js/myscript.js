@@ -671,18 +671,12 @@ function edit_app_screenshots(appId, button) {
 
     main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
         '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
-        '<h1>Edit App Screens</h1>'+
+        '<div class="pd-bottom-2rem flex align-items-center justify-space-between">'+
+            '<h1>Edit App Screens</h1>'+
+            '<span><button type="button" class="btn btn-success" data-row-id="'+appId+'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);><i class="fas fa-plus"></i> Add New App Screens</button></div></span>'+
         '<form action = "" >'+
             '<div id="appScreens'+ count +'">'+
                 '<div class="row text-align-center img-row" id="img-row'+ imgRow +'"> </div>'+
-            '</div>'+
-            
-            '<div class="form-row">'+
-                '<div class="form-group col-md-6">'+
-                    '<input type = "button" name = "submit" id="update_description'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Update Description">'+
-                    '</a> &nbsp;&nbsp;&nbsp;'+
-                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
-                '</div>'+
             '</div>'+
         '</form>'+
         '</td></tr>');
@@ -700,7 +694,7 @@ function edit_app_screenshots(appId, button) {
                     x++;
                     myObj = res.app_screen_data[i];
                     if(x <= 3) {
-                        $('#img-row'+ imgRow +'').append("<div class='col-md-4'><img src='././upload/app_screenshots/"+myObj.image+"'></div>");
+                        $('#img-row'+ imgRow +'').append("<div class='col-md-4 record-row flex align-items-center flex-direction-column justify-space-between'><img src='././upload/app_screenshots/"+myObj.image+"' class='data-img pd-bottom-1rem'><div class='full-width flex justify-space-evenly'><button type='button' class='btn btn-primary app-status' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-toggle='modal' data-target='#change_image' onclick = change_image_data(this);>Change Image</button> <button class='btn btn-danger' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-order-field=''  data-toggle='modal' data-target='#modal_confirm_delete' onclick = confirm_modal_delete(this); >Delete Image</button></div></div>");
                     }
                     else {
                         $('#img-row'+ imgRow +'').after('<div class="row text-align-center img-row" id="img-row'+ (++imgRow) +'"> </div>');
@@ -710,45 +704,6 @@ function edit_app_screenshots(appId, button) {
             }
         }
     });
-
-    // $(description).focus();
-
-    // $(update_description).click(function() {
-        
-    //     let myform = $(this).parents(".data-edit");
-    //     $(description).next().text("");
-        
-    //     if($(description).val() == '') {
-    //         $(description).next().text("Please enter App Description.");
-    //     }
-    //     else {
-    //         setTimeout(function() {
-    //             $.ajax({
-    //                 url: "http://localhost/qapp/admin/update_app_des_ajax",
-    //                 method: 'POST',
-    //                 dataType: 'json',
-    //                 data: { table: 'app', id: 'app_id ', app_id: appId, description: $(description).val() },
-    //                 success:function(res) {
-    //                     if(res.response == 'success') {                          
-    //                         myform.prev().find(".single_refresh").text($(description).val());
-    //                         btn_cancel.addClass("display-none");
-    //                         $(btn_edit).show();
-    //                         optn_edit.removeClass("disabled");                            
-    //                         myform.remove(".data-edit");
-    //                     }
-    //                     else {
-    //                         myform.find(".alert").hide();
-    //                         myform.find(".alert").addClass("alert-danger");
-    //                         myform.find(".alert").removeClass("display-none");
-    //                         myform.find(".alert").html("<b>Failed</b>! App Description not updated");
-    //                         $(title).focus();
-    //                         myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
-    //                     }
-    //                 }
-    //             });            
-    //         }, 300);
-    //     }
-    // });
 }
 
 function my_app_edit_screenshots(button) {    
@@ -1069,12 +1024,16 @@ function confirm_modal_delete(button) {
     const tableName = button.getAttribute("data-table-name");
     const idField = button.getAttribute("data-table-id-field");
     const order_field = button.getAttribute("data-order-field");
+    const imgField = button.getAttribute("data-table-image-field");
+    const folderField = button.getAttribute("data-img-path");
     selected_row = $(button).parents(".record-row");
 
     $("#hidden_record_id").val(recordId);
     $("#hidden_table_name").val(tableName);
     $("#hidden_field_name").val(idField);
     $("#hidden_order").val(order_field);
+    $("#hidden_image_field_data").val(imgField);
+    $("#hidden_folder_field").val(folderField);
 }
 //////////////////////////// END OF COMMON CONFIRMATION MODAL //////////////////////////////////////
 
@@ -1085,17 +1044,19 @@ function delete_record() {
     const tableName = $("#hidden_table_name").val();
     const idField = $("#hidden_field_name").val();
     const order_field_name = $("#hidden_order").val();
+    const imgField = $("#hidden_image_field_data").val();
+    const folderField = $("#hidden_folder_field").val();
     
     $.ajax({
         url: "http://localhost/qapp/admin/common_delete_ajax",
         method: 'POST',
         dataType: 'json',
-        data: { table: tableName, id: idField, record_id: recordId, order_field: order_field_name },
+        data: { table: tableName, id: idField, record_id: recordId, order_field: order_field_name, img_field: imgField, folder_field: folderField },
         success:function(res) {
             if(res.response == 'success') {
                 $("#modal_confirm_category").hide();
                 $("#success_modal").find("h1").text("Deleted!");
-                $("#success_modal").find("p").text("Your record has been deleted.");
+                $("#success_modal").find("p").text("Your selected item has been deleted.");
                 $('#success_modal').modal('toggle');
                 const nextForm = $(selected_row).next(".data-edit");
                 selected_row.remove();
@@ -1237,11 +1198,12 @@ function change_image_process() {
                     $("#success_modal").find("h1").text("Success!");
                     $("#success_modal").find("p").text("Image has been changed.");
                     $("#text_change_image").val("");
+                    $(selected_row).find(".data-img").attr("src", imgPath+'/'+res.image_name);
                 }
                 else{
                     $('#failed_modal').modal('toggle');
                 }
-                $(selected_row).find(".data-img").attr("src", imgPath+'/'+res.image_name);
+                
             },
         });
     }

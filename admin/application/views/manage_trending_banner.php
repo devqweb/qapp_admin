@@ -44,7 +44,7 @@
                                                                     echo '<tr class="record-row">';
                                                                     echo '<th>'.++$sr_num.'</th>';
                                                                     echo '<td>'. $row->trending_id  .'</td>';
-                                                                    echo '<td><img src="./upload/trending_img/'.$row->trending_img.'" class="data-img"></td>';
+                                                                    echo '<td><img src="./upload/trending_img/'.$row->trending_img.'" class="data-img row-icon"></td>';
                                                                     echo '<td>'. $row->order_slider .'</td>';
                                                                     echo '<td>
                                                                             <div class="btn-group">
@@ -64,10 +64,11 @@
                                                                                     <a class="dropdown-item app-status" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
                                                                                     <a class="dropdown-item app-status" href="#" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" 
-                                                                                    data-table-image-field="trending_img" data-img-path="./upload/trending_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+                                                                                    data-table-image-field="trending_img" data-img-path="./upload/trending_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
                                                                                     
                                                                                     <div class="dropdown-divider"></div>
-                                                                                    <a class="dropdown-item" href="#" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" data-order-field="order_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+                                                                                    
+                                                                                    <a class="dropdown-item" href="#" data-row-id="'.$row->trending_id.'" data-table-name="trending_banner" data-table-id-field="trending_id" data-order-field="order_slider" data-table-image-field="trending_img" data-img-path="./upload/trending_img/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
                                                                                 </div>
                                                                             </div>
                                                                         </td>';

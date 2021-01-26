@@ -588,7 +588,7 @@ class Home extends CI_Controller {
 				$cat_data = $this->Common_model->common_select_single_row('*', 'category', array('cat_id'=>$cat_id));				
 				$table_data .= '<th>'.$sr_num. '</th>';
 				$table_data .= '<td>'. $cat_data['cat_id'] .'</td>';
-				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'" class="data-img"></td>';
+				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'" class="data-img row-icon"></td>';
 				$table_data .= '<td>'. $cat_data['name'] .'</td>';
 				$table_data .= '<td>'. $cat_data['order_in_slider'] .'</td>';
 				$table_data .= '<td> </td>';
@@ -607,9 +607,9 @@ class Home extends CI_Controller {
 										</button>
 										<div class="dropdown-menu dropdown-menu-right">
 											<a class="dropdown-item" href="#" data-enable-disable="'.$cat_data['enable_disable'].'" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
-											<a class="dropdown-item app-status" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
+											<a class="dropdown-item app-status" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-table-image-field="image" data-img-path="./upload/category_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
+											<a class="dropdown-item" href="#" data-cat-id="'.$cat_data['cat_id'].'" data-table-name="category" data-table-id-field="cat_id" data-order-field="order_in_slider" data-table-image-field="image" data-img-path="./upload/category_img/" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
 										</div>
 									</div>
 								</td>';
@@ -625,6 +625,21 @@ class Home extends CI_Controller {
 	}
 	############################ END OF UPDATE CATEGORY FROM DATABSE USING AJAX ########################
 
+	
+	
+	#################################### DELETE FILE FROM THE FOLDER ###################################
+	public function delete_file($folderPath, $image_field, $table_name, $array) {
+		$old_image = $this->Common_model->common_select_single_row($image_field, $table_name, $array);
+		if(!empty($old_image)) {
+			if(file_exists($folderPath.$old_image[$image_field])) {
+				return unlink($folderPath.$old_image[$image_field]);
+			}
+			else return false;
+		}
+	}
+	################################ END OF DELETE FILE FROM THE FOLDER ################################
+
+
 
 	############################ COMMON DELETE RECORD FROM DATABSE USING AJAX ##########################
 	public function common_delete_ajax() {
@@ -632,27 +647,35 @@ class Home extends CI_Controller {
 		$where = $this->input->post("id");
 		$record_id = $this->input->post("record_id");
 		$order_field = $this->input->post("order_field");
+		$image_field = $this->input->post("img_field");
+		$folder_field = $this->input->post("folder_field");
 		$data['response'] = '';		
 		$array = array($where => $record_id);
 		
 		//////////////////////// Get deleted order and maximum order from the table /////////////////////
-		$get_order = $this->Common_model->common_select_single_row($order_field, $table_name, $array);
-		$get_order2 = $this->Common_model->common_select_max_single_row($order_field, '', $table_name);
-		
-		$deleted_order = $get_order[$order_field];
-		$max_order = $get_order2[$order_field];
+		if($order_field != '') {
+			$get_order = $this->Common_model->common_select_single_row($order_field, $table_name, $array);
+			$get_order2 = $this->Common_model->common_select_max_single_row($order_field, '', $table_name);
+			
+			$deleted_order = $get_order[$order_field];
+			$max_order = $get_order2[$order_field];
+		}
+
+		////////////////////////////////// Delete image from the folder //////////////////////////////////////
+		$delete_file = $this->delete_file($folder_field, $image_field, $table_name, $array);
 
 		$delete_status = $this->Common_model->common_delete($table_name, array($where=>$record_id));
-
 		if($delete_status) {
 			///////// Decrease order to 1 for all next records who comes later after deleted record ////////////
-			for($i = $deleted_order; $i < $max_order; $i++) {
-				$this->Common_model->common_update($table_name, array($order_field=>$i), array($order_field=>$i+1));
-			}			
+			if($order_field != '') {
+				for($i = $deleted_order; $i < $max_order; $i++) {
+					$this->Common_model->common_update($table_name, array($order_field=>$i), array($order_field=>$i+1));
+				}
+			}
 			$data['response'] = "success";
 		} 
 		else $data['response'] = "failed";
-
+		
 		echo json_encode($data);
 	}	
 	######################## END OF COMMON DELETE RECORD FROM DATABSE USING AJAX #######################
@@ -669,16 +692,11 @@ class Home extends CI_Controller {
 		$image_name = '';
 		$data['response'] = '';
 
-		////////////////////////////////// Get old image and delete it//////////////////////////////////////
-		$old_image = $this->Common_model->common_select_single_row($image_field, $table_name, $array);
-		
-		if(!empty($old_image)) {
-			if(file_exists($folderPath."/".$old_image[$image_field])) {
-				unlink($folderPath."/".$old_image[$image_field]);
-			}			
-		} 
 
-		/////////////////////// Upload new image and update the record in the database//////////////////////
+		////////////////////////////////// Get old image and delete it//////////////////////////////////////
+		$delete_file = $this->delete_file($folderPath, $image_field, $table_name, $array);
+		
+		/////////////////////// Upload new image and update the record in the database//////////////////////		
 		if(isset($_FILES['imageFile']) && $_FILES['imageFile']['name'] != '') {
 			$image_name = $this->Common_model->image_upload($folderPath."/", 'imageFile');
 		}		
@@ -697,9 +715,8 @@ class Home extends CI_Controller {
 		else {
 			$data['image_name'] = $image_name;
 			$data['response'] = "failed";
-		} 
-		echo json_encode($data);
-		
+		}		
+		echo json_encode($data);		
 	}
 	############################ END OF CHANGE IMAGE FROM DATABSE USING AJAX ###########################
 
@@ -874,7 +891,7 @@ class Home extends CI_Controller {
 				$table_data .= '<td>'.$sr_num.'</td>';
 				$table_data .= '<td>'. $get_data['home_slider_id'] .'</td>';
 				$table_data .= '<td>'. $get_data['title'] .'</td>';
-				$table_data .= '<td><img src="./upload/home_slider_img/'.$get_data['image_name'].'" class="data-img"></td>';
+				$table_data .= '<td><img src="./upload/home_slider_img/'.$get_data['image_name'].'" class="data-img row-icon"></td>';
 				$table_data .= '<td>'. $get_data['order_slider'] .'</td>';
 				$table_data .= '<td class="scroll-field">'. $get_data['description'] .'</td>';			
 				$table_data .= '<td>
@@ -894,10 +911,10 @@ class Home extends CI_Controller {
 										<div class="dropdown-menu dropdown-menu-right">
 											<a class="dropdown-item" href="#" data-enable-disable="'.$get_data['enable_disable'].'" data-row-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
 
-											<a class="dropdown-item app-status" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+											<a class="dropdown-item app-status" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
 
 											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
+											<a class="dropdown-item" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_in_slider" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
 										</div>
 									</div>
 								</td>';
@@ -1056,11 +1073,11 @@ class Home extends CI_Controller {
 									</button>
 
 									<div class="dropdown-menu dropdown-menu-right text-align-right">
-										<a class="dropdown-item" href="#">Details</a>
+										<a class="dropdown-item disabled" href="#">Details</a>
 
 										<a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-										<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
+										<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
 										<a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['app_id'].'">
 											Edit Description
@@ -1072,17 +1089,17 @@ class Home extends CI_Controller {
 												<span class="nav-label">Screenshots</span>
 											</a>
 											<div class="dropdown-menu text-align-right">
-												<a class="dropdown-item" href="#"data-row-id="'.$get_data['app_id'].'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);>Add New Screenshots</a>
+												<a class="dropdown-item" href="#"data-row-id="'.$get_data['app_id'].'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots/" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);>Add New Screenshots</a>
 												<a class="dropdown-item edit_screenshots" href="#">Edit Existing Screenshots</a>
 											</div>
 										</div>
 
-										<a class="dropdown-item" href="#">Add to Promotion</a> 
-										<a class="dropdown-item" href="#">Remove Promotion</a>
+										<a class="dropdown-item disabled" href="#">Add to Promotion</a> 
+										<a class="dropdown-item disabled" href="#">Remove Promotion</a>
 										
 										<div class="dropdown-divider"></div>
 
-										<a class="dropdown-item" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-order-field="order_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+										<a class="dropdown-item" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-order-field="" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
 									</div>
 								</div>
 							</td>';
@@ -1175,7 +1192,7 @@ class Home extends CI_Controller {
 				
 				$table_data .= '<td>'.$sr_num.'</td>';
 				$table_data .= '<td>'. $get_data['trending_id'] .'</td>';
-				$table_data .= '<td><img src="./upload/trending_img/'.$get_data['trending_img'].'" class="data-img"></td>';
+				$table_data .= '<td><img src="./upload/trending_img/'.$get_data['trending_img'].'" class="data-img row-icon"></td>';
 				$table_data .= '<td>'. $get_data['order_slider'] .'</td>';
 				$table_data .= '<td>
 									<div class="btn-group">
@@ -1194,10 +1211,10 @@ class Home extends CI_Controller {
 										<div class="dropdown-menu dropdown-menu-right">
 											<a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['trending_id'].'" data-table-name="trending_banner" data-table-id-field="trending_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-											<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-table-image-field="image" data-img-path="./upload/category_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+											<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-table-image-field="image" data-img-path="./upload/category_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
 											
 											<div class="dropdown-divider"></div>
-											<a class="dropdown-item" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-order-field="order_in_slider" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+											<a class="dropdown-item" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-order-field="order_in_slider" data-table-image-field="trending_img" data-img-path="./upload/trending_img/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
 										</div>
 									</div>
 								</td>';
