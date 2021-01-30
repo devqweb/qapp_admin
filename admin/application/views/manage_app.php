@@ -31,7 +31,7 @@
                                                         <th data-priority="4">App Logo</th>
                                                         <th data-priority="5">Category</th>
                                                         <th data-priority="6">Company</th>
-                                                        <th data-priority="7">Person Name</th>
+                                                        <th data-priority="12">Person Name</th>
                                                         <th data-priority="8">Mobile</th>
                                                         <th data-priority="9">WhatsApp</th>
                                                         <th data-priority="10">E-Mail</th>
@@ -54,7 +54,7 @@
                                                         <th data-priority="28">Added On</th>
                                                         <th data-priority="29">Update On</th>
                                                         <th data-priority="30">Added By</th>
-                                                        <th data-priority="13">Action</th>
+                                                        <th data-priority="7">Action</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -162,14 +162,18 @@
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
 
-                                                                                <a class="dropdown-item" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-order-field="" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+                                                                                <a class="dropdown-item" href="#" id="delete-app" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-order-field="" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
                                                                             </div>
                                                                         </div>
                                                                     </td>';
                                                             echo '</tr>';
                                                         }
                                                     ?>
-                                                    
+                                                    <!-- <script>
+                                                        $("#delete-app").click(function(){
+                                                            alert("hii");
+                                                        });
+                                                    </script> -->
                                                     </tbody>
                                                 </table>
                                             </div>

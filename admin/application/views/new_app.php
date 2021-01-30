@@ -47,18 +47,21 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="nameOfApp">Name of the App <span class="text-danger"> <span class="text-danger">*</span></label>  
-                                                            <input type="text" id="nameOfApp" name="nameOfApp" value="<?php echo ($id) ? "" : set_value('nameOfApp'); ?>" class="form-control" placeholder="Name of the App" autofocus>
+                                                            <input type="text" id="nameOfApp" name="nameOfApp" value="<?php echo ($id) ? "" : set_value('nameOfApp'); ?>" class="form-control my-field-alpha-space" placeholder="Name of the App" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); autofocus>
                                                             <?php echo form_error('nameOfApp'); ?>
+                                                            <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="companyName">Company Name <span class="text-danger">*</span></label>
-                                                            <input type="text" id="companyName" name="companyName" value="<?php echo ($id) ? "" : set_value('companyName'); ?>" class="form-control" placeholder="Company Name">
+                                                            <input type="text" id="companyName" name="companyName" value="<?php echo ($id) ? "" : set_value('companyName'); ?>" class="form-control my-field-alpha-space" placeholder="Company Name" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('companyName'); ?>
+                                                            <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="contactPerson">Contact Person <span class="text-danger">*</span></label>
-                                                            <input type="text" id="contactPerson" name="contactPerson" value="<?php echo ($id) ? "" : set_value('contactPerson'); ?>" class="form-control" placeholder="Contact Person">
+                                                            <input type="text" id="contactPerson" name="contactPerson" value="<?php echo ($id) ? "" : set_value('contactPerson'); ?>" class="form-control my-field-alpha-space" placeholder="Contact Person" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('contactPerson'); ?>
+                                                            <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
                                                     </div>
 
@@ -68,7 +71,7 @@
                                                             <div class="flex">
                                                                 <div class="col-md-5 padding-0">                                                                    
                                                                     <input type="hidden" id="hidden_telcode_mobile" value="<?php echo ($id) ? "" : set_value('telcode_mobile'); ?>">
-                                                                    <select id="telcode_mobile" name="telcode_mobile" class="form-control telCode">
+                                                                    <select id="telcode_mobile" name="telcode_mobile" class="form-control telCode" onchange=clearError(this);>
                                                                         <option value=''>-- Tel code --</option>
                                                                         <script>
                                                                             for(i = 0; i < telObj.length; i++) {
@@ -86,8 +89,9 @@
                                                                     <?php echo form_error('telcode_mobile'); ?>
                                                                 </div>
                                                                 <div class="col-md-6 offset-md-1 padding-0">
-                                                                    <input type="tel" id="mobileNumber" name="mobileNumber" value="<?php echo ($id) ? "" : set_value('mobileNumber'); ?>" class="form-control" placeholder="Mobile Number">
+                                                                    <input type="tel" id="mobileNumber" name="mobileNumber" value="<?php echo ($id) ? "" : set_value('mobileNumber'); ?>" class="form-control my-field-num" placeholder="Mobile Number" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                                     <?php echo form_error('mobileNumber'); ?>
+                                                                    <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                                 </div>                                                                
                                                             </div>                                                            
                                                         </div>
@@ -97,7 +101,8 @@
                                                             <div class="flex">
                                                                 <div class="col-md-5 padding-0">
                                                                     <input type="hidden" id="hidden_telcode_whatsapp" value="<?php echo ($id) ? "" : set_value('telcode_whatsapp'); ?>">
-                                                                    <select id="telcode_whatsapp" name="telcode_whatsapp" class="form-control telCode">
+
+                                                                    <select id="telcode_whatsapp" name="telcode_whatsapp" class="form-control telCode" onchange=clearError(this);>
                                                                         <option value=''>-- Tel code --</option>
                                                                         <script>
                                                                             for(i = 0; i < telObj.length; i++) {
@@ -106,22 +111,25 @@
                                                                                 dial_code = telObj[i]['dial_code'];
                                                                                 code = telObj[i]['code'];
                                                                                 if(document.getElementById("hidden_telcode_whatsapp").value == dial_code) {
-                                                                                    document.getElementById("telcode_whatsapp").innerHTML += "<option value='"+dial_code+"' selected>"+country_name+" ("+code+") "+dial_code+"</option>";    
+                                                                                    document.getElementById("telcode_whatsapp").innerHTML += "<option value='"+dial_code+"' selected>"+country_name+" ("+code+") "+dial_code+"</option>";
                                                                                 }
                                                                                 else document.getElementById("telcode_whatsapp").innerHTML += "<option value='"+dial_code+"'>"+country_name+" ("+code+") "+dial_code+"</option>";
                                                                             }
                                                                         </script>
                                                                     </select>
+                                                                    <?php echo form_error('telcode_whatsapp'); ?>
                                                                 </div>
                                                                 <div class="col-md-6 offset-md-1 padding-0">
-                                                                    <input type="tel" id="whatsappNumber" name="whatsapp" value="<?php echo ($id) ? "" : set_value('whatsapp'); ?>" class="form-control" placeholder="WhatsApp Number">
+                                                                    <input type="tel" id="whatsappNumber" name="whatsapp" value="<?php echo ($id) ? "" : set_value('whatsapp'); ?>" class="form-control my-field-num" placeholder="WhatsApp Number" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
+                                                                    <?php echo form_error('whatsapp'); ?>
+                                                                    <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="email">E-Mail <span class="text-danger">*</span></label>
-                                                            <input type="email" name="email" id="email" value="<?php echo ($id) ? "" : set_value('email'); ?>" class="form-control" placeholder="E-Mail">
+                                                            <input type="email" name="email" id="email" value="<?php echo ($id) ? "" : set_value('email'); ?>" class="form-control" placeholder="E-Mail" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('email'); ?>
                                                         </div>
                                                     </div>
@@ -129,8 +137,8 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="category">Category of The App  <span class="text-danger">*</span></label>
-                                                            <select class="form-control" id="category" name="category">
-                                                                <option value="">-- Select Category --</option>                                                                
+                                                            <select class="form-control" id="category" name="category" onchange=clearError(this);>
+                                                                <option value="">-- Select Category --</option>
                                                                  <?php
                                                                     foreach($category as $row) {
                                                                         if($row->enable_disable == 1) {
@@ -142,6 +150,7 @@
                                                                         }
                                                                     }
                                                                 ?>
+                                                                <option value="other">Other</option>
                                                             </select>
                                                             <?php echo form_error('category'); ?>
                                                         </div>
@@ -188,7 +197,7 @@
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="rating">App Rating <span class="text-danger">*</span></label>
-                                                            <input type="text" id="rating" name="rating" value="<?php echo ($id) ? "" : set_value('rating'); ?>" class="form-control" placeholder="3.5, 4.4, etc">
+                                                            <input type="text" id="rating" name="rating" value="<?php echo ($id) ? "" : set_value('rating'); ?>" class="form-control" placeholder="3.5, 4.4, etc" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('rating'); ?>
                                                         </div>
                                                     </div>
@@ -196,24 +205,31 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="appIstalls">Number of App Installs <span class="text-danger">*</span></label>
-                                                            <input type="number" id="appIstalls" name="appIstalls" value="<?php echo ($id) ? "" : set_value('appIstalls'); ?>" class="form-control" placeholder="Number of App Installs">
+                                                            <input type="text" id="appIstalls" name="appIstalls" value="<?php echo ($id) ? "" : set_value('appIstalls'); ?>" class="form-control my-field-num-plus" placeholder="Number of App Installs" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('appIstalls'); ?>
+                                                            <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="appsize">Size of The App(MB) <span class="text-danger">*</span></label>
-                                                            <input type="text" name="appsize" value="<?php echo ($id) ? "" : set_value('appsize'); ?>" id="appsize" class="form-control" placeholder="Size in MB">
+                                                            <input type="text" name="appsize" value="<?php echo ($id) ? "" : set_value('appsize'); ?>" id="appsize" class="form-control my-field-num-point" placeholder="Size in MB" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('appsize'); ?>
+                                                            <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
+                                                        
+                                                        <?php
+                                                            $english = ($id) ? 0 : set_value('english');
+                                                            $arabic = ($id) ? 0 : set_value('arabic');
+                                                        ?>
 
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="appLanguage">Languages in the App  <span class="text-danger">*</span></label>
-                                                            <div class="col-md-6 checkbox checkbox-blue">
+                                                            <div class="col-md-6 checkbox checkbox-blue" id="myAppLang">
                                                                 <span>
-                                                                    <input id="english" name="english" value=1 type="checkbox" data-parsley-multiple="group1">
+                                                                    <input id="english" name="english" value=1 type="checkbox" data-parsley-multiple="group1" <?php if($english) echo "checked" ?> onchange=clearError('#myAppLang');>
                                                                     <label for="english"> English </label>
                                                                 </span>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 <span>
-                                                                    <input id="arabic" name="arabic" value=1 type="checkbox" data-parsley-multiple="group1">
+                                                                    <input id="arabic" name="arabic" value=1 type="checkbox" data-parsley-multiple="group1" <?php if($arabic) echo "checked" ?> onchange=clearError('#myAppLang');>
                                                                     <label for="arabic"> Arabic </label>
                                                                 </span>
                                                             </div>
@@ -224,7 +240,7 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-12">
                                                             <label class="col-form-label" for="tags">Tags *</label>
-                                                            <input type="text" class="form-control" name = "tags" value="<?php echo ($id) ? "" : set_value('tags'); ?>" data-role="tagsinput">
+                                                            <input type="text" class="form-control" name = "tags" value="<?php echo ($id) ? "" : set_value('tags'); ?>" data-role="tagsinput" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('tags'); ?>
                                                         </div>
                                                     </div>
@@ -232,7 +248,7 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-12">
                                                             <label class="col-form-label" for="description">App Description*</label>
-                                                            <textarea name="description" id="description" name="description" cols="30" rows="5" class="form-control" placeholder="App Description"><?php echo ($id) ? "" : set_value('description'); ?></textarea>
+                                                            <textarea name="description" id="description" name="description" cols="30" rows="5" class="form-control" placeholder="App Description" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);><?php echo ($id) ? "" : set_value('description'); ?></textarea>
                                                             <?php echo form_error('description'); ?>
                                                         </div>
                                                     </div>
@@ -240,15 +256,15 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="icon">App Icon <span class="text-danger">*</span></label>
-                                                            <input type="file" id="icon" name="icon" class="form-control">
-                                                            <span>GIF/JPG/JPEG/PNG Only</span>
+                                                            <input type="file" id="icon" name="icon" class="form-control" onchange=clearError(this);>
                                                             <?php echo form_error('icon'); ?>
+                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only</span>
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="screenshots">Screenshots <span class="text-danger">*</span></label>
-                                                            <input type="file" id="screenshots" name="screenshots[]" multiple="multiple" class="form-control">
-                                                            <span>GIF/JPG/JPEG/PNG Only</span>
+                                                            <label class="col-form-label" for="screenshots">App Screens<span class="text-danger">*</span></label>
+                                                            <input type="file" id="screenshots" name="screenshots[]" multiple="multiple" class="form-control" onchange=clearError(this);>
                                                             <?php echo form_error('screenshots'); ?>
+                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only</span>
                                                         </div>
                                                     </div>
 
@@ -279,7 +295,7 @@
                                                         <div class="form-group col-md-5">
                                                             <input type="submit" name="submit" value="Add App" class="btn btn-success waves-effect waves-light">
                                                             &nbsp;&nbsp;&nbsp;
-                                                            <a href="" class="btn btn-secondary waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-xl">
+                                                            <a href="" class="btn btn-secondary waves-effect waves-light disabled" data-toggle="modal" data-target=".bs-example-modal-xl">
                                                                 Save and Mobile Preview
                                                             </a> &nbsp;&nbsp;&nbsp;
                                                             <input type="reset" class="btn btn-danger" value="Cancel">
@@ -302,3 +318,53 @@
                     </div> <!-- container-fluid -->
 
                 </div> <!-- content -->
+
+                <script>
+                    $(".my-field-alpha-space").focusout(function(){
+                        let isValid = false;
+                        let regex = /^[a-zA-Z ]*$/;
+                        isValid = regex.test($(this).val());
+                        if(!isValid) {
+                            $(this).next(".required_error").text("Only alphabets and space are allowed.");
+                        }
+                        else {
+                            $(this).next(".required_error").text("");
+                        }
+                    });
+
+                    $(".my-field-num").focusout(function(){
+                        let isValid = false;
+                        let regex = /^[0-9]*$/;
+                        isValid = regex.test($(this).val());
+                        if(!isValid) {
+                            $(this).next(".required_error").text("Only Numbers are allowed.");
+                        }
+                        else {
+                            $(this).next(".required_error").text("");
+                        }
+                    });
+
+                    $(".my-field-num-plus").focusout(function(){
+                        let isValid = false;
+                        let regex = /^[0-9+,]*$/;
+                        isValid = regex.test($(this).val());
+                        if(!isValid) {
+                            $(this).next(".required_error").text("Only Numbers and ' + , ' symboles are allowed.");
+                        }
+                        else {
+                            $(this).next(".required_error").text("");
+                        }
+                    });
+
+                    $(".my-field-num-point").focusout(function(){
+                        let isValid = false;
+                        let regex = /^[0-9.]*$/;
+                        isValid = regex.test($(this).val());
+                        if(!isValid) {
+                            $(this).next(".required_error").text("Only Numerical value is allowed (Eg- 10, 45, 10.2, 18.5)");
+                        }
+                        else {
+                            $(this).next(".required_error").text("");
+                        }
+                    });
+                </script>

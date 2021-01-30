@@ -2,7 +2,6 @@ let count = 0;
 let imgRow = 0;
 let selected_row;
 
-
 //////////////////////////// CLEAR REQUIRED ERROR WHEN FIELD HAS VALUE /////////////////////////////
 function clearError(field) {
     $(field).next().text("");
@@ -1046,12 +1045,19 @@ function delete_record() {
     const order_field_name = $("#hidden_order").val();
     const imgField = $("#hidden_image_field_data").val();
     const folderField = $("#hidden_folder_field").val();
+    let delete_data
+    if(tableName == "app") {
+        delete_data = { table: tableName, id: idField, record_id: recordId, order_field: order_field_name, img_field: imgField, folder_field: folderField, app_screen_field: "image", app_screen_folder: "./upload/app_screenshots/" };
+    }
+    else {
+        delete_data = { table: tableName, id: idField, record_id: recordId, order_field: order_field_name, img_field: imgField, folder_field: folderField };
+    }
     
     $.ajax({
         url: "http://localhost/qapp/admin/common_delete_ajax",
         method: 'POST',
         dataType: 'json',
-        data: { table: tableName, id: idField, record_id: recordId, order_field: order_field_name, img_field: imgField, folder_field: folderField },
+        data: delete_data,
         success:function(res) {
             if(res.response == 'success') {
                 $("#modal_confirm_category").hide();

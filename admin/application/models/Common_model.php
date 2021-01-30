@@ -92,7 +92,7 @@ class Common_model extends CI_Model {
 	{
 		$this->load->library('upload');
 		$config['upload_path'] = $folder;
-		$config['allowed_types'] = 'gif|jpg|png|jpeg|webp';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|webp|svg';
 		$config['encrypt_name'] = TRUE;
 		$this->upload->initialize($config);
 

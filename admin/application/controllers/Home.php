@@ -47,7 +47,7 @@ class Home extends CI_Controller {
 		//INSERT NEW APP
 		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
-			$this->form_validation->set_rules('nameOfApp','<b>Name of the App</b>','trim|required');
+			$this->form_validation->set_rules('nameOfApp','<b>Name of the App</b>','trim|required|is_unique[app.app_name]');
 			$this->form_validation->set_rules('companyName','<b>Company Name</b>','trim|required');
 			$this->form_validation->set_rules('contactPerson','<b>Contact Person</b>','trim|required');
 			$this->form_validation->set_rules('telcode_mobile','<b>Tel Code</b>','trim|required');
@@ -62,9 +62,17 @@ class Home extends CI_Controller {
 			$this->form_validation->set_rules('tnc','<b>Terms and Condition</b>','trim|required');
 			$this->form_validation->set_rules('authorConfirm','<b>Authorization Confirmation</b>','trim|required');
 
+			$telcode_whatsapp = $this->input->post('telcode_whatsapp');
+			$whatsapp = $this->input->post('whatsapp');
 			$english = ($this->input->post('english') == 1) ? 1 : 0;
 			$arabic = ($this->input->post('arabic') == 1) ? 1 : 0;
 
+			if($whatsapp != '' && $telcode_whatsapp == '') {
+				$this->form_validation->set_rules('telcode_whatsapp','<b>WhatsApp Tel Code</b>','trim|required');
+			}
+			if($telcode_whatsapp != '' && $whatsapp == '') {
+				$this->form_validation->set_rules('whatsapp','<b>Whatsapp Number</b>','trim|required');
+			}
 			if($english == 0 && $arabic == 0) {
 				$this->form_validation->set_rules('language','<b>Language</b>','trim|required');
 			}
@@ -74,12 +82,12 @@ class Home extends CI_Controller {
 			if(empty($_FILES['screenshots']['name'][0])) {
 				$this->form_validation->set_rules('screenshots', '<b>Screenshots</b>', 'trim|required');
 			}
-			if($this->input->post('submit') == 'Add App') {
-				$this->form_validation->set_rules('nameOfApp', '<b>Name of the App</b>', 'trim|required|is_unique[app.app_name]');
-			}
-			else {
-				$this->form_validation->set_rules('nameOfApp', '<b>Name of the App</b>', 'trim|required');
-			}
+			// if($this->input->post('submit') == 'Add App') {
+			// 	$this->form_validation->set_rules('nameOfApp', '<b>Name of the App</b>', 'trim|required|is_unique[app.app_name]|alpha');
+			// }
+			// else {
+			// 	$this->form_validation->set_rules('nameOfApp', '<b>Name of the App</b>', 'trim|required');
+			// }
 			
 			if($this->form_validation->run()) {
 				$screenshots = array();
@@ -96,8 +104,8 @@ class Home extends CI_Controller {
 					$contactPerson = $this->input->post('contactPerson');
 					$telcode_mobile = $this->input->post('telcode_mobile');
 					$mobileNumber = $this->input->post('mobileNumber');
-					$telcode_whatsapp = $this->input->post('telcode_whatsapp');
-					$whatsapp = $this->input->post('whatsapp');
+					// $telcode_whatsapp = $this->input->post('telcode_whatsapp');
+					// $whatsapp = $this->input->post('whatsapp');
 					$email = $this->input->post('email');
 					$category = $this->input->post('category');
 					$dateOfLastUpdate = $this->input->post('dateOfLastUpdate');
@@ -648,7 +656,9 @@ class Home extends CI_Controller {
 		$record_id = $this->input->post("record_id");
 		$order_field = $this->input->post("order_field");
 		$image_field = $this->input->post("img_field");
+		$app_screen_field = $this->input->post("app_screen_field");
 		$folder_field = $this->input->post("folder_field");
+		$app_screen_folder = $this->input->post("app_screen_folder");
 		$data['response'] = '';		
 		$array = array($where => $record_id);
 		
@@ -662,7 +672,18 @@ class Home extends CI_Controller {
 		}
 
 		////////////////////////////////// Delete image from the folder //////////////////////////////////////
+		/* Only for the app delete (Delete app screens data form the folder and the databse) */
+		if($app_screen_field != '' && $app_screen_folder != '') {
+			$data['app_screen_data'] = $this->Common_model->common_select($app_screen_field, 'screenshots', $array, array());
+			foreach($data['app_screen_data'] as $key) {
+				unlink($app_screen_folder.$key->image);
+			}
+			$this->Common_model->common_delete('screenshots', array('app_id'=>$record_id));
+		}
+
+		/* Common delete file */
 		$delete_file = $this->delete_file($folder_field, $image_field, $table_name, $array);
+		////////////////////////////// End of Delete image from the folder ////////////////////////////////////
 
 		$delete_status = $this->Common_model->common_delete($table_name, array($where=>$record_id));
 		if($delete_status) {
