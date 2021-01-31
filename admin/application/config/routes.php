@@ -29,3 +29,5 @@ $route['manage_app_description_ajax'] = "home/manage_app_description_ajax";
 $route['update_app_des_ajax'] = "home/update_app_des_ajax";
 $route['add_new_image_ajax'] = "home/add_new_image_ajax";
 $route['manage_app_screens_ajax'] = "home/manage_app_screens_ajax";
+$route['new_subscription'] = "home/new_subscription";
+$route['manage_subscription'] = "home/manage_subscription";

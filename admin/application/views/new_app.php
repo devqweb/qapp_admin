@@ -47,13 +47,13 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="nameOfApp">Name of the App <span class="text-danger"> <span class="text-danger">*</span></label>  
-                                                            <input type="text" id="nameOfApp" name="nameOfApp" value="<?php echo ($id) ? "" : set_value('nameOfApp'); ?>" class="form-control my-field-alpha-space" placeholder="Name of the App" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); autofocus>
+                                                            <input type="text" id="nameOfApp" name="nameOfApp" value="<?php echo ($id) ? "" : set_value('nameOfApp'); ?>" class="form-control" placeholder="Name of the App" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); autofocus>
                                                             <?php echo form_error('nameOfApp'); ?>
                                                             <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="companyName">Company Name <span class="text-danger">*</span></label>
-                                                            <input type="text" id="companyName" name="companyName" value="<?php echo ($id) ? "" : set_value('companyName'); ?>" class="form-control my-field-alpha-space" placeholder="Company Name" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
+                                                            <input type="text" id="companyName" name="companyName" value="<?php echo ($id) ? "" : set_value('companyName'); ?>" class="form-control my-field-alpha-num-space" placeholder="Company Name" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('companyName'); ?>
                                                             <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
@@ -89,7 +89,7 @@
                                                                     <?php echo form_error('telcode_mobile'); ?>
                                                                 </div>
                                                                 <div class="col-md-6 offset-md-1 padding-0">
-                                                                    <input type="tel" id="mobileNumber" name="mobileNumber" value="<?php echo ($id) ? "" : set_value('mobileNumber'); ?>" class="form-control my-field-num" placeholder="Mobile Number" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
+                                                                    <input type="tel" id="mobileNumber" name="mobileNumber" value="<?php echo ($id) ? "" : set_value('mobileNumber'); ?>" class="form-control my-field-natural" placeholder="Mobile Number" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                                     <?php echo form_error('mobileNumber'); ?>
                                                                     <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                                 </div>                                                                
@@ -120,7 +120,7 @@
                                                                     <?php echo form_error('telcode_whatsapp'); ?>
                                                                 </div>
                                                                 <div class="col-md-6 offset-md-1 padding-0">
-                                                                    <input type="tel" id="whatsappNumber" name="whatsapp" value="<?php echo ($id) ? "" : set_value('whatsapp'); ?>" class="form-control my-field-num" placeholder="WhatsApp Number" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
+                                                                    <input type="tel" id="whatsappNumber" name="whatsapp" value="<?php echo ($id) ? "" : set_value('whatsapp'); ?>" class="form-control my-field-natural" placeholder="WhatsApp Number" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                                     <?php echo form_error('whatsapp'); ?>
                                                                     <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                                 </div>
@@ -197,8 +197,9 @@
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="rating">App Rating <span class="text-danger">*</span></label>
-                                                            <input type="text" id="rating" name="rating" value="<?php echo ($id) ? "" : set_value('rating'); ?>" class="form-control" placeholder="3.5, 4.4, etc" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
+                                                            <input type="text" id="rating" name="rating" value="<?php echo ($id) ? "" : set_value('rating'); ?>" class="form-control my-field-num-point" placeholder="3.5, 4.4, etc" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('rating'); ?>
+                                                            <div class="required_error ci-form-error text-align-left bold-500"></div>
                                                         </div>
                                                     </div>
 
@@ -318,53 +319,3 @@
                     </div> <!-- container-fluid -->
 
                 </div> <!-- content -->
-
-                <script>
-                    $(".my-field-alpha-space").focusout(function(){
-                        let isValid = false;
-                        let regex = /^[a-zA-Z ]*$/;
-                        isValid = regex.test($(this).val());
-                        if(!isValid) {
-                            $(this).next(".required_error").text("Only alphabets and space are allowed.");
-                        }
-                        else {
-                            $(this).next(".required_error").text("");
-                        }
-                    });
-
-                    $(".my-field-num").focusout(function(){
-                        let isValid = false;
-                        let regex = /^[0-9]*$/;
-                        isValid = regex.test($(this).val());
-                        if(!isValid) {
-                            $(this).next(".required_error").text("Only Numbers are allowed.");
-                        }
-                        else {
-                            $(this).next(".required_error").text("");
-                        }
-                    });
-
-                    $(".my-field-num-plus").focusout(function(){
-                        let isValid = false;
-                        let regex = /^[0-9+,]*$/;
-                        isValid = regex.test($(this).val());
-                        if(!isValid) {
-                            $(this).next(".required_error").text("Only Numbers and ' + , ' symboles are allowed.");
-                        }
-                        else {
-                            $(this).next(".required_error").text("");
-                        }
-                    });
-
-                    $(".my-field-num-point").focusout(function(){
-                        let isValid = false;
-                        let regex = /^[0-9.]*$/;
-                        isValid = regex.test($(this).val());
-                        if(!isValid) {
-                            $(this).next(".required_error").text("Only Numerical value is allowed (Eg- 10, 45, 10.2, 18.5)");
-                        }
-                        else {
-                            $(this).next(".required_error").text("");
-                        }
-                    });
-                </script>

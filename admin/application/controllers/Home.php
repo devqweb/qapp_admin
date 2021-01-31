@@ -48,11 +48,11 @@ class Home extends CI_Controller {
 		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
 			$this->form_validation->set_rules('nameOfApp','<b>Name of the App</b>','trim|required|is_unique[app.app_name]');
-			$this->form_validation->set_rules('companyName','<b>Company Name</b>','trim|required');
+			$this->form_validation->set_rules('companyName','<b>Company Name</b>','trim|required|alpha_numeric_spaces');
 			$this->form_validation->set_rules('contactPerson','<b>Contact Person</b>','trim|required');
 			$this->form_validation->set_rules('telcode_mobile','<b>Tel Code</b>','trim|required');
-			$this->form_validation->set_rules('mobileNumber','<b>Mobile Number</b>','trim|required');
-			$this->form_validation->set_rules('email','<b>E-Mail</b>','trim|required');
+			$this->form_validation->set_rules('mobileNumber','<b>Mobile Number</b>','trim|required|is_natural');
+			$this->form_validation->set_rules('email','<b>E-Mail</b>','trim|required|valid_email');
 			$this->form_validation->set_rules('category','<b>Category</b>','trim|required');
 			$this->form_validation->set_rules('tags','<b>Tags</b>','trim|required');
 			$this->form_validation->set_rules('description','<b>Description</b>','trim|required');
@@ -330,19 +330,18 @@ class Home extends CI_Controller {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
 			$this->form_validation->set_rules('title', '<b>Slider Title</b>', 'trim|required');
 			$this->form_validation->set_rules('des', '<b>Description</b>', 'trim|required');
+			$this->form_validation->set_rules('btn_link','<b>Button Link</b>','trim|required');
 			
 			if(empty($_FILES['slider_img']['name'])) {
 				$this->form_validation->set_rules('slider_img', '<b>Image</b>', 'trim|required');
 			}
 
-			if($this->input->post('submit') == 'Add To Home Slider') {
-				$this->form_validation->set_rules('btn_link', '<b>Button Link</b>', 'trim|required|is_unique[home_slider.button_link]');
-				//$this->form_validation->set_rules('home_slider_id','"Button Link"','trim|required');
-			}
-			else {
-				$this->form_validation->set_rules('btn_link','<b>Button Link</b>','trim|required');
-				//$this->form_validation->set_rules('home_slider_id','"Button Link"','trim|required');
-			}
+			// if($this->input->post('submit') == 'Add To Home Slider') {
+			// 	$this->form_validation->set_rules('btn_link', '<b>Button Link</b>', 'trim|required|is_unique[home_slider.button_link]');
+			// }
+			// else {
+			// 	$this->form_validation->set_rules('btn_link','<b>Button Link</b>','trim|required');
+			// }
 		
 			if($this->form_validation->run()) {
 				if(isset($_FILES['slider_img']) && $_FILES['slider_img']['name'] != '') {
@@ -358,11 +357,12 @@ class Home extends CI_Controller {
 					$image_name = $this->Common_model->image_upload('./upload/home_slider_img/','slider_img');
 
 					if($image_name != '') {
-						$max_order['order_slider'] = $this->Common_model->common_select_max('order_slider', '', 'home_slider');
-						$max_value = $max_order['order_slider'][0]->order_slider;
+						$max_order = $this->Common_model->common_select_max('order_slider', '', 'home_slider');
 						
-						///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
-						if($max_value) {
+						if($max_order['order_slider'] != '') {
+							$max_value = $max_order['order_slider'];
+							
+							///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
 							while($max_value >= $order_slider) {
 								$my_cat = array('order_slider' => $max_value);
 								$newValues = array('order_slider' => ($max_value+1));
@@ -370,7 +370,7 @@ class Home extends CI_Controller {
 								$max_value--;
 							}
 						}
-
+						
 						///////////////////////////////////// INSERT NEW HOME SLIDER ///////////////////////////////////
 						$values = array('title' => $title,
 										'description' => $des,
@@ -378,7 +378,7 @@ class Home extends CI_Controller {
 										'order_slider' => $order_slider,
 										'image_name' => $image_name);
 
-						$save_data;// = $this->Common_model->common_insert("home_slider", $values);
+						$save_data = $this->Common_model->common_insert("home_slider", $values);
 
 						if($save_data) {
 							$data['save_status'] = 1;
@@ -415,7 +415,7 @@ class Home extends CI_Controller {
 	##################################### END OF MANAGE HOME SLIDER ###################################
 
 
-	############################################ ADD NEW TRENDING BANNER ##############################
+	##################################### ADD NEW TRENDING BANNER #####################################
 	public function new_trending_banner() {
 		$data = [];
 		$save_data = '';
@@ -439,17 +439,18 @@ class Home extends CI_Controller {
 
 				if($image_name != '') {
 					$max_order = $this->Common_model->common_select_max_single_row('order_slider', '', 'trending_banner');
-					$max_value = $max_order['order_slider'];					
+
+					if(!empty($max_order)) {
+						$max_value = $max_order['order_slider'];					
 					
-					///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////
-					if($max_value) {
+						///////////////////////INCREASE EXISTING ORDER TO 1 IF ORDER NUMBER ALREADY EXIST/////////////////						
 						while($max_value >= $order_slider) {
 							$my_cat = array('order_slider' => $max_value);
 							$newValues = array('order_slider' => ($max_value+1));
 							$this->Common_model->common_update('trending_banner', $newValues, $my_cat);
 							$max_value--;
 						}
-					}	
+					}
 					
 					///////////////////////////////////// INSERT NEW TRENDING SLIDER ////////////////////////////////
 					$values = array('trending_img' => $image_name, 'order_slider' => $order_slider);
@@ -478,15 +479,64 @@ class Home extends CI_Controller {
 		$data['id'] = $save_data;
 		$this->CommonPage("new_trending_banner", $data);
 	}
-
+	##################################### END OF ADD NEW TRENDING BANNER ##############################
+	
+	
 	############################################ MANAGE TRENDING BANNER ###############################
 	public function manage_trending_banner() {
 		///////////////////////////////SELECT RECORDS FROM TRENDING BANNER////////////////////////////////
 		$data['trending_banner_data'] = $this->Common_model->common_select('*', 'trending_banner', array(), array());
 		$this->CommonPage("manage_trending_banner", $data);
+	}	
+	##################################### END OF MANAGE TRENDING BANNER ###############################
+
+
+	#################################### ADD NEW SUBSCRIPTION #########################################
+	public function new_subscription() {
+		$data = [];
+		$save_data = '';
+
+		if(isset($_POST['submit'])) {
+			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
+			$this->form_validation->set_rules('subName', '<b>Suscription Name</b>', 'trim|required');
+			$this->form_validation->set_rules('numOfTags', '<b>Number of Tags</b>', 'trim|required|numeric');
+			$this->form_validation->set_rules('featured', '<b>Featured Listing</b>', 'trim|required|numeric');
+			$this->form_validation->set_rules('pricePerMonth', '<b>Price per month</b>', 'trim|required|numeric');
+			
+			if($this->form_validation->run()) {
+				$subName = $this->input->post('subName');
+				$numOfTags = $this->input->post('numOfTags');
+				$featured = $this->input->post('featured');
+				$pricePerMonth = $this->input->post('pricePerMonth');
+				$submit = $this->input->post('submit');
+
+				$values = array(
+					'name' => $subName,
+					'num_of_tags' => $numOfTags,
+					'feature_listing' => $featured,
+					'price' => $pricePerMonth
+				);
+				//////////////////////////////// INSERT NEW TRENDING SLIDER //////////////////////////////////
+				$save_data = $this->Common_model->common_insert('subscription', $values);
+
+				if($save_data) {
+					$data['save_status'] = 1;
+					$data['status_msg'] = "<strong>Success!</strong> Subscription has been created.";
+					$data['status_class'] = "alert-success";
+				}
+				else {
+					$data['save_status'] = 0;
+					$data['status_msg'] = "<strong>Error!</strong> Subscription not created.";
+					$data['status_class'] = "alert-danger";
+				}
+			}
+		}
+		//$data['order_slider'] = $this->Common_model->common_select_max('order_slider', '', 'trending_banner');
+		$data['id'] = $save_data;
+		$this->CommonPage("new_subscription", $data);
 	}
-	
-	############################################ MANAGE TRENDING BANNER ###############################
+	#################################### END OF ADD NEW SUBSCRIPTION ##################################
+
 
 	#################################### GET RECORDS FROM CATEROGRY USING AJAX ########################	
 	public function manage_category_ajax() {
@@ -775,7 +825,10 @@ class Home extends CI_Controller {
 				
 				if(!empty($screenshots)) {
 					$upload_status = $this->Common_model->common_batch_insert('screenshots', $screenshots);
-					if($upload_status) $data['response'] = "success";
+					if($upload_status) {
+						$data['response'] = "success";
+						$data['app_screen_data'] = $screenshots;
+					}
 					else $data['response'] = "failed";
 				}
 				else $data['response'] = "failed";
@@ -1094,7 +1147,6 @@ class Home extends CI_Controller {
 									</button>
 
 									<div class="dropdown-menu dropdown-menu-right text-align-right">
-										<a class="dropdown-item disabled" href="#">Details</a>
 
 										<a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 

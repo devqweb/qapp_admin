@@ -2,6 +2,7 @@ let count = 0;
 let imgRow = 0;
 let selected_row;
 
+
 //////////////////////////// CLEAR REQUIRED ERROR WHEN FIELD HAS VALUE /////////////////////////////
 function clearError(field) {
     $(field).next().text("");
@@ -11,6 +12,24 @@ function clearErrorCheckBox(field) {
     $(field).next().text("");
 }
 ////////////////////// END OF CLEAR REQUIRED ERROR WHEN FIELD HAS VALUE ////////////////////////////
+
+
+/////////////////////////////////////////// Load multiple images ///////////////////////////////////
+function loadImages(myJson, field_row) {
+    let x = 0;
+    for(i = 0; i < myJson.length; i++) {
+        x++;
+        myObj = myJson[i];
+        if(x <= 3) {
+            $(field_row + imgRow +'').append("<div class='col-md-4 record-row flex align-items-center flex-direction-column justify-space-between'><img src='././upload/app_screenshots/"+myObj.image+"' class='data-img pd-bottom-1rem'><div class='full-width flex justify-space-evenly'><button type='button' class='btn btn-primary app-status' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-toggle='modal' data-target='#change_image' onclick = change_image_data(this);>Change Image</button> <button class='btn btn-danger' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-order-field=''  data-toggle='modal' data-target='#modal_confirm_delete' onclick = confirm_modal_delete(this); >Delete Image</button></div></div>");
+        }
+        else {
+            $('#img-row'+ imgRow +'').after('<div class="row text-align-center img-row" id="img-row'+ (++imgRow) +'"> </div>');
+            x = 0; i--;
+        }
+    }
+}
+////////////////////////////////////// End of Load multiple images /////////////////////////////////
 
 
 //////////////////////////////////////// EDIT CATEGORY /////////////////////////////////////////////
@@ -689,17 +708,20 @@ function edit_app_screenshots(appId, button) {
             if(res.response == 'success'){
                 let myObj;
                 let x = 0;
-                for(i = 0; i < res.app_screen_data.length; i++) {
-                    x++;
-                    myObj = res.app_screen_data[i];
-                    if(x <= 3) {
-                        $('#img-row'+ imgRow +'').append("<div class='col-md-4 record-row flex align-items-center flex-direction-column justify-space-between'><img src='././upload/app_screenshots/"+myObj.image+"' class='data-img pd-bottom-1rem'><div class='full-width flex justify-space-evenly'><button type='button' class='btn btn-primary app-status' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-toggle='modal' data-target='#change_image' onclick = change_image_data(this);>Change Image</button> <button class='btn btn-danger' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-order-field=''  data-toggle='modal' data-target='#modal_confirm_delete' onclick = confirm_modal_delete(this); >Delete Image</button></div></div>");
-                    }
-                    else {
-                        $('#img-row'+ imgRow +'').after('<div class="row text-align-center img-row" id="img-row'+ (++imgRow) +'"> </div>');
-                        x = 0; i--;
-                    }
-                }
+
+                loadImages(res.app_screen_data, '#img-row');
+
+                // for(i = 0; i < res.app_screen_data.length; i++) {
+                //     x++;
+                //     myObj = res.app_screen_data[i];
+                //     if(x <= 3) {
+                //         $('#img-row'+ imgRow +'').append("<div class='col-md-4 record-row flex align-items-center flex-direction-column justify-space-between'><img src='././upload/app_screenshots/"+myObj.image+"' class='data-img pd-bottom-1rem'><div class='full-width flex justify-space-evenly'><button type='button' class='btn btn-primary app-status' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-toggle='modal' data-target='#change_image' onclick = change_image_data(this);>Change Image</button> <button class='btn btn-danger' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-order-field=''  data-toggle='modal' data-target='#modal_confirm_delete' onclick = confirm_modal_delete(this); >Delete Image</button></div></div>");
+                //     }
+                //     else {
+                //         $('#img-row'+ imgRow +'').after('<div class="row text-align-center img-row" id="img-row'+ (++imgRow) +'"> </div>');
+                //         x = 0; i--;
+                //     }
+                // }
             }
         }
     });
@@ -1120,7 +1142,7 @@ function new_image_data(button) {
 //////////////////////////// END OF COMMON MODAL FOR ADD NEW IMAGE /////////////////////////////////
 
 
-////////////////////////////////////// COMMON CHANGE IMAGE /////////////////////////////////////////
+///////////////////////////////////// COMMON ADD NEW IMAGE /////////////////////////////////////////
 function add_new_image_process() {    
     const recordId = $("#new_image").find(".hidden_image_row_id").val();
     const tableName = $("#new_image").find(".hidden_image_table_name").val();
@@ -1155,6 +1177,8 @@ function add_new_image_process() {
                     $("#success_modal").find("h1").text("Success!");
                     $("#success_modal").find("p").text("Images has been uploaded.");
                     $("#text_new_image").val("");
+                    //$('#img-row'+ imgRow +'').remove();
+                    loadImages(res.app_screen_data, '#img-row');
                 }
                 else{
                     $('#failed_modal').modal('toggle');
@@ -1166,7 +1190,7 @@ function add_new_image_process() {
         $("#new_image").find(".required_error").text("Please select at least one file.");
     }
 }
-///////////////////////////////// END OF COMMON CHANGE IMAGE ////////////////////////////////////////
+/////////////////////////////// END OF COMMON ADD NEW IMAGE ////////////////////////////////////////
 
 
 ////////////////////////////////////// COMMON CHANGE IMAGE /////////////////////////////////////////

@@ -145,7 +145,6 @@
                                                                             </button>
 
                                                                             <div class="dropdown-menu dropdown-menu-right text-align-right">
-                                                                                <a class="dropdown-item" href="#">Details</a>
                                                                                 
                                                                                 <a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
@@ -157,8 +156,8 @@
 
                                                                                 <a class="dropdown-item edit_screenshots" href="#" onclick = my_app_edit_screenshots(this); data-row-id="'.$row->app_id.'"> App Screens </a>
                                                                                 
-                                                                                <a class="dropdown-item disabled" href="#">Add to Promotion</a> 
-                                                                                <a class="dropdown-item disabled" href="#">Remove Promotion</a>
+                                                                                <a class="dropdown-item" href="#">Add to Promotion</a> 
+                                                                                <a class="dropdown-item" href="#">Remove Promotion</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
 

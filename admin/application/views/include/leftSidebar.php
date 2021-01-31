@@ -114,6 +114,18 @@
                             </li>
 
                             <li>
+                                <a href="javascript: void(0);">
+                                    <i class="fas fa-fire"></i>
+                                    <span> Subscription </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="<?php echo base_url("new_subscription")?>">Crete New Subscription</a></li>
+                                    <li><a href="<?php echo base_url("manage_subscription")?>">Manage Subscription</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
                                 <a href="<?php echo base_url("manage_trending_banner")?>">
                                     <i class="fas fa-th-large"></i>
                                     <span> App of the month </span>

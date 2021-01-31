@@ -344,6 +344,10 @@
     justify-content: space-evenly;
 }
 
+.justify-space-between {
+    justify-content: space-between;
+}
+
 .align-items-center {
     align-items: center;
 }
@@ -354,4 +358,9 @@
 
 #responsive-datatable_wrapper .row:nth-child(2) {
     min-height: 40em;
+}
+
+.pd-left-right-0 {
+    padding-left: 0;
+    padding-right: 0;
 }

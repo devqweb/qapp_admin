@@ -253,5 +253,8 @@
         
         <!-- App js -->
         <script src="<?php echo base_url("assets/js/app.min.js") ?>"></script>
+
+        <!-- Custom JS for validation fields -->
+        <script src="<?php echo base_url("assets/js/validation.js") ?>"></script>
     </body>
 </html>
