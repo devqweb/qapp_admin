@@ -555,7 +555,7 @@ function my_app_edit(button) {
 
 
 ////////////////////////////////// END OF EDIT APP DESCRIPTION //////////////////////////////////////
-function edit_app_des(appId, srNum, button) {
+function edit_des(rowId, tableName, idField, srNum, button) {
     count++;    
     const optn_edit = button;
     const main_row = button.parents("tr");
@@ -603,13 +603,13 @@ function edit_app_des(appId, srNum, button) {
         '</td></tr>');
 
     $.ajax({
-        url: "http://localhost/qapp/admin/manage_app_description_ajax",
+        url: "http://localhost/qapp/admin/manage_description_ajax",
         method: 'POST',
         dataType: 'json',
-        data: { app_id: appId, table: 'app' },
+        data: { table: tableName, id: idField, row_id: rowId },
         success:function(res) {
             if(res.response == 'success'){
-                $(description).val(res.app_data.description);
+                $(description).val(res.table_data.description);
             }
         }
     });
@@ -630,13 +630,14 @@ function edit_app_des(appId, srNum, button) {
                     url: "http://localhost/qapp/admin/update_app_des_ajax",
                     method: 'POST',
                     dataType: 'json',
-                    data: { table: 'app', id: 'app_id ', app_id: appId, description: $(description).val() },
+                    data: { table: tableName, id: idField, app_id: rowId, description: $(description).val() },
                     success:function(res) {
                         if(res.response == 'success') {                          
                             myform.prev().find(".single_refresh").text($(description).val());
                             btn_cancel.addClass("display-none");
                             $(btn_edit).show();
-                            optn_edit.removeClass("disabled");                            
+                            optn_edit.removeClass("disabled");
+                            myform.prev().find(".textArea").text($(description).val());
                             myform.remove(".data-edit");
                         }
                         else {
@@ -654,10 +655,12 @@ function edit_app_des(appId, srNum, button) {
     });
 }
 
-function my_app_edit_des(button) {    
-    const appId = button.getAttribute("data-row-id");
+function my_des_edit(button) {    
+    const rowId = button.getAttribute("data-row-id");
+    const tableName = button.getAttribute("data-table-name");
+    const idField = button.getAttribute("data-table-id-field");
     const srNum = button.getAttribute("data-sr-num");
-    edit_app_des(appId, srNum, $(button));
+    edit_des(rowId, tableName, idField, srNum, $(button));
 }
 ///////////////////////////////// END OF EDIT APP DESCRIPTION ///////////////////////////////////////
 
@@ -904,6 +907,327 @@ function my_home_slider_edit(button) {
     edit_home_slider(sliderId, srNum, $(button));
 }
 ///////////////////////////////// END OF EDIT HOME SLIDER //////////////////////////////////////////
+
+
+///////////////////////////////////// EDIT SUBSCRIPTOIN ////////////////////////////////////////////
+function edit_subscription(subId, srNum, button) {
+    count++;
+    const main_row = button.parents("tr");
+    const btn_edit = button;
+    const btn_cancel = button.next();
+
+    let name = "#name";
+    let numOfTags = "#numOfTags";
+    let featured = "featured";
+    let featuredYes = "#featured_yes";
+    let featuredNo = "#featured_no";
+    let price = "#price";
+    let update_subscription = "#update_subscription"
+    let oldName;
+    let oldNumOfTags;
+    let oldFeatured;
+    let oldPrice;
+
+    name += count;
+    numOfTags += count;
+    featured += count;
+    featuredYes += count;
+    featuredNo += count;
+    price += count;
+    update_subscription += count;
+
+    btn_edit.hide();                                                                     
+    btn_cancel.removeClass("display-none");
+
+    main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
+        '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<form action = "" >'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="name'+ count +'">Subscriptoin Name <span class="text-danger">*</span></label>'+
+                    '<input type="text" id="name'+ count +'" name = "name" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Subscription Name">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="numOfTags'+ count +'">Numebr of Tags <span class="text-danger">*</span></label>'+
+                    '<input type="number" min="1" id="numOfTags'+ count +'" name = "numOfTags" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Number of Tags up to">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+            '</div>'+
+            
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="price">Featured Listing <span class="text-danger">*</span></label>'+
+                    '<div class="col-md-2 flex justify-space-between pd-left-right-0">'+
+                        '<span>'+
+                            '<input type="radio" id="featured_yes'+ count +'" name = "featured'+ count +'" value=1 class="" >&nbsp;&nbsp;'+
+                            '<label for="featured_yes'+ count +'">Yes</label>'+
+                        '</span>'+
+                        '<span>'+
+                            '<input type="radio" id="featured_no'+ count +'" name = "featured'+ count +'" value=-1 class="">&nbsp;&nbsp;'+
+                            '<label for="featured_no'+ count +'">No</label><br>'+
+                        '</span>'+
+                    '</div>'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="price">Price per month (Qatari Riyal) <span class="text-danger">*</span></label>'+
+                    '<input type="number" min="1" id="price'+ count +'" name = "price" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Price per month">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_subscription'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Update Subscription">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+        '</td></tr>');
+
+    $(name).focus();
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        $(this).addClass("display-none");
+        btn_edit.show();
+    });
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/manage_table_ajax",
+        method: 'POST',
+        dataType: 'json',
+        //data: { sub_id: subId, table: 'subscription', sub_name: name, num_of_tags: numOfTags, feature_listing: featured, sub_price: price },
+        data: { id: subId, table: 'subscription', where: 'sub_id' },
+        success:function(res){
+            if(res.response == 'success'){
+                $(name).val(res.table_data.name);
+                $(numOfTags).val(res.table_data.num_of_tags);
+                $(price).val(res.table_data.price);
+                if(res.table_data.feature_listing == 1) {
+                    $(featuredYes).attr("checked", "checked");
+                }
+                else $(featuredNo).attr("checked", "checked");
+                oldName = res.table_data.name;
+                oldNumOfTags = res.table_data.num_of_tags;
+                oldFeatured = res.table_data.feature_listing;
+                oldPrice = res.table_data.price;
+            }
+        }
+    });
+
+    $(update_subscription).click(function() {
+        
+        let myform = $(this).parents(".data-edit");
+        let duplicate_status = 0;
+        $(name).next().text("");
+        if(($(numOfTags).val() == oldNumOfTags && $(price).val() == oldPrice && $('input[name="'+featured+'"]:checked').val() == oldFeatured) || $(name).val() != oldName) {
+            $.ajax({
+                url: "http://localhost/qapp/admin/check_duplicate_ajax",
+                method: 'POST',
+                dataType: 'json',
+                data: { table: 'subscription', field: 'name', value: $(name).val() },
+                success:function(res) {
+                    if(res.duplicate == 'yes') {
+                        $(name).next().text("Subscription Name must be unique.");
+                        duplicate_status = 1;
+                    }
+                }
+            });
+        }
+
+        if($(name).val() == '') {
+            $(name).next().text("Please enter Subscription.");
+        }
+        //alert($('input[name="'+featured+'"]:checked').val());
+        else {
+            setTimeout(function() {
+                if(duplicate_status == 0) {
+                    $.ajax({
+                        url: "http://localhost/qapp/admin/update_subscription_ajax",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: { sub_id: subId, id: 'sub_id', table: 'subscription', sub_name: $(name).val(), num_of_tags: $(numOfTags).val(), feature_listing: $('input[name="'+featured+'"]:checked').val(), sub_price: $(price).val(), sr_num: srNum },
+                        success:function(res) {
+                            if(res.response == 'success') {
+                                myform.prev().html(res.table_data);
+                                myform.remove(".data-edit");
+                            }
+                            else {
+                                //setTimeout(function(){
+                                    myform.find(".alert").hide();
+                                    myform.find(".alert").addClass("alert-danger");
+                                    myform.find(".alert").removeClass("display-none");
+                                    myform.find(".alert").html("<b>Failed</b>! Subscription not updated");
+                                    $(title).focus();
+                                    myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
+                                //}, 400);                          
+                            }
+                        }
+                    });                                
+                }
+            }, 300);
+        } 
+    });
+}
+
+function my_subscripton_edit(button) {    
+    const subId = button.getAttribute("data-row-id");
+    const srNum = button.getAttribute("data-sr-num");
+    edit_subscription(subId, srNum, $(button));
+}
+/////////////////////////////////// END OF SUBSCRIPTOIN ////////////////////////////////////////////
+
+
+/////////////////////////////////////// EDIT PROMOTION /////////////////////////////////////////////
+function edit_promotion(promoId, srNum, button) {
+    count++;
+    const main_row = button.parents("tr");
+    const btn_edit = button;
+    const btn_cancel = button.next();
+
+    let type = "#type";
+    let validity = "#validity";
+    let price = "#price";
+    let update_promo = "#update_promo";
+    let oldtype;
+    let oldvalidity;
+    let oldPrice;
+
+    type += count;
+    validity += count;
+    price += count;
+    update_promo += count;
+
+    btn_edit.hide();
+    main_row.find(".edit_des").addClass("disabled");
+    btn_cancel.removeClass("display-none");
+
+    main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
+        '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<form action = "" >'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="type'+ count +'">Prmotion Type <span class="text-danger">*</span></label>'+
+                    '<input type="text" id="type'+ count +'" name = "type" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Prmotion Type">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="validity'+ count +'">Validity (Days) <span class="text-danger">*</span></label>'+
+                    '<input type="number" min="1" id="validity'+ count +'" name = "validity" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Validity of Promotion">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+            '</div>'+
+            
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="price">Price (Qatari Riyal) <span class="text-danger">*</span></label>'+
+                    '<input type="number" min="1" id="price'+ count +'" name = "price" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); class="form-control" placeholder="Price per month">'+
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+            '</div>'+
+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="update_promo'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Update Promotion">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+        '</td></tr>');
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/manage_table_ajax",
+        method: 'POST',
+        dataType: 'json',
+        data: { id: promoId, table: 'promotion', where: 'promo_id' },
+        success:function(res){
+            if(res.response == 'success'){
+                $(type).val(res.table_data.type);
+                $(validity).val(res.table_data.validity);
+                $(price).val(res.table_data.price);
+                
+                oldtype = res.table_data.type;
+                oldvalidity = res.table_data.validity;
+                oldPrice = res.table_data.price;
+            }
+        }
+    });
+
+    $(type).focus();
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        main_row.find(".edit_des").removeClass("disabled");
+        $(this).addClass("display-none");
+        btn_edit.show();
+    });
+
+    $(update_promo).click(function() {
+        
+        let myform = $(this).parents(".data-edit");
+        let duplicate_status = 0;
+        $(type).next().text("");
+        if(($(validity).val() == oldvalidity && $(price).val() == oldPrice) || $(type).val() != oldtype) {
+            $.ajax({
+                url: "http://localhost/qapp/admin/check_duplicate_ajax",
+                method: 'POST',
+                dataType: 'json',
+                data: { table: 'promotion', field: 'type', value: $(type).val() },
+                success:function(res) {
+                    if(res.duplicate == 'yes') {
+                        $(type).next().text("Promotion Name must be unique.");
+                        duplicate_status = 1;
+                    }
+                }
+            });
+        }
+
+        if($(type).val() == '') {
+            if($(type).val() == '') $(type).next().text("Please enter Promotion Name.");
+            else $(des).next().text("Please enter Promotion Name.");
+        }        
+        else {
+            setTimeout(function() {
+                if(duplicate_status == 0) {
+                    $.ajax({
+                        url: "http://localhost/qapp/admin/update_promotion_ajax",
+                        method: 'POST',
+                        dataType: 'json',
+                        data: { table: 'promotion', id: 'promo_id', promo_id: promoId, promo_type: $(type).val(), validity_days: $(validity).val(), promo_price: $(price).val(), sr_num: srNum },
+                        success:function(res) {
+                            if(res.response == 'success') {
+                                myform.prev().html(res.table_data);
+                                myform.remove(".data-edit");
+                            }
+                            else {
+                                //setTimeout(function(){
+                                    myform.find(".alert").hide();
+                                    myform.find(".alert").addClass("alert-danger");
+                                    myform.find(".alert").removeClass("display-none");
+                                    myform.find(".alert").html("<b>Failed</b>! Subscription not updated");
+                                    $(title).focus();
+                                    myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
+                                //}, 400);                          
+                            }
+                        }
+                    });                                
+                }
+            }, 300);
+        } 
+    });
+}
+
+function my_promotion_edit(button) {    
+    const promoId = button.getAttribute("data-row-id");
+    const srNum = button.getAttribute("data-sr-num");
+    edit_promotion(promoId, srNum, $(button));
+}
+//////////////////////////////// END OF EDIT PROMOTION /////////////////////////////////////////////
 
 
 ///////////////////////////////////// EDIT TRANDING BANNER /////////////////////////////////////////

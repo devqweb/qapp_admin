@@ -415,6 +415,24 @@ class Home extends CI_Controller {
 	##################################### END OF MANAGE HOME SLIDER ###################################
 
 
+	########################################### MANAGE SUBSCRIPTION ###################################
+	public function manage_subscription() {
+		////////////////////////////////SELECT RECORDS FROM HOME SLIDER////////////////////////////////
+		$data['table_data'] = $this->Common_model->common_select('*', 'subscription', array(), array());
+		$this->CommonPage("manage_subscription", $data);
+	}
+	#################################### END OF MANAGE SUBSCRIPTION ###################################
+
+
+	########################################### MANAGE PROMOTION ###################################
+	public function manage_promotion() {
+		////////////////////////////////SELECT RECORDS FROM HOME SLIDER////////////////////////////////
+		$data['table_data'] = $this->Common_model->common_select('*', 'promotion', array(), array());
+		$this->CommonPage("manage_promotion", $data);
+	}
+	#################################### END OF MANAGE PROMOTION ###################################
+
+
 	##################################### ADD NEW TRENDING BANNER #####################################
 	public function new_trending_banner() {
 		$data = [];
@@ -498,7 +516,7 @@ class Home extends CI_Controller {
 
 		if(isset($_POST['submit'])) {
 			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
-			$this->form_validation->set_rules('subName', '<b>Suscription Name</b>', 'trim|required');
+			$this->form_validation->set_rules('subName', '<b>Suscription Name</b>', 'trim|required|is_unique[subscription.name]');
 			$this->form_validation->set_rules('numOfTags', '<b>Number of Tags</b>', 'trim|required|numeric');
 			$this->form_validation->set_rules('featured', '<b>Featured Listing</b>', 'trim|required|numeric');
 			$this->form_validation->set_rules('pricePerMonth', '<b>Price per month</b>', 'trim|required|numeric');
@@ -538,7 +556,68 @@ class Home extends CI_Controller {
 	#################################### END OF ADD NEW SUBSCRIPTION ##################################
 
 
-	#################################### GET RECORDS FROM CATEROGRY USING AJAX ########################	
+	####################################### ADD NEW PROMOTION #########################################
+	public function new_promotion() {
+		$data = [];
+		$save_data = '';
+
+		if(isset($_POST['submit'])) {
+			$this->form_validation->set_error_delimiters('<div class="ci-form-error">', '</div>');
+			$this->form_validation->set_rules('promoType', '<b>Prmotion Type</b>', 'trim|required|is_unique[promotion.type]');
+			$this->form_validation->set_rules('validity', '<b>Validity</b>', 'trim|required|numeric');
+			$this->form_validation->set_rules('price', '<b>Price</b>', 'trim|required|numeric');
+			$this->form_validation->set_rules('description', '<b>Description</b>', 'trim|required');			
+			
+			if(empty($_FILES['image']['name'])) {
+				$this->form_validation->set_rules('image', '<b>Image</b>', 'trim|required');
+			}
+			if($this->form_validation->run()) {
+				if(isset($_FILES['image']) && $_FILES['image']['name'] != '') {
+					$promoType = $this->input->post('promoType');
+					$validity = $this->input->post('validity');
+					$price = $this->input->post('price');
+					$description = $this->input->post('description');
+					$submit = $this->input->post('submit');
+
+					$image_name = $this->Common_model->image_upload('./upload/promotion/','image');
+
+					if($image_name != '') {
+						$values = array(
+							'type' => $promoType,
+							'validity' => $validity,
+							'price' => $price,
+							'description' => $description,
+							'image' => $image_name
+						);
+						//////////////////////////////// INSERT NEW TRENDING SLIDER //////////////////////////////////
+						$save_data = $this->Common_model->common_insert('promotion', $values);
+	
+						if($save_data) {
+							$data['save_status'] = 1;
+							$data['status_msg'] = "<strong>Success!</strong> Promotion has been created.";
+							$data['status_class'] = "alert-success";
+						}
+						else {
+							$data['save_status'] = 0;
+							$data['status_msg'] = "<strong>Error!</strong> Promotion not created.";
+							$data['status_class'] = "alert-danger";
+						}
+					}
+					else {
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Error!</strong> Promotion not created.";
+						$data['status_class'] = "alert-danger";
+					}
+				}				
+			}
+		}
+		$data['id'] = $save_data;
+		$this->CommonPage("new_promotion", $data);
+	}
+	#################################### END OF ADD NEW PROMOTION #####################################
+
+
+	#################################### GET RECORDS FROM CATEROGRY USING AJAX ########################
 	public function manage_category_ajax() {
 		$cat_id = $this->input->post("cat_id");
 		$table_name = $this->input->post("table");
@@ -732,7 +811,9 @@ class Home extends CI_Controller {
 		}
 
 		/* Common delete file */
-		$delete_file = $this->delete_file($folder_field, $image_field, $table_name, $array);
+		if($image_field != '') {
+			$delete_file = $this->delete_file($folder_field, $image_field, $table_name, $array);
+		}
 		////////////////////////////// End of Delete image from the folder ////////////////////////////////////
 
 		$delete_status = $this->Common_model->common_delete($table_name, array($where=>$record_id));
@@ -855,12 +936,13 @@ class Home extends CI_Controller {
 
 
 	################################### GET RECORDS FROM APP USING AJAX ################################
-	function manage_app_description_ajax() {
-		$app_id = $this->input->post("app_id");
+	function manage_description_ajax() {
+		$row_id = $this->input->post("row_id");
+		$where = $this->input->post("id");
 		$table_name = $this->input->post("table");
 		$data['response'] = 'success';		
-		$data['app_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array('app_id'=>$app_id));
-		if(!empty($data['app_data'])) $data['response'] = 'success';
+		$data['table_data'] = $this->Common_model->common_select_single_row(array(), $table_name, array($where=>$row_id));
+		if(!empty($data['table_data'])) $data['response'] = 'success';
 		else $data['response'] = 'failed';
 		echo json_encode($data);
 	}
@@ -904,6 +986,20 @@ class Home extends CI_Controller {
 	########################## END OF GET RECORDS FROM TRENDING BANNER USING AJAX ######################
 
 
+
+	################################## COMMON GET RECORDS FROM TABLE USING AJAX ########################
+	public function manage_table_ajax() {
+		$id = $this->input->post("id");
+		$table = $this->input->post("table");
+		$where = $this->input->post("where");
+		$data['response'] = 'success';
+		$data['table_data'] = $this->Common_model->common_select_single_row(array(), $table, array($where=>$id));
+		echo json_encode($data);
+	}
+	######################### END OF COMMON GET RECORDS FROM TABLE USING AJAX ##########################
+
+
+	
 	################################### UPDATE HOME SLIDER USING AJAX ##################################
 	public function update_home_slider_ajax() {
 		$table_name = $this->input->post("table");
@@ -1005,6 +1101,126 @@ class Home extends CI_Controller {
 	############################### END OF UPDATE HOME SLIDER USING AJAX ###############################
 
 
+	################################## UPDATE SUBSCRIPTION USING AJAX ##################################
+	public function update_subscription_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$sub_id = $this->input->post("sub_id");
+		$sub_name = $this->input->post("sub_name");
+		$num_of_tags = $this->input->post("num_of_tags");
+		$feature_listing = $this->input->post("feature_listing");
+		$sub_price = $this->input->post("sub_price");
+		$sr_num = $this->input->post("sr_num");
+		$data['response'] = 'success';
+		$update_status = "";		
+		//print_r($_POST);die();
+		$update_status = $this->Common_model->common_update($table_name, array('name'=>$sub_name, 'num_of_tags'=>$num_of_tags, 'feature_listing'=>$feature_listing, 'price'=>$sub_price), array($where=>$sub_id));
+
+		if($update_status) {
+			$data['response'] = "success";				
+			$table_data = "";
+			$get_data = $this->Common_model->common_select_single_row('*', 'subscription', array($where=>$sub_id));				
+			$table_data .= '<td>'.$sr_num.'</td>';
+			$table_data .= '<td>'. $get_data['sub_id'] .'</td>';
+			$table_data .= '<td>'. $get_data['name'] .'</td>';
+			$table_data .= '<td>'. $get_data['num_of_tags'] .'</td>';
+			if($get_data['feature_listing'] == 1) {
+				$table_data .= '<td><i class="fas fa-check"></i></td>';
+			}
+			else $table_data .= '<td><i class="fas fa-times"></i></td>';
+			$table_data .= '<td>'. $get_data['price'] .'</td>';
+			$table_data .= '<td>
+								<div class="btn-group">
+									<button class="btn btn-info btn-sm btn-edit-subscription" type="button" title="Edit" data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['sub_id'].'" onclick = my_subscripton_edit(this);>
+										<i class="mdi mdi-pencil"></i>
+									</button>
+
+									<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
+										<i class="fas fa-times"></i>
+									</button>
+
+									<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="mdi mdi-chevron-down"></i>
+									</button>
+
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item app-status" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['sub_id'].'" data-table-name="subscription" data-table-id-field="sub_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+										
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#" data-row-id="'.$get_data['sub_id'].'" data-table-name="subscription" data-table-id-field="sub_id" data-order-field="" data-table-image-field="" data-img-path="" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+									</div>
+								</div>
+							</td>';
+				
+			$data['table_data'] = $table_data;
+		} 
+		else $data['response'] = "failed";
+		
+		echo json_encode($data);	
+	}
+	############################## END OF UPDATE SUBSCRIPTION USING AJAX ###############################
+
+
+	################################### UPDATE PROMOTION USING AJAX ####################################
+	public function update_promotion_ajax() {
+		$table_name = $this->input->post("table");
+		$where = $this->input->post("id");
+		$promo_id = $this->input->post("promo_id");
+		$promo_type = $this->input->post("promo_type");
+		$validity_days = $this->input->post("validity_days");
+		$promo_price = $this->input->post("promo_price");
+		$sr_num = $this->input->post("sr_num");
+		$data['response'] = 'success';
+		$update_status = "";		
+		//print_r($_POST);die();
+		$update_status = $this->Common_model->common_update($table_name, array('type'=>$promo_type, 'validity'=>$validity_days, 'price'=>$promo_price), array($where=>$promo_id));
+
+		if($update_status) {
+			$data['response'] = "success";				
+			$table_data = "";
+			$get_data = $this->Common_model->common_select_single_row('*', 'promotion', array($where=>$promo_id));				
+			$table_data .= '<td>'.$sr_num.'</td>';
+			$table_data .= '<td>'. $get_data['promo_id'] .'</td>';
+			$table_data .= '<td>'. $get_data['type'] .'</td>';
+			$table_data .= '<td><img src="./upload/promotion/'.$get_data['image'].'" class="data-img row-icon"></td>';
+			$table_data .= '<td>'. $get_data['validity'] .'</td>';
+			$table_data .= '<td>'. $get_data['price'] .'</td>';
+			$table_data .= '<td class="scroll-field textArea">'. $get_data['description'] .'</td>';			
+			$table_data .= '<td>
+								<div class="btn-group">
+									<button class="btn btn-info btn-sm btn-edit-promotion" type="button" data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['promo_id'].'" onclick = my_promotion_edit(this);>
+										<i class="mdi mdi-pencil"></i>
+									</button>
+
+									<button class="btn btn-sm btn-cancel display-none" type="button" title="Cancel Edit">
+										<i class="fas fa-times"></i>
+									</button>
+
+									<button type="button" class="btn btn-sm btn-info dropdown-toggle dropdown-toggle-split btn-group-last" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="mdi mdi-chevron-down"></i>
+									</button>
+
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item app-status" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['promo_id'].'" data-table-name="promotion" data-table-id-field="promo_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+
+										<a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['promo_id'].'">
+											Edit Description
+										</a>
+										
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#" data-row-id="'.$get_data['promo_id'].'" data-table-name="promotion" data-table-id-field="promo_id" data-order-field="" data-table-image-field="" data-img-path="" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>
+									</div>
+								</div>
+							</td>';
+				
+			$data['table_data'] = $table_data;
+		} 
+		else $data['response'] = "failed";
+		
+		echo json_encode($data);	
+	}
+	################################ END OF UPDATE PROMOTION USING AJAX ################################
+
 
 	###################################### UPDATE APP USING AJAX #######################################
 	public function update_app_ajax() {		
@@ -1097,7 +1313,7 @@ class Home extends CI_Controller {
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['video_link'] .'</td>';
 			$table_data .= '<td>'. $get_data['last_update'] .'</td>';
 			$table_data .= '<td class="scroll-field">'. $get_data['tags'] .'</td>';
-			$table_data .= '<td class="scroll-field single_refresh">'. $get_data['description'] .'</td>';
+			$table_data .= '<td class="scroll-field single_refresh textArea">'. $get_data['description'] .'</td>';
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['website'] .'</td>';
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['instagram_link'] .'</td>';
 			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['facebook_link'] .'</td>';

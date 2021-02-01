@@ -22,7 +22,7 @@
                                     <div class="responsive-table-plugin">
                                         <div class="table-rep-plugin">
                                             <div class="table-responsive" data-pattern="priority-columns">
-                                                <table id="responsive-datatable" class="table table-striped table-sm table-bordered table-bordered dt-responsive nowrap database-records">
+                                                <table id="responsive-datatable" class="table table-striped table-condensed table-sm table-bordered table-bordered dt-responsive nowrap database-records">
                                                     <thead class="thead-dark">
                                                     <tr>
                                                         <th data-priority="1">#</th>
@@ -96,7 +96,7 @@
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->video_link .'</td>';
                                                                 echo '<td>'. $row->last_update .'</td>';
                                                                 echo '<td class="scroll-field">'. $row->tags .'</td>';
-                                                                echo '<td class="scroll-field single_refresh">'. $row->description .'</td>';
+                                                                echo '<td class="scroll-field single_refresh textArea">'. $row->description .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->website .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->instagram_link .'</td>';
                                                                 echo '<td class="scroll-field scroll-field-link">'. $row->facebook_link .'</td>';
@@ -150,7 +150,7 @@
 
                                                                                 <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
-                                                                                <a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'">
+                                                                                <a class="dropdown-item edit_des" href="#" onclick = my_des_edit(this); data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id">
                                                                                     Edit Description
                                                                                 </a>
 
