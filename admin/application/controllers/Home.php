@@ -13,6 +13,7 @@ class Home extends CI_Controller {
 		// $this->load->model('Common_model');
 		// $this->load->model('Manage_model');
 		$this->load->helper(array("form", "url"));
+		$this->load->library('calendar');
 		$this->load->model('Common_model');
 		date_default_timezone_set('Asia/Qatar');
 	}
@@ -183,13 +184,13 @@ class Home extends CI_Controller {
 								}
 								else {
 									$data['save_status'] = 0;
-									$data['status_msg'] = "<strong>Error!</strong> App added, but Screenshots failed to upload.";
+									$data['status_msg'] = "<strong>Error!</strong> App added, but App Screens failed to upload.";
 									$data['status_class'] = "alert-warning";
 								}
 							}
 							else {
 								$data['save_status'] = 0;
-								$data['status_msg'] = "<strong>Error!</strong> App added, but Screenshots failed to upload.";
+								$data['status_msg'] = "<strong>Error!</strong> App added, but App Screens failed to upload.";
 								$data['status_class'] = "alert-warning";
 							}
 						}
@@ -932,7 +933,19 @@ class Home extends CI_Controller {
 		$data['cat_data'] = $this->Common_model->common_select($fields, 'category', array(), $order_by);
 		echo json_encode($data);
 	}
-	################################### GET RECORDS FROM APP USING AJAX ################################
+	############################## END OF GET RECORDS FROM APP USING AJAX ##############################
+
+
+	################################### GET PROMOTION NAME USING AJAX ##################################
+	function manage_app_promo_ajax() {
+		// $app_id = $this->input->post("app_id");
+		// $table_name = $this->input->post("table");
+		$data['response'] = 'success';
+		$order_by = array('type', 'ASC');
+		$data['promo_data'] = $this->Common_model->common_select('*', 'promotion', array(), $order_by);
+		echo json_encode($data);
+	}
+	############################## END OF GET PROMOTION NAME USING AJAX ################################
 
 
 	################################### GET RECORDS FROM APP USING AJAX ################################
@@ -1304,22 +1317,9 @@ class Home extends CI_Controller {
 			$table_data .= '<td><img src="./upload/app_icon/'.$get_data['app_icon'].'" class="data-img row-icon"></td>';
 			$table_data .= '<td>'. $get_data['category'] .'</td>';
 			$table_data .= '<td>'. $get_data['company_name'] .'</td>';
-			$table_data .= '<td>'. $get_data['contact_person'] .'</td>';
 			$table_data .= '<td>('. $get_data['telcode_mobile'] .') '.$get_data['mobile'].'</td>';
 			$table_data .= '<td>('. $get_data['telcode_whatsapp'] .') '.$get_data['whatsapp'].'</td>';
 			$table_data .= '<td>'. $get_data['email'] .'</td>';
-			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['android_link'] .'</td>';
-			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['ios_link'] .'</td>';
-			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['video_link'] .'</td>';
-			$table_data .= '<td>'. $get_data['last_update'] .'</td>';
-			$table_data .= '<td class="scroll-field">'. $get_data['tags'] .'</td>';
-			$table_data .= '<td class="scroll-field single_refresh textArea">'. $get_data['description'] .'</td>';
-			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['website'] .'</td>';
-			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['instagram_link'] .'</td>';
-			$table_data .= '<td class="scroll-field scroll-field-link">'. $get_data['facebook_link'] .'</td>';
-			$table_data .= '<td>'. $get_data['app_size'] .'</td>';
-			$table_data .= '<td>'. $get_data['app_rating'] .'</td>';
-			$table_data .= '<td>'. $get_data['app_installs'] .'</td>';
 
 			if($get_data['english'] == 1) {
 				$table_data .= '<td><i class="fas fa-check"></i></td>';
@@ -1403,11 +1403,8 @@ class Home extends CI_Controller {
 
 
 
-	############################### END OF APP DESCRIPTION USING AJAX ##################################
-
-	############################### END OF UPDATE APP DESCRIPTION AJAX #################################
-
-	public function update_app_des_ajax() {
+	################################ UPDATE DESCRIPTION USING AJAX #####################################
+	public function update_des_ajax() {
 		$table_name = $this->input->post("table");
 		$where = $this->input->post("id");
 		$app_id = $this->input->post("app_id");
@@ -1422,7 +1419,10 @@ class Home extends CI_Controller {
 		else $data['response'] = 'failed';
 		echo json_encode($data);
 	}
+	################################# END OF UPDATE DESCRIPTION AJAX ###################################
+
 	
+
 	################################ UPDATE TRENDING BANNER USING AJAX #################################
 	public function update_trending_banner_ajax() {
 		$table_name = $this->input->post("table");

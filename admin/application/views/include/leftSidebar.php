@@ -115,25 +115,27 @@
 
                             <li>
                                 <a href="javascript: void(0);">
-                                    <i class="fas fa-fire"></i>
+                                    <i class="fas fa-ribbon"></i>
                                     <span> Subscription </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("new_subscription")?>">Crete New Subscription</a></li>
+                                    <li><a href="<?php echo base_url("new_subscription")?>"><i class="fas fa-plus"></i> Crete New Subscription</a></li>
                                     <li><a href="<?php echo base_url("manage_subscription")?>">Manage Subscription</a></li>
                                 </ul>
                             </li>
 
                             <li>
                                 <a href="javascript: void(0);">
-                                    <i class="fas fa-ribbon"></i>
+                                    <i class="fas fa-bullhorn"></i>
                                     <span> Promotion </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href="<?php echo base_url("new_promotion")?>">Crete New Promotion</a></li>
                                     <li><a href="<?php echo base_url("manage_promotion")?>">Manage Promotion</a></li>
+                                    <li><a href="<?php echo base_url("manage_promotion")?>">New Requests</a></li>
+                                    <li><a href="<?php echo base_url("manage_promotion")?>">View All Promotions</a></li>
                                 </ul>
                             </li>
 

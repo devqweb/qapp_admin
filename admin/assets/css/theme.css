@@ -13,6 +13,11 @@
     justify-content: flex-start;
 }
 
+.modal-content {
+    padding:20px;
+    overflow: scroll;
+}
+
 .modal-container-width {
     max-width: 90%;
 }
@@ -102,8 +107,7 @@
 }
 
 .database-records {
-    text-align: center;
-    
+    /* text-align: center;     */
 }
     .database-records th, .database-records td {
         vertical-align: middle;
@@ -119,9 +123,10 @@
         }
 
 .row-icon {
-    width:50px;
+    width:30px;
     height: auto;
-    max-height: 50px;
+    max-height: 30px;
+    cursor: pointer;
 }
 
 /* width */
@@ -363,4 +368,29 @@
 .pd-left-right-0 {
     padding-left: 0;
     padding-right: 0;
+}
+
+.top-fixed-center {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+}
+
+#alert-common {
+    width: 35rem;    
+}
+
+.content-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.top-50px {
+    top: -50px;
+}
+
+#view_image_modal img {
+    max-height: 350px;
 }

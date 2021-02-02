@@ -14,11 +14,24 @@
                 <div class="content">
     
                     <!-- Start Content-->
-                    <div class="container-fluid">                    
+                    <div class="container-fluid">
+                        
                         <div class="row">
                             <div class="col-12">
                                 <div class="card-box table-responsive">
-                                <h4 class="mt-0 header-title">Manage Apps</h4>                                    
+                                    <h4 class="mt-0 header-title">Manage Apps</h4>
+                                    <?php
+                                        $this->load->library('calendar');
+
+                                        $data = array(
+                                                3  => 'http://example.com/news/article/2006/06/03/',
+                                                7  => 'http://example.com/news/article/2006/06/07/',
+                                                13 => 'http://example.com/news/article/2006/06/13/',
+                                                26 => 'http://example.com/news/article/2006/06/26/'
+                                        );
+                                        
+                                        echo $this->calendar->generate(2006, 6, $data);
+                                    ?>
                                     <div class="responsive-table-plugin">
                                         <div class="table-rep-plugin">
                                             <div class="table-responsive" data-pattern="priority-columns">
@@ -28,7 +41,7 @@
                                                         <th data-priority="1">#</th>
                                                         <th data-priority="2">App ID</th>
                                                         <th data-priority="3">App Name</th>                                                        
-                                                        <th data-priority="4">App Logo</th>
+                                                        <th data-priority="4">Logo</th>
                                                         <th data-priority="5">Category</th>
                                                         <th data-priority="6">Company</th>
                                                         <th data-priority="12">Person Name</th>
@@ -84,7 +97,7 @@
                                                                 echo '<th>'. ++$sr_num. '</th>';
                                                                 echo '<td>'. $row->app_id .'</td>';
                                                                 echo '<td>'. $row->app_name .'</td>';
-                                                                echo '<td><img src="./upload/app_icon/'.$row->app_icon.'" class="data-img row-icon"></td>';
+                                                                echo '<td><img src="./upload/app_icon/'.$row->app_icon.'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
                                                                 echo '<td>'. $row->category.'</td>';
                                                                 echo '<td>'. $row->company_name .'</td>';
                                                                 echo '<td>'. $row->contact_person	 .'</td>';
@@ -156,7 +169,8 @@
 
                                                                                 <a class="dropdown-item edit_screenshots" href="#" onclick = my_app_edit_screenshots(this); data-row-id="'.$row->app_id.'"> App Screens </a>
                                                                                 
-                                                                                <a class="dropdown-item" href="#">Add to Promotion</a> 
+                                                                                <a class="dropdown-item" href="#" onclick = promote_app(this); data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id">Add to Promotion</a> 
+
                                                                                 <a class="dropdown-item" href="#">Remove Promotion</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
@@ -188,3 +202,20 @@
                     </div> <!-- container-fluid -->
 
                 </div> <!-- content -->
+                <script>
+                    $(".data-img").click(function(){
+                        $("#modal_image_view").attr("src", $(this).attr("src"));
+                    });
+                </script>
+                <div class="modal fade modal-dialog" tabindex="-1" id="view_image_modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <button type="button" class="close text-right" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <div class="modal-body col-md-10 mx-auto text-align-center">                                
+                                <img src="" id="modal_image_view">
+                            </div>
+                        </div>
+                    </div>
+                </div>

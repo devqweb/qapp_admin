@@ -138,16 +138,14 @@ function edit_category(categoryId, srNum, button) {
                         data: { table: 'category', id: 'cat_id', cat_id: categoryId, cat_name: $(catName).val(), slider_order: $(max_order).val(), sr_num: srNum },
                         success:function(res) {
                             if(res.response == 'success') {                    
-                                //setTimeout(function(){
-                                    // myform.find(".alert").addClass("alert-success");
-                                    // myform.find(".alert").removeClass("display-none");
-                                    // myform.find(".alert").html("<b>Success</b>! Category has been updated");
-                                //},400);
-                                
                                 myform.prev().html(res.table_data);
                                 myform.remove(".data-edit");
-                                // setTimeout(function(){ myform.fadeOut(1000); }, 1000);
-                                // setTimeout(function(){ myform.remove(".data-edit"); }, 2000);
+                                $("#alert-common").html("<b>Success!</b> Category has been updated successfully.");
+                                $("#alert-common").removeClass("top-50px");
+                                setTimeout(function() {
+                                    $("#alert-common").addClass("top-50px");
+                                    $("#alert-common").html("");
+                                },3000);
                             }
                             else {
                                 //setTimeout(function(){
@@ -518,6 +516,12 @@ function edit_app(appId, srNum, button) {
                             if(res.response == 'success') {
                                 myform.prev().html(res.table_data);
                                 myform.remove(".data-edit");
+                                $("#alert-common").html("<b>Success!</b> App has been updated successfully.");
+                                $("#alert-common").removeClass("top-50px");
+                                setTimeout(function() {
+                                    $("#alert-common").addClass("top-50px");
+                                    $("#alert-common").html("");
+                                },3000);
                             }
                             else {                                
                                 myform.find(".alert").hide();
@@ -586,7 +590,7 @@ function edit_des(rowId, tableName, idField, srNum, button) {
         '<form action = "" >'+
             '<div class="form-row">'+
                 '<div class="form-group col-md-12">'+
-                    '<label class="col-form-label" for="description">App Description <span class="text-danger">*</span></label>'+
+                    '<label class="col-form-label" for="description">Description <span class="text-danger">*</span></label>'+
                     '<textarea name="description" id="description'+ count +'" name="description" cols="30" value="" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this); rows="5" class="form-control" placeholder="App Description"></textarea>'+
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
@@ -627,7 +631,7 @@ function edit_des(rowId, tableName, idField, srNum, button) {
         else {
             setTimeout(function() {
                 $.ajax({
-                    url: "http://localhost/qapp/admin/update_app_des_ajax",
+                    url: "http://localhost/qapp/admin/update_des_ajax",
                     method: 'POST',
                     dataType: 'json',
                     data: { table: tableName, id: idField, app_id: rowId, description: $(description).val() },
@@ -639,6 +643,12 @@ function edit_des(rowId, tableName, idField, srNum, button) {
                             optn_edit.removeClass("disabled");
                             myform.prev().find(".textArea").text($(description).val());
                             myform.remove(".data-edit");
+                            $("#alert-common").html("<b>Success!</b> Description has been updated successfully.");
+                            $("#alert-common").removeClass("top-50px");
+                            setTimeout(function() {
+                                $("#alert-common").addClass("top-50px");
+                                $("#alert-common").html("");
+                            },3000);
                         }
                         else {
                             myform.find(".alert").hide();
@@ -713,18 +723,6 @@ function edit_app_screenshots(appId, button) {
                 let x = 0;
 
                 loadImages(res.app_screen_data, '#img-row');
-
-                // for(i = 0; i < res.app_screen_data.length; i++) {
-                //     x++;
-                //     myObj = res.app_screen_data[i];
-                //     if(x <= 3) {
-                //         $('#img-row'+ imgRow +'').append("<div class='col-md-4 record-row flex align-items-center flex-direction-column justify-space-between'><img src='././upload/app_screenshots/"+myObj.image+"' class='data-img pd-bottom-1rem'><div class='full-width flex justify-space-evenly'><button type='button' class='btn btn-primary app-status' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-toggle='modal' data-target='#change_image' onclick = change_image_data(this);>Change Image</button> <button class='btn btn-danger' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-order-field=''  data-toggle='modal' data-target='#modal_confirm_delete' onclick = confirm_modal_delete(this); >Delete Image</button></div></div>");
-                //     }
-                //     else {
-                //         $('#img-row'+ imgRow +'').after('<div class="row text-align-center img-row" id="img-row'+ (++imgRow) +'"> </div>');
-                //         x = 0; i--;
-                //     }
-                // }
             }
         }
     });
@@ -735,6 +733,93 @@ function my_app_edit_screenshots(button) {
     edit_app_screenshots(appId, $(button));
 }
 ///////////////////////////////// END OF EDIT APP SCREENSHOTS ///////////////////////////////////////
+
+
+
+//////////////////////////////////////// PROMOTE APP ////////////////////////////////////////////////
+function promote_app_process(appId, button) {
+    count++;    
+    const optn_edit = button;
+    const main_row = button.parents("tr");
+    const btn_group = button.parents(".btn-group");    
+    const btn_cancel = $(btn_group).children("button.btn-cancel");
+    const btn_edit = $(btn_group).children("button.btn-edit");
+    
+    $(btn_edit).hide();
+    btn_cancel.removeClass("display-none");
+    optn_edit.addClass("disabled");
+    main_row.find(".edit_screenshots").addClass("disabled");
+    main_row.find(".edit_des").addClass("disabled");
+
+    btn_cancel.click(function() {
+        main_row.next().remove(".data-edit");
+        $(this).addClass("display-none");
+        optn_edit.removeClass("disabled");
+        main_row.find(".edit_screenshots").removeClass("disabled");
+        main_row.find(".edit_des").removeClass("disabled");
+        $(this).prev().show();
+    });
+
+    let promoType = "#promoType";
+    let startDate = "#startDate";
+    let note = "#note";
+    let confirm_request = "#send_request";
+
+    promoType += count;
+    startDate += count;
+    note += count;
+    confirm_request += count;    
+
+    main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
+        '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
+        '<form action = "" >'+
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="promoType'+ count +'">Promotion Type</label>'+
+                    '<select id="promoType'+ count +'" name="promoType" class="form-control"><option value="">-- Select --</option></select>'+
+                '</div>'+
+                '<div class="form-group col-md-6">'+
+                    '<label class="col-form-label" for="startDate">Start Date</label>'+
+                    '<input type="date" id="startDate'+ count +'" name = "startDate" value="" onchange=clearError(this); class="form-control" placeholder="Title">'
+                    
+                    '<div class="required_error text-danger text-align-left bold-500"></div>'+
+                '</div>'+
+            '</div>'+
+            
+            '<div class="form-row">'+
+                '<div class="form-group col-md-6">'+
+                    '<input type = "button" name = "submit" id="confirm_request'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Confirm">'+
+                    '</a> &nbsp;&nbsp;&nbsp;'+
+                    '<input type="reset" class="btn btn-danger" value="Cancel">'+
+                '</div>'+
+            '</div>'+
+        '</form>'+
+        '</td></tr>');
+
+    $.ajax({
+        url: "http://localhost/qapp/admin/manage_app_promo_ajax",
+        method: 'POST',
+        dataType: 'json',
+        //data: { table: tableName, id: idField, row_id: rowId },
+        success:function(res) {
+            if(res.response == 'success'){
+                let myObj;
+                for(i = 0; i < res.promo_data.length; i++) {
+                    myObj = res.promo_data[i];
+                    if(myObj.enable_disable == 1) {
+                        $(promoType).append("<option value='"+myObj.promo_id +"'>"+myObj.type+"</option>");
+                    }
+                }
+            }
+        }
+    });
+}
+function promote_app(button) {
+    const appId = button.getAttribute("data-row-id");
+    promote_app_process(appId, $(button));
+}
+////////////////////////////////////// END OF PROMOTE APP ///////////////////////////////////////////
+
 
 
 //////////////////////////////////// EDIT HOME SLIDER //////////////////////////////////////////////
@@ -876,6 +961,12 @@ function edit_home_slider(sliderId, srNum, button) {
                             if(res.response == 'success') {
                                 myform.prev().html(res.table_data);
                                 myform.remove(".data-edit");
+                                $("#alert-common").html("<b>Success!</b> Home Slider has been updated successfully.");
+                                $("#alert-common").removeClass("top-50px");
+                                setTimeout(function() {
+                                    $("#alert-common").addClass("top-50px");
+                                    $("#alert-common").html("");
+                                },3000);
                             }
                             else {
                                 //setTimeout(function(){
@@ -1042,7 +1133,7 @@ function edit_subscription(subId, srNum, button) {
         if($(name).val() == '') {
             $(name).next().text("Please enter Subscription.");
         }
-        //alert($('input[name="'+featured+'"]:checked').val());
+        
         else {
             setTimeout(function() {
                 if(duplicate_status == 0) {
@@ -1055,6 +1146,12 @@ function edit_subscription(subId, srNum, button) {
                             if(res.response == 'success') {
                                 myform.prev().html(res.table_data);
                                 myform.remove(".data-edit");
+                                $("#alert-common").html("<b>Success!</b> Subscription has been updated successfully.");
+                                $("#alert-common").removeClass("top-50px");
+                                setTimeout(function() {
+                                    $("#alert-common").addClass("top-50px");
+                                    $("#alert-common").html("");
+                                },3000);
                             }
                             else {
                                 //setTimeout(function(){
@@ -1203,6 +1300,12 @@ function edit_promotion(promoId, srNum, button) {
                             if(res.response == 'success') {
                                 myform.prev().html(res.table_data);
                                 myform.remove(".data-edit");
+                                $("#alert-common").html("<b>Success!</b> Promotion has been updated successfully.");
+                                $("#alert-common").removeClass("top-50px");
+                                setTimeout(function() {
+                                    $("#alert-common").addClass("top-50px");
+                                    $("#alert-common").html("");
+                                },3000);
                             }
                             else {
                                 //setTimeout(function(){
@@ -1302,13 +1405,19 @@ function edit_trending_banner(bannerId, srNum, button) {
 				if(res.response == 'success') {
 					myform.prev().html(res.table_data);
 					myform.remove(".data-edit");
+                    $("#alert-common").html("<b>Success!</b> Trending Banner has been updated successfully.");
+                    $("#alert-common").removeClass("top-50px");
+                    setTimeout(function() {
+                        $("#alert-common").addClass("top-50px");
+                        $("#alert-common").html("");
+                    },3000);
 				}
 				else {
 					//setTimeout(function(){
 						myform.find(".alert").hide();
 						myform.find(".alert").addClass("alert-danger");
 						myform.find(".alert").removeClass("display-none");
-						myform.find(".alert").html("<b>Failed</b>! Home slider not updated");
+						myform.find(".alert").html("<b>Failed</b>! Trending Banner not updated");
 						$(title).focus();
 						myform.find(".alert").fadeTo(2000, 500).slideUp(1000);
 					//}, 400);                          

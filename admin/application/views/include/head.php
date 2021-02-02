@@ -46,7 +46,7 @@
 
         <!-- Begin page -->
         <div id="wrapper">
-
+            <div id="alert-common" class="top-fixed-center content-center alert alert-success text-center top-50px"></div>
             <!-- Topbar Start -->
             <div class="navbar-custom">
                 <ul class="list-unstyled topnav-menu float-right mb-0">
@@ -204,8 +204,6 @@
                             <i class="fe-settings noti-icon"></i>
                         </a>
                     </li>
-
-
                 </ul>
 
                 <!-- LOGO -->
@@ -216,7 +214,7 @@
                         </span>
                     </a>
                 </div>
-
+                
                 <ul class="list-unstyled topnav-menu topnav-menu-left mb-0">
                     <li>
                         <button class="button-menu-mobile disable-btn waves-effect">

@@ -35,9 +35,9 @@
                                                                 </button>';
                                                             echo '</div>';
                                                             
-                                                            echo '   <script>
+                                                            echo '  <script>
                                                                         $(document).ready(function() {
-                                                                            $("#form-alert").fadeTo(2000, 500).slideUp(1000);
+                                                                            $("#form-alert").fadeTo(2000, 500).slideUp(2000);
                                                                         });
                                                                     </script>';
                                                         }
@@ -262,7 +262,7 @@
                                                             <span class="text-danger">GIF/JPG/JPEG/PNG Only</span>
                                                         </div>
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="screenshots">App Screens<span class="text-danger">*</span></label>
+                                                            <label class="col-form-label" for="screenshots">App Screens <span class="text-danger">*</span></label>
                                                             <input type="file" id="screenshots" name="screenshots[]" multiple="multiple" class="form-control" onchange=clearError(this);>
                                                             <?php echo form_error('screenshots'); ?>
                                                             <span class="text-danger">GIF/JPG/JPEG/PNG Only</span>
@@ -296,9 +296,6 @@
                                                         <div class="form-group col-md-5">
                                                             <input type="submit" name="submit" value="Add App" class="btn btn-success waves-effect waves-light">
                                                             &nbsp;&nbsp;&nbsp;
-                                                            <a href="" class="btn btn-secondary waves-effect waves-light disabled" data-toggle="modal" data-target=".bs-example-modal-xl">
-                                                                Save and Mobile Preview
-                                                            </a> &nbsp;&nbsp;&nbsp;
                                                             <input type="reset" class="btn btn-danger" value="Cancel">
                                                         </div>
                                                     </div>
