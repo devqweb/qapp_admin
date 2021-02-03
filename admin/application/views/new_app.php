@@ -37,7 +37,7 @@
                                                             
                                                             echo '  <script>
                                                                         $(document).ready(function() {
-                                                                            $("#form-alert").fadeTo(2000, 500).slideUp(2000);
+                                                                            $("#form-alert").fadeTo(5000, 500).slideUp(2000);
                                                                         });
                                                                     </script>';
                                                         }
@@ -240,7 +240,7 @@
 
                                                     <div class="form-row">
                                                         <div class="form-group col-md-12">
-                                                            <label class="col-form-label" for="tags">Tags *</label>
+                                                            <label class="col-form-label" for="tags">Tags <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control" name = "tags" value="<?php echo ($id) ? "" : set_value('tags'); ?>" data-role="tagsinput" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);>
                                                             <?php echo form_error('tags'); ?>
                                                         </div>
@@ -248,7 +248,7 @@
 
                                                     <div class="form-row">
                                                         <div class="form-group col-md-12">
-                                                            <label class="col-form-label" for="description">App Description*</label>
+                                                            <label class="col-form-label" for="description">App Description <span class="text-danger">*</span></label>
                                                             <textarea name="description" id="description" name="description" cols="30" rows="5" class="form-control" placeholder="App Description" onchange=clearError(this); onpaste=clearError(this); onkeypress=clearError(this);><?php echo ($id) ? "" : set_value('description'); ?></textarea>
                                                             <?php echo form_error('description'); ?>
                                                         </div>
@@ -259,13 +259,13 @@
                                                             <label class="col-form-label" for="icon">App Icon <span class="text-danger">*</span></label>
                                                             <input type="file" id="icon" name="icon" class="form-control" onchange=clearError(this);>
                                                             <?php echo form_error('icon'); ?>
-                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only</span>
+                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only, Max Size 100 KB, Max Dimention 180px X 180px</span>
                                                         </div>
                                                         <div class="form-group col-md-6">
                                                             <label class="col-form-label" for="screenshots">App Screens <span class="text-danger">*</span></label>
                                                             <input type="file" id="screenshots" name="screenshots[]" multiple="multiple" class="form-control" onchange=clearError(this);>
                                                             <?php echo form_error('screenshots'); ?>
-                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only</span>
+                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only, Max Size 1 MB, Max Dimention 2000px X 2000px</span>
                                                         </div>
                                                     </div>
 

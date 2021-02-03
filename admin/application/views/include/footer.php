@@ -126,7 +126,11 @@
                                 <input type="hidden" name="id_field" value="" id="hidden_imageId_field_name">
                                 <input type="hidden" name="field" value="" id="hidden_image_field_name">
                                 <input type="hidden" name="field" value="" id="hidden_image_path">
+                                <input type="hidden" name="maxSize" value="" id="hidden_image_max_size">
+                                <input type="hidden" name="maxWidth" value="" id="hidden_image_max_width">
+                                <input type="hidden" name="maxHeiht" value="" id="hidden_image_max_height">
                                 <input type="file" id="text_change_image" onchange = clearError(this); value="" class="form-control file-field">
+                                <div class="text-left padding-top-3px font-12px allow-image"></div>
                                 <div class="required_error text-danger text-align-left"></div>
                                 <div class="flex justify-space-around mar-top-1rem">
                                     <button type="button" class="btn btn-primary my-btn-std" onclick = change_image_process();>Upload</button>
@@ -141,7 +145,7 @@
         <!------------------- END OF COMMON MODAL FOR CHANGE IMAGE --------------------->
 
 
-        <!----------------------- COMMON MODAL FOR ADD NEW IMAGE ------------------------>
+        <!---------------- COMMON MODAL FOR ADD NEW IMAGE APP SCREENS ------------------>
         <div class="modal fade modal-dialog" tabindex="-1" id="new_image">
             <div class="modal-dialog">
                 <div class="modal-content modal-md">                        
@@ -153,9 +157,15 @@
                                 <input type="hidden" name="table" value="" class="hidden_image_table_name">
                                 <input type="hidden" name="id_field" value="" class="hidden_imageId_field_name">
                                 <input type="hidden" name="field" value="" class="hidden_image_field_name">
-                                <input type="hidden" name="field" value="" class="hidden_image_path">
+                                <input type="hidden" name="path" value="" class="hidden_image_path">
+                                <input type="hidden" name="maxSize" value="" class="hidden_image_max_size">
+                                <input type="hidden" name="maxWidth" value="" class="hidden_image_max_width">
+                                <input type="hidden" name="maxHeiht" value="" class="hidden_image_max_height">
                                 <input type="file" id="text_new_image" name="screenshots[]" multiple onchange = clearError(this); value="" class="form-control file-field">
                                 <div class="required_error text-danger text-align-left"></div>
+                                <div class="text-left padding-top-3px font-12px">
+                                    <span class="text-danger">Only GIF/JPG/JPEG/PNG, Max Size 1 MB, Max Dimention 2000px X 2000px</span>
+                                </div>
                                 <div class="flex justify-space-around mar-top-1rem">
                                     <button type="button" class="btn btn-primary my-btn-std" onclick = add_new_image_process();>Upload</button>
                                     <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields(new_image);  data-dismiss="modal" aria-label="Close">Cancel</button>                            
@@ -166,7 +176,7 @@
                 </div>
             </div>
         </div>
-        <!------------------- END OF COMMON MODAL FOR ADD NEW IMAGE --------------------->
+        <!------------- END OF COMMON MODAL FOR ADD NEW IMAGE APP SCREENS-------------->
 
         
         <!------------------COMMON SUCCESS BOX FOR DELETE RECORD----------------------->
@@ -206,6 +216,27 @@
             </div>
         </div>
         <!----------------- ENF OF COMMON FAILED MODAL OPERATION -------------------->
+        
+        
+        <!--------------------- COMMON MODAL FOR VIEW IMAGE ------------------------->
+        <script>
+            $(".data-img").click(function(){
+                $("#modal_image_view").attr("src", $(this).attr("src"));
+            });
+        </script>
+        <div class="modal fade modal-dialog" tabindex="-1" id="view_image_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <button type="button" class="close text-right" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="modal-body col-md-10 mx-auto text-align-center">                                
+                        <img src="" id="modal_image_view">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------ END OF COMMON MODAL FOR VIEW IMAGE ---------------------->
 
         <!-- Vendor js -->
         <script src="<?php echo base_url("assets/js/vendor.min.js") ?>"></script>

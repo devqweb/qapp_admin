@@ -46,7 +46,7 @@
                                                 <?php echo form_open_multipart('new_trending_banner');?>                                                    
                                                     <div class="form-row">                                                        
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="order_slider">Order in Drag Slider *</label>
+                                                            <label class="col-form-label" for="order_slider">Order in Drag Slider <span class="text-danger">*</span></label>
                                                             <?php
                                                                 $largest = 0;
                                                                 if(set_value('order_slider') != null && !isset($save_status)) $largest = set_value('order_slider');
@@ -68,9 +68,10 @@
 
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="banner_image">Banner Image *</label>
+                                                            <label class="col-form-label" for="banner_image">Banner Image <span class="text-danger">*</span></label>
                                                             <input type="file" id="banner_image" name="banner_image" class="form-control" placeholder="Category Icon">
                                                             <?php echo form_error('banner_image'); ?>
+                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only, Max Size 1 MB, Dimention 660px X 454px</span>
                                                         </div>
                                                     </div>
 

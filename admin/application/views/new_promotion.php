@@ -86,7 +86,7 @@
                                                             <label class="col-form-label" for="image">Preview Image <span class="text-danger">*</span></label>
                                                             <input type="file" id="image" name="image" class="form-control" onchange=clearError(this);>
                                                             <?php echo form_error('image'); ?>
-                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only</span>
+                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only, Max Size 2 MB, Max Dimention 2000px X 2000px</span>
                                                         </div>
                                                     </div>
 

@@ -20,18 +20,6 @@
                             <div class="col-12">
                                 <div class="card-box table-responsive">
                                     <h4 class="mt-0 header-title">Manage Apps</h4>
-                                    <?php
-                                        $this->load->library('calendar');
-
-                                        $data = array(
-                                                3  => 'http://example.com/news/article/2006/06/03/',
-                                                7  => 'http://example.com/news/article/2006/06/07/',
-                                                13 => 'http://example.com/news/article/2006/06/13/',
-                                                26 => 'http://example.com/news/article/2006/06/26/'
-                                        );
-                                        
-                                        echo $this->calendar->generate(2006, 6, $data);
-                                    ?>
                                     <div class="responsive-table-plugin">
                                         <div class="table-rep-plugin">
                                             <div class="table-responsive" data-pattern="priority-columns">
@@ -161,7 +149,7 @@
                                                                                 
                                                                                 <a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-img-type="icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
                                                                                 <a class="dropdown-item edit_des" href="#" onclick = my_des_edit(this); data-sr-num="'.$sr_num.'" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id">
                                                                                     Edit Description
@@ -202,20 +190,3 @@
                     </div> <!-- container-fluid -->
 
                 </div> <!-- content -->
-                <script>
-                    $(".data-img").click(function(){
-                        $("#modal_image_view").attr("src", $(this).attr("src"));
-                    });
-                </script>
-                <div class="modal fade modal-dialog" tabindex="-1" id="view_image_modal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <button type="button" class="close text-right" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <div class="modal-body col-md-10 mx-auto text-align-center">                                
-                                <img src="" id="modal_image_view">
-                            </div>
-                        </div>
-                    </div>
-                </div>

@@ -13,7 +13,19 @@ class Home extends CI_Controller {
 		// $this->load->model('Common_model');
 		// $this->load->model('Manage_model');
 		$this->load->helper(array("form", "url"));
-		$this->load->library('calendar');
+		//$this->load->library('calendar');
+		$prefs = array(			
+			'month_type'   => 'long',
+			'day_type'     => 'short',
+			'show_next_prev'  => TRUE        	
+		);
+		$prefs['template'] = array(
+			'table_open'           => '<table class="calendar table table-bordered">',
+			'cal_cell_start'       => '<td class="day">',
+			'cal_cell_start_today' => '<td class="today">'
+		);
+		$this->load->library('calendar', $prefs);
+		$this->load->library('image_lib');
 		$this->load->model('Common_model');
 		date_default_timezone_set('Asia/Qatar');
 	}
@@ -95,11 +107,17 @@ class Home extends CI_Controller {
 
 				///////////////////////////////////// UPLOAD ICON ////////////////////////////////////////////
 				if(isset($_FILES['icon']) && $_FILES['icon']['name'] != '') {
-					$icon_name = $this->Common_model->image_upload('./upload/app_icon/', 'icon');
+					//$img_config = array('max-size'=>100, 'max_width' => 64, 'max_height' => 64);
+					$icon_name = $this->Common_model->image_upload('./upload/app_icon/', 'icon', 100, 180, 180);
 				}
-
+				if($icon_name == 'over-size') {
+					$data['save_status'] = 0;
+					$data['status_msg'] = "<strong>Error App Icon!</strong> Allow Max size = 100 KB, Max height = 180px, Max Width 180px";
+					$data['status_class'] = "alert-danger";
+				}
+				
 				///////////////////////////////////// INSERT APP DETAILS /////////////////////////////////////
-				if($icon_name != '') {
+				else if($icon_name != '') {
 					$nameOfApp = $this->input->post('nameOfApp');
 					$companyName = $this->input->post('companyName');
 					$contactPerson = $this->input->post('contactPerson');
@@ -166,10 +184,13 @@ class Home extends CI_Controller {
 								$_FILES['screenshots']['tmp_name'] = $files['screenshots']['tmp_name'][$i];
 								$_FILES['screenshots']['error'] = $files['screenshots']['error'][$i];
 								$_FILES['screenshots']['size'] = $files['screenshots']['size'][$i];
-
-								$screenshot_name = $this->Common_model->image_upload('./upload/app_screenshots/', 'screenshots');
-								
-								if($screenshot_name != '') {
+								$screenshot_name = $this->Common_model->image_upload('./upload/app_screenshots/', 'screenshots', 1024, 2000, 2000);
+								if($screenshot_name == 'over-size') {
+									$data['save_status'] = 0;
+									$data['status_msg'] = "<strong>Error App Screen!</strong> Allow Max size = 1 MB, Max height = 2000px, Max Width 2000px";
+									$data['status_class'] = "alert-danger";
+								}
+								else if($screenshot_name != '') {
 									//////////////////////////////// INSERT SCREENSHOT IN DATABSE ////////////////////////////////
 									$screenshots[] = array('app_id'=>$save_data, 'image'=>$screenshot_name);
 								}
@@ -229,6 +250,14 @@ class Home extends CI_Controller {
 	##################################### END OF MANAGE APPS ##########################################
 
 
+	############################################ CALENDER #############################################
+	public function calendar() {
+		$data = '';
+		$this->CommonPage("calendar", $data);
+	}
+	############################################ END OF CALENDER ######################################
+
+
 	############################################ ADD NEW CATEGORY #####################################
 	public function new_category() {
 		////////////////////////////////// INSERT / UPDATE FUNCTION //////////////////////////////////
@@ -262,9 +291,15 @@ class Home extends CI_Controller {
 					$id = array('cat_id', 'order_in_slider');
 					$val = array('order_in_slider'=>$slider_order);
 
-					$image_name = $this->Common_model->image_upload('./upload/category_img/','catIcon');
+					$image_name = $this->Common_model->image_upload('./upload/category_img/','catIcon', 100, 180, 180);
 
-					if($image_name != '') {
+					if($image_name == 'over-size') {
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Error Category Icon!</strong> Allow Max size = 100 KB, Max height = 180px, Max Width 180px";
+						$data['status_class'] = "alert-danger";
+					}
+
+					else if($image_name != '') {
 						$max_order = $this->Common_model->common_select_max('order_in_slider', '', 'category');
 						//print_r($max_order);
 						//$max_value = $max_order['order_in_slider'][0]->order_in_slider;
@@ -355,9 +390,15 @@ class Home extends CI_Controller {
 					$id = array('home_slider_id', 'order_slider');
 					$val = array('order_slider'=>$order_slider);
 
-					$image_name = $this->Common_model->image_upload('./upload/home_slider_img/','slider_img');
+					$image_name = $this->Common_model->image_upload('./upload/home_slider_img/','slider_img', 1024, 917, 927);
 
-					if($image_name != '') {
+					if($image_name == 'over-size') {
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Error Slider Image!</strong> Allow Max size = 1 MB, Height = 917px, Width 927px";
+						$data['status_class'] = "alert-danger";
+					}
+
+					else if($image_name != '') {
 						$max_order = $this->Common_model->common_select_max('order_slider', '', 'home_slider');
 						
 						if($max_order['order_slider'] != '') {
@@ -454,7 +495,13 @@ class Home extends CI_Controller {
 				$id = array('trending_id ', 'order_slider');
 				$val = array('order_slider'=>$order_slider);
 
-				$image_name = $this->Common_model->image_upload('./upload/trending_img/', 'banner_image');
+				$image_name = $this->Common_model->image_upload('./upload/trending_img/', 'banner_image', 1024, 660, 454);
+
+				if($image_name == 'over-size') {
+					$data['save_status'] = 0;
+					$data['status_msg'] = "<strong>Error Banner Image!</strong> Allow Max size = 1 MB, Dimention 600px X 454px";
+					$data['status_class'] = "alert-danger";
+				}
 
 				if($image_name != '') {
 					$max_order = $this->Common_model->common_select_max_single_row('order_slider', '', 'trending_banner');
@@ -580,9 +627,15 @@ class Home extends CI_Controller {
 					$description = $this->input->post('description');
 					$submit = $this->input->post('submit');
 
-					$image_name = $this->Common_model->image_upload('./upload/promotion/','image');
+					$image_name = $this->Common_model->image_upload('./upload/promotion/','image', 2048, 2000, 2000);
 
-					if($image_name != '') {
+					if($image_name == 'over-size') {
+						$data['save_status'] = 0;
+						$data['status_msg'] = "<strong>Error Promo Image!</strong> Allow Max size = 2 MB, Max height = 2000px, Max Width 2000px";
+						$data['status_class'] = "alert-danger";
+					}
+
+					else if($image_name != '') {
 						$values = array(
 							'type' => $promoType,
 							'validity' => $validity,
@@ -726,7 +779,7 @@ class Home extends CI_Controller {
 				$cat_data = $this->Common_model->common_select_single_row('*', 'category', array('cat_id'=>$cat_id));				
 				$table_data .= '<th>'.$sr_num. '</th>';
 				$table_data .= '<td>'. $cat_data['cat_id'] .'</td>';
-				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'" class="data-img row-icon"></td>';
+				$table_data .= '<td><img src="./upload/category_img/'.$cat_data['image'].'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
 				$table_data .= '<td>'. $cat_data['name'] .'</td>';
 				$table_data .= '<td>'. $cat_data['order_in_slider'] .'</td>';
 				$table_data .= '<td> </td>';
@@ -841,6 +894,9 @@ class Home extends CI_Controller {
 		$record_id = $this->input->post("record_id");
 		$image_field = $this->input->post("image_field");
 		$folderPath = $this->input->post("folderPath");
+		$img_size = $this->input->post("img_size");
+		$img_width = $this->input->post("img_width");
+		$img_height = $this->input->post("img_height");
 		$array = array($where => $record_id);
 		$image_name = '';
 		$data['response'] = '';
@@ -849,10 +905,10 @@ class Home extends CI_Controller {
 		////////////////////////////////// Get old image and delete it//////////////////////////////////////
 		$delete_file = $this->delete_file($folderPath, $image_field, $table_name, $array);
 		
-		/////////////////////// Upload new image and update the record in the database//////////////////////		
+		/////////////////////// Upload new image and update the record in the database//////////////////////
 		if(isset($_FILES['imageFile']) && $_FILES['imageFile']['name'] != '') {
-			$image_name = $this->Common_model->image_upload($folderPath."/", 'imageFile');
-		}		
+			$image_name = $this->Common_model->image_upload($folderPath."/", 'imageFile', $img_size, $img_width, $img_height);
+		}
 		
 		if($image_name != '') {
 			$update_status = $this->Common_model->common_update($table_name, array($image_field=>$image_name), array($where=>$record_id));
@@ -881,6 +937,9 @@ class Home extends CI_Controller {
 			$record_id = $this->input->post("record_id");
 			$image_field = $this->input->post("image_field");
 			$folderPath = $this->input->post("folderPath");
+			$img_size = $this->input->post("img_size");
+			$img_width = $this->input->post("img_width");
+			$img_height = $this->input->post("img_height");
 			$array = array($where => $record_id);
 			$image_name = '';
 			$data['response'] = '';
@@ -897,9 +956,13 @@ class Home extends CI_Controller {
 					$_FILES['imageFile']['error'] = $files['imageFile']['error'][$i];
 					$_FILES['imageFile']['size'] = $files['imageFile']['size'][$i];
 
-					$screenshot_name = $this->Common_model->image_upload('./upload/app_screenshots/', 'imageFile');
+					$screenshot_name = $this->Common_model->image_upload('./upload/app_screenshots/', 'imageFile', $img_size, $img_width, $img_height);
+
+					if($screenshot_name == 'over-size') {
+						$data['response'] = "failed";
+					}
 					
-					if($screenshot_name != '') {
+					else if($screenshot_name != '') {
 						//////////////////////////////// INSERT SCREENSHOT IN DATABSE ////////////////////////////////
 						$screenshots[] = array('app_id'=>$record_id, 'image'=>$screenshot_name);
 					}
@@ -1074,7 +1137,7 @@ class Home extends CI_Controller {
 				$table_data .= '<td>'.$sr_num.'</td>';
 				$table_data .= '<td>'. $get_data['home_slider_id'] .'</td>';
 				$table_data .= '<td>'. $get_data['title'] .'</td>';
-				$table_data .= '<td><img src="./upload/home_slider_img/'.$get_data['image_name'].'" class="data-img row-icon"></td>';
+				$table_data .= '<td><img src="./upload/home_slider_img/'.$get_data['image_name'].'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
 				$table_data .= '<td>'. $get_data['order_slider'] .'</td>';
 				$table_data .= '<td class="scroll-field">'. $get_data['description'] .'</td>';			
 				$table_data .= '<td>
@@ -1094,7 +1157,7 @@ class Home extends CI_Controller {
 										<div class="dropdown-menu dropdown-menu-right">
 											<a class="dropdown-item" href="#" data-enable-disable="'.$get_data['enable_disable'].'" data-row-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" onclick = my_cat_enable_disable(this);>Enable/Disable</a>
 
-											<a class="dropdown-item app-status" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+											<a class="dropdown-item app-status" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-img-type="home_slider" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
 
 											<div class="dropdown-divider"></div>
 											<a class="dropdown-item" href="#" data-cat-id="'.$get_data['home_slider_id'].'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_in_slider" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-toggle="modal" data-target="#modal_confirm_category" onclick = confirm_modal(this); >Delete</a>
@@ -1195,7 +1258,7 @@ class Home extends CI_Controller {
 			$table_data .= '<td>'.$sr_num.'</td>';
 			$table_data .= '<td>'. $get_data['promo_id'] .'</td>';
 			$table_data .= '<td>'. $get_data['type'] .'</td>';
-			$table_data .= '<td><img src="./upload/promotion/'.$get_data['image'].'" class="data-img row-icon"></td>';
+			$table_data .= '<td><img src="./upload/promotion/'.$get_data['image'].'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
 			$table_data .= '<td>'. $get_data['validity'] .'</td>';
 			$table_data .= '<td>'. $get_data['price'] .'</td>';
 			$table_data .= '<td class="scroll-field textArea">'. $get_data['description'] .'</td>';			
@@ -1215,6 +1278,8 @@ class Home extends CI_Controller {
 
 									<div class="dropdown-menu dropdown-menu-right">
 										<a class="dropdown-item app-status" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['promo_id'].'" data-table-name="promotion" data-table-id-field="promo_id" onclick = enable_disable_data(this);>Enable/Disable</a>
+
+										<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['promo_id'].'" data-table-name="promotion" data-table-id-field="promo_id" data-table-image-field="image" data-img-path="./upload/promotion/" data-img-type="promo_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Preview Image</a>
 
 										<a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['promo_id'].'">
 											Edit Description
@@ -1314,7 +1379,7 @@ class Home extends CI_Controller {
 			$table_data .= '<td>'.$sr_num.'</td>';
 			$table_data .= '<td>'. $get_data['app_id'] .'</td>';
 			$table_data .= '<td>'. $get_data['app_name'] .'</td>';
-			$table_data .= '<td><img src="./upload/app_icon/'.$get_data['app_icon'].'" class="data-img row-icon"></td>';
+			$table_data .= '<td><img src="./upload/app_icon/'.$get_data['app_icon'].'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
 			$table_data .= '<td>'. $get_data['category'] .'</td>';
 			$table_data .= '<td>'. $get_data['company_name'] .'</td>';
 			$table_data .= '<td>('. $get_data['telcode_mobile'] .') '.$get_data['mobile'].'</td>';
@@ -1366,7 +1431,7 @@ class Home extends CI_Controller {
 
 										<a class="dropdown-item '.$ed_operatoin.'" href="#" data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-										<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
+										<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['app_id'].'" data-table-name="app" data-table-id-field="app_id" data-table-image-field="app_icon" data-img-path="./upload/app_icon/" data-img-type="icon" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Icon</a>
 
 										<a class="dropdown-item edit_des" href="#" onclick = my_app_edit_des(this); data-sr-num="'.$sr_num.'" data-row-id="'.$get_data['app_id'].'">
 											Edit Description
@@ -1481,7 +1546,7 @@ class Home extends CI_Controller {
 				
 				$table_data .= '<td>'.$sr_num.'</td>';
 				$table_data .= '<td>'. $get_data['trending_id'] .'</td>';
-				$table_data .= '<td><img src="./upload/trending_img/'.$get_data['trending_img'].'" class="data-img row-icon"></td>';
+				$table_data .= '<td><img src="./upload/trending_img/'.$get_data['trending_img'].'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
 				$table_data .= '<td>'. $get_data['order_slider'] .'</td>';
 				$table_data .= '<td>
 									<div class="btn-group">
@@ -1500,7 +1565,7 @@ class Home extends CI_Controller {
 										<div class="dropdown-menu dropdown-menu-right">
 											<a class="dropdown-item app-status" href="#"  data-enable-disable = "'.$get_data['enable_disable'].'" data-row-id="'.$get_data['trending_id'].'" data-table-name="trending_banner" data-table-id-field="trending_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-											<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-table-image-field="image" data-img-path="./upload/category_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+											<a class="dropdown-item app-status" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-table-image-field="image" data-img-path="./upload/category_img/" data-img-type="trending_banner" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
 											
 											<div class="dropdown-divider"></div>
 											<a class="dropdown-item" href="#" data-row-id="'.$get_data['trending_id'].'" data-table-name="category" data-table-id-field="trending_id" data-order-field="order_in_slider" data-table-image-field="trending_img" data-img-path="./upload/trending_img/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>

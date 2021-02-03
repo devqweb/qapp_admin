@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+p {
+    margin:0;
+}
+
 .logo-box img {
     width: 50px;
     height: auto;
@@ -15,7 +19,6 @@
 
 .modal-content {
     padding:20px;
-    overflow: scroll;
 }
 
 .modal-container-width {
@@ -334,7 +337,7 @@
     text-align: right;
 }
 
-.img-row {
+.img-row .record-row{
     padding-bottom: 6em;
 }
 
@@ -393,4 +396,13 @@
 
 #view_image_modal img {
     max-height: 350px;
+    max-width: 355px;
+}
+
+.padding-top-3px {
+    padding-top: 3px;
+}
+
+.font-12px {
+    font-size: 12px;
 }

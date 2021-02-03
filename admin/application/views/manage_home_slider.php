@@ -49,7 +49,7 @@
                                                                 echo '<th>'. ++$sr_num. '</th>';
                                                                 echo '<td>'. $row->home_slider_id .'</td>';
                                                                 echo '<td>'. $row->title .'</td>';
-                                                                echo '<td><img src="./upload/home_slider_img/'.$row->image_name.'" class="data-img row-icon"></td>';
+                                                                echo '<td><img src="./upload/home_slider_img/'.$row->image_name.'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
                                                                 echo '<td>'. $row->order_slider .'</td>';
                                                                 echo '<td class="scroll-field">'. $row->description .'</td>';
                                                                 echo '<td class="scroll-field">'. $row->button_link .'</td>';
@@ -70,7 +70,7 @@
                                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                                 <a class="dropdown-item app-status" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-img-type="home_slider" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Image</a>
                                                                                 
                                                                                 <div class="dropdown-divider"></div>
                                                                                 <a class="dropdown-item" href="#" data-row-id="'.$row->home_slider_id.'" data-table-name="home_slider" data-table-id-field="home_slider_id" data-order-field="order_slider" data-table-image-field="image_name" data-img-path="./upload/home_slider_img/" data-toggle="modal" data-target="#modal_confirm_delete" onclick = confirm_modal_delete(this); >Delete</a>

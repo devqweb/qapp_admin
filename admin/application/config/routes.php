@@ -40,3 +40,4 @@ $route['manage_table_ajax'] = "home/manage_table_ajax";
 $route['update_promotion_ajax'] = "home/update_promotion_ajax";
 $route['update_trending_banner_ajax'] = "home/update_trending_banner_ajax";
 $route['manage_app_promo_ajax'] = "home/manage_app_promo_ajax";
+$route['calendar'] = "home/calendar";

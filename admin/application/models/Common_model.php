@@ -87,18 +87,25 @@ class Common_model extends CI_Model {
 	####################################### END OF COMMON DELETE ######################################
 
 
+	
 	############################################ IMAGE UPLOAD #########################################
-	public function image_upload($folder, $filename)
+	public function image_upload($folder, $filename, $max_size, $max_width, $max_height)
 	{
 		$this->load->library('upload');
 		$config['upload_path'] = $folder;
 		$config['allowed_types'] = 'gif|jpg|png|jpeg|webp|svg';
+		$config['max_size']      = $max_size;
+		$config['max_width'] = $max_width;
+		$config['max_height'] = $max_height;
 		$config['encrypt_name'] = TRUE;
 		$this->upload->initialize($config);
 
 		$dataname = '';
 		
-		if(!$this->upload->do_upload($filename)) return $dataname;
+		if(!$this->upload->do_upload($filename)) {
+			//$error = array('error' => $this->upload->display_errors());
+			return "over-size";
+		}
 		else {
 			$data = $this->upload->data();
 			$dataname = $data['file_name'];
@@ -106,6 +113,8 @@ class Common_model extends CI_Model {
 		}
 	}
 	############################################ END OF IMAGE UPLOAD ##################################
+
+
 
 	############################################ COMMON SELECT ########################################
 	public function common_select($fields, $table, $where, $order_by) {

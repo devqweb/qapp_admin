@@ -72,8 +72,8 @@
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("new_app") ?>">Add New App</a></li>
-                                    <li><a href="<?php echo base_url("manage_app") ?>">Manage Apps</a></li>
+                                    <li><a href="<?php echo base_url("new_app") ?>"><i class="fas fa-plus"></i>  New App</a></li>
+                                    <li><a href="<?php echo base_url("manage_app") ?>"><i class="fas fa-sliders-h"></i> Manage Apps</a></li>
                                 </ul>
                             </li>
 
@@ -84,32 +84,32 @@
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("new_category")?>">Add New Category</a></li>
-                                    <li><a href="<?php echo base_url("manage_category")?>">Manage Categories</a></li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);">
-                                    <i class="fas fa-image"></i>
-                                    <span> Home Slider </span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("new_home_slider")?>">Add New Slider</a></li>
-                                    <li><a href="<?php echo base_url("manage_home_slider")?>">Manage Sliders</a></li>
+                                    <li><a href="<?php echo base_url("new_category")?>"><i class="fas fa-plus"></i>  New Category</a></li>
+                                    <li><a href="<?php echo base_url("manage_category")?>"><i class="fas fa-sliders-h"></i> Manage Categories</a></li>
                                 </ul>
                             </li>
 
                             <li>
                                 <a href="javascript: void(0);">
                                     <i class="fas fa-images"></i>
+                                    <span> Home Slider </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="<?php echo base_url("new_home_slider")?>"><i class="fas fa-plus"></i>  New Slider</a></li>
+                                    <li><a href="<?php echo base_url("manage_home_slider")?>"><i class="fas fa-sliders-h"></i> Manage Sliders</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);">
+                                    <i class="fas fa-image"></i>
                                     <span> Trending Technologies </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("new_trending_banner")?>">Add New Trending Banner</a></li>
-                                    <li><a href="<?php echo base_url("manage_trending_banner")?>">Manage Trending Banners</a></li>
+                                    <li><a href="<?php echo base_url("new_trending_banner")?>"><i class="fas fa-plus"></i>  New Trending Banner</a></li>
+                                    <li><a href="<?php echo base_url("manage_trending_banner")?>"><i class="fas fa-sliders-h"></i> Manage Trending Banners</a></li>
                                 </ul>
                             </li>
 
@@ -120,8 +120,8 @@
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("new_subscription")?>"><i class="fas fa-plus"></i> Crete New Subscription</a></li>
-                                    <li><a href="<?php echo base_url("manage_subscription")?>">Manage Subscription</a></li>
+                                    <li><a href="<?php echo base_url("new_subscription")?>"><i class="fas fa-plus"></i> New Subscription</a></li>
+                                    <li><a href="<?php echo base_url("manage_subscription")?>"><i class="fas fa-sliders-h"></i> Manage Subscription</a></li>
                                 </ul>
                             </li>
 
@@ -132,11 +132,18 @@
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="<?php echo base_url("new_promotion")?>">Crete New Promotion</a></li>
-                                    <li><a href="<?php echo base_url("manage_promotion")?>">Manage Promotion</a></li>
+                                    <li><a href="<?php echo base_url("new_promotion")?>"><i class="fas fa-plus"></i>  New Promotion</a></li>
+                                    <li><a href="<?php echo base_url("manage_promotion")?>"><i class="fas fa-sliders-h"></i> Manage Promotion</a></li>
                                     <li><a href="<?php echo base_url("manage_promotion")?>">New Requests</a></li>
-                                    <li><a href="<?php echo base_url("manage_promotion")?>">View All Promotions</a></li>
+                                    <li><a href="<?php echo base_url("manage_promotion")?>"><i class=" fas fa-table"></i> View All Promotions</a></li>
                                 </ul>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo base_url("calendar")?>">
+                                    <i class="fas fa-th-large"></i>
+                                    <span> Calender </span>
+                                </a>
                             </li>
 
                             <li>

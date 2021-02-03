@@ -49,7 +49,7 @@
                                                                 echo '<th>'. ++$sr_num. '</th>';
                                                                 echo '<td>'. $row->promo_id .'</td>';
                                                                 echo '<td>'. $row->type .'</td>';
-                                                                echo '<td><img src="./upload/promotion/'.$row->image.'" class="data-img row-icon"></td>';
+                                                                echo '<td><img src="./upload/promotion/'.$row->image.'" class="data-img row-icon" data-toggle="modal" data-target="#view_image_modal"></td>';
                                                                 echo '<td>'. $row->validity .'</td>';
                                                                 echo '<td>'. $row->price .'</td>';
                                                                 echo '<td class="scroll-field textArea">'. $row->description .'</td>';
@@ -70,7 +70,7 @@
                                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                                 <a class="dropdown-item app-status" href="#" data-enable-disable = "'.$row->enable_disable.'" data-row-id="'.$row->promo_id.'" data-table-name="promotion" data-table-id-field="promo_id" onclick = enable_disable_data(this);>Enable/Disable</a>
 
-                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->promo_id.'" data-table-name="promotion" data-table-id-field="promo_id" data-table-image-field="image" data-img-path="./upload/promotion/" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Preview Image</a>
+                                                                                <a class="dropdown-item app-status" href="#" data-row-id="'.$row->promo_id.'" data-table-name="promotion" data-table-id-field="promo_id" data-table-image-field="image" data-img-path="./upload/promotion/" data-img-type="promo_img" data-toggle="modal" data-target="#change_image" onclick = change_image_data(this);>Change Preview Image</a>
 
                                                                                 <a class="dropdown-item edit_des" href="#" onclick = my_des_edit(this); data-sr-num="'.$sr_num.'" data-row-id="'.$row->promo_id.'" data-table-name="promotion" data-table-id-field="promo_id">
                                                                                     Edit Description

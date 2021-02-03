@@ -21,7 +21,7 @@ function loadImages(myJson, field_row) {
         x++;
         myObj = myJson[i];
         if(x <= 3) {
-            $(field_row + imgRow +'').append("<div class='col-md-4 record-row flex align-items-center flex-direction-column justify-space-between'><img src='././upload/app_screenshots/"+myObj.image+"' class='data-img pd-bottom-1rem'><div class='full-width flex justify-space-evenly'><button type='button' class='btn btn-primary app-status' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-toggle='modal' data-target='#change_image' onclick = change_image_data(this);>Change Image</button> <button class='btn btn-danger' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-order-field=''  data-toggle='modal' data-target='#modal_confirm_delete' onclick = confirm_modal_delete(this); >Delete Image</button></div></div>");
+            $(field_row + imgRow +'').append("<div class='col-md-4 record-row flex align-items-center flex-direction-column justify-space-between'><img src='././upload/app_screenshots/"+myObj.image+"' class='data-img pd-bottom-1rem'><div class='full-width flex justify-space-evenly'><button type='button' class='btn btn-primary app-status' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-img-type='app_screen' data-toggle='modal' data-target='#change_image' onclick = change_image_data(this);>Change Image</button> <button class='btn btn-danger' data-row-id='"+myObj.screenshot_id+"' data-table-name='screenshots' data-table-id-field='screenshot_id' data-table-image-field='image' data-img-path='./upload/app_screenshots/' data-order-field=''  data-toggle='modal' data-target='#modal_confirm_delete' onclick = confirm_modal_delete(this); >Delete Image</button></div></div>");
         }
         else {
             $('#img-row'+ imgRow +'').after('<div class="row text-align-center img-row" id="img-row'+ (++imgRow) +'"> </div>');
@@ -704,7 +704,7 @@ function edit_app_screenshots(appId, button) {
         '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
         '<div class="pd-bottom-2rem flex align-items-center justify-space-between">'+
             '<h1>Edit App Screens</h1>'+
-            '<span><button type="button" class="btn btn-success" data-row-id="'+appId+'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);><i class="fas fa-plus"></i> Add New App Screens</button></div></span>'+
+            '<span><button type="button" class="btn btn-success" data-row-id="'+appId+'" data-table-name="screenshots" data-table-id-field="app_id" data-table-image-field="image" data-img-path="./upload/app_screenshots" data-img-type="app_screen" data-toggle="modal" data-target="#new_image" onclick = new_image_data(this);><i class="fas fa-plus"></i> Add New App Screens</button></div></span>'+
         '<form action = "" >'+
             '<div id="appScreens'+ count +'">'+
                 '<div class="row text-align-center img-row" id="img-row'+ imgRow +'"> </div>'+
@@ -768,7 +768,9 @@ function promote_app_process(appId, button) {
     promoType += count;
     startDate += count;
     note += count;
-    confirm_request += count;    
+    confirm_request += count;
+    
+    let calender = "<?php $this->load->library('calendar'); $data = array(3  => 'http://example.com/news/article/2006/06/03/', 7  => 'http://example.com/news/article/2006/06/07/',13 => 'http://example.com/news/article/2006/06/13/', 26 => 'http://example.com/news/article/2006/06/26/' ); echo $this->calendar->generate(2006, 6, $data); ?>";
 
     main_row.after('<tr class="data-edit"><td colspan="30" class="data-edit">'+
         '<div id="home-slider-edit-form-alert'+ count +'" class="alert alert-dismissible fade show col-md-6 update-status display-none" role="alert"></div>'+
@@ -780,7 +782,7 @@ function promote_app_process(appId, button) {
                 '</div>'+
                 '<div class="form-group col-md-6">'+
                     '<label class="col-form-label" for="startDate">Start Date</label>'+
-                    '<input type="date" id="startDate'+ count +'" name = "startDate" value="" onchange=clearError(this); class="form-control" placeholder="Title">'
+                    '<input type="date" id="startDate'+ count +'" name = "startDate" value="" onchange=clearError(this); class="form-control" placeholder="Title">'+
                     
                     '<div class="required_error text-danger text-align-left bold-500"></div>'+
                 '</div>'+
@@ -1540,6 +1542,7 @@ function change_image_data(button) {
     const idField = button.getAttribute("data-table-id-field");
     const imageField = button.getAttribute("data-table-image-field");
     const imgPath = button.getAttribute("data-img-path");
+    const imageType = button.getAttribute("data-img-type");
 
     //alert(recordId+", "+tableName+", "+idField+", "+imageField+", "+imgPath);
     
@@ -1550,6 +1553,37 @@ function change_image_data(button) {
     $("#hidden_imageId_field_name").val(idField);
     $("#hidden_image_field_name").val(imageField);
     $("#hidden_image_path").val(imgPath);
+
+    if(imageType == 'icon') {
+        $("#hidden_image_max_size").val(100);
+        $("#hidden_image_max_width").val(180);
+        $("#hidden_image_max_height").val(180);
+        $("#change_image").find(".allow-image").html('<span class="text-danger">Only GIF/JPG/JPEG/PNG, Max Size 100 KB, Max Dimention 180px X 180px</span>');
+    }
+    else if(imageType == 'app_screen') {
+        $("#hidden_image_max_size").val(1024);
+        $("#hidden_image_max_width").val(2000);
+        $("#hidden_image_max_height").val(2000);
+        $("#change_image").find(".allow-image").html('<span class="text-danger">Only GIF/JPG/JPEG/PNG, Max Size 1 MB, Max Dimention 2000px X 2000px</span>');
+    }
+    else if(imageType == 'home_slider') {
+        $("#hidden_image_max_size").val(1024);
+        $("#hidden_image_max_width").val(917);
+        $("#hidden_image_max_height").val(927);
+        $("#change_image").find(".allow-image").html('<span class="text-danger">Only GIF/JPG/JPEG/PNG, Max Size 1 MB, Max Dimention 917px X 927px</span>');
+    }
+    else if(imageType == 'trending_banner') {
+        $("#hidden_image_max_size").val(1024);
+        $("#hidden_image_max_width").val(660);
+        $("#hidden_image_max_height").val(454);
+        $("#change_image").find(".allow-image").html('<span class="text-danger">Only GIF/JPG/JPEG/PNG, Max Size 1 MB, Max Dimention 660px X 454px</span>');
+    }
+    else if(imageType == 'promo_img') {
+        $("#hidden_image_max_size").val(2048);
+        $("#hidden_image_max_width").val(2000);
+        $("#hidden_image_max_height").val(2000);
+        $("#change_image").find(".allow-image").html('<span class="text-danger">Only GIF/JPG/JPEG/PNG, Max Size 2 MB, Max Dimention 2000px X 2000px</span>');
+    }
 }
 ///////////////////////////// END OF COMMON MODAL FOR CHANGE IMAGE //////////////////////////////////
 
@@ -1561,6 +1595,7 @@ function new_image_data(button) {
     const idField = button.getAttribute("data-table-id-field");
     const imageField = button.getAttribute("data-table-image-field");
     const imgPath = button.getAttribute("data-img-path");
+    const imageType = button.getAttribute("data-img-type");
 
     //alert(recordId+", "+tableName+", "+idField+", "+imageField+", "+imgPath);
     
@@ -1571,6 +1606,12 @@ function new_image_data(button) {
     $("#new_image").find(".hidden_imageId_field_name").val(idField);
     $("#new_image").find(".hidden_image_field_name").val(imageField);
     $("#new_image").find(".hidden_image_path").val(imgPath);
+
+   if(imageType == 'app_screen') {
+        $("#new_image").find(".hidden_image_max_size").val(1024);
+        $("#new_image").find(".hidden_image_max_width").val(2000);
+        $("#new_image").find(".hidden_image_max_height").val(2000);
+    }
 }
 //////////////////////////// END OF COMMON MODAL FOR ADD NEW IMAGE /////////////////////////////////
 
@@ -1582,6 +1623,9 @@ function add_new_image_process() {
     const idField = $("#new_image").find(".hidden_imageId_field_name").val();
     const imageFieldName = $("#new_image").find(".hidden_image_field_name").val();
     const imgPath = $("#new_image").find(".hidden_image_path").val();
+    const imgSize = $("#new_image").find(".hidden_image_max_size").val();
+    const imgWidth = $("#new_image").find(".hidden_image_max_width").val();
+    const imgHeight = $("#new_image").find(".hidden_image_max_height").val();
     const newImage = $('#text_new_image')[0];
     
     let fd = new FormData();
@@ -1592,6 +1636,10 @@ function add_new_image_process() {
         fd.append('record_id', recordId);
         fd.append('image_field', imageFieldName);
         fd.append('folderPath', imgPath);
+        fd.append('img_size', imgSize);
+        fd.append('img_width', imgWidth);
+        fd.append('img_height', imgHeight);
+        
         $.each(newImage.files, function(k, file){
             fd.append('imageFile[]', file);
         });
@@ -1633,6 +1681,9 @@ function change_image_process() {
     const idField = $("#hidden_imageId_field_name").val();
     const imageFieldName = $("#hidden_image_field_name").val();
     const imgPath = $("#hidden_image_path").val();
+    const imgSize = $("#hidden_image_max_size");
+    const imgWidth = $("#hidden_image_max_width");
+    const imgHeight = $("#hidden_image_max_height");
     const newImage = $('#text_change_image')[0].files;
 
     //alert(recordId+", "+tableName+", "+idField+", "+imageFieldName+", "+imgPath);
@@ -1646,6 +1697,9 @@ function change_image_process() {
         fd.append('image_field', imageFieldName);
         fd.append('imageFile', newImage[0]);
         fd.append('folderPath', imgPath);
+        fd.append('img_size', imgSize);
+        fd.append('img_width', imgWidth);
+        fd.append('img_height', imgHeight);
 
         $.ajax({
             url: "http://localhost/qapp/admin/change_image_ajax",

@@ -46,7 +46,7 @@
                                                 <?php echo form_open_multipart('new_home_slider');?>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="title">Title *</label>
+                                                            <label class="col-form-label" for="title">Title <span class="text-danger">*</span></label>
                                                             <input type="text" id="title" name="title" value="<?php echo ($id) ? "" : set_value('title'); ?>" class="form-control" placeholder="Title" autofocus>
                                                             <?php echo form_error('title'); ?>
                                                         </div>
@@ -54,7 +54,7 @@
 
                                                     <div class="form-row">                                                        
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="des">Description *</label>
+                                                            <label class="col-form-label" for="des">Description <span class="text-danger">*</span></label>
                                                             <textarea id="des" name="des" class="form-control" placeholder="Description"><?php echo ($id) ? "" : set_value('des'); ?></textarea>
                                                             <?php echo form_error('des'); ?>
                                                         </div>                                                       
@@ -62,7 +62,7 @@
 
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="btn_link">Button Link *</label>
+                                                            <label class="col-form-label" for="btn_link">Button Link <span class="text-danger">*</span></label>
                                                             <input type="url" id="btn_link" name="btn_link" value="<?php echo ($id) ? "" : set_value('btn_link'); ?>" class="form-control" placeholder="http://www.myapp.com">
                                                                 <?php echo form_error('btn_link'); ?>
                                                         </div>
@@ -92,9 +92,10 @@
 
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                        <label class="col-form-label" for="slider_img">Image *</label>
+                                                        <label class="col-form-label" for="slider_img">Image <span class="text-danger">*</span></label>
                                                             <input type="file" id="slider_img" name="slider_img" class="form-control">
                                                             <?php echo form_error('slider_img'); ?>
+                                                            <span class="text-danger">GIF/JPG/JPEG/PNG Only, Max Size 1 MB, Dimention 917px X 927px</span>
                                                         </div>
                                                     </div>
 

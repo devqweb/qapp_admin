@@ -48,7 +48,7 @@
                                                 <?php echo form_open_multipart('new_category');?>
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="catName">Category Name *</label>    
+                                                            <label class="col-form-label" for="catName">Category Name <span class="text-danger">*</span></label>    
                                                             <input type="text" id="catName" name = "catName" value="<?php echo ($id) ? "" : set_value('catName'); ?>" class="form-control" placeholder="Category Name" autofocus>
                                                             <?php echo form_error('catName'); ?>
                                                         </div>
@@ -79,7 +79,7 @@
 
                                                     <div class="form-row">
                                                         <div class="form-group col-md-6">
-                                                            <label class="col-form-label" for="catIcon">Category Icon *</label>
+                                                            <label class="col-form-label" for="catIcon">Category Icon <span class="text-danger">*</span></label>
                                                             <input type="file" id="catIcon" name = "catIcon" class="form-control" placeholder="Category Icon">
                                                             <?php echo form_error('catIcon'); ?>
                                                         </div>
