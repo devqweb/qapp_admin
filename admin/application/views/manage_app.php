@@ -157,7 +157,7 @@
 
                                                                                 <a class="dropdown-item edit_screenshots" href="#" onclick = my_app_edit_screenshots(this); data-row-id="'.$row->app_id.'"> App Screens </a>
                                                                                 
-                                                                                <a class="dropdown-item" href="#" onclick = promote_app(this); data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id">Add to Promotion</a> 
+                                                                                <a class="dropdown-item" href="'.base_url("promote_app").'/'.$row->app_id.'" data-row-id="'.$row->app_id.'" data-table-name="app" data-table-id-field="app_id" >Add to Promotion</a> 
 
                                                                                 <a class="dropdown-item" href="#">Remove Promotion</a>
                                                                                 

@@ -178,6 +178,47 @@
         </div>
         <!------------- END OF COMMON MODAL FOR ADD NEW IMAGE APP SCREENS-------------->
 
+
+        <!------------------------ COMMON MODAL FOR PROMOTION ------------------------->
+        <div class="modal fade modal-dialog" tabindex="-1" id="modal_promote_app">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">                        
+                    <div class="modal-body col-md-12 mx-auto">                        
+                        <div class="full-width">
+                            <h1 class="pd-bottom-1rem">Promote App</h1>
+                            <form method="post" action="" enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label" for="promoType'+ count +'">Promotion Type</label>
+                                        <select id="promoType'+ count +'" name="promoType" class="form-control"><option value="">-- Select --</option></select>
+                                    </div>                                    
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label" for="promoType'+ count +'">Start Date</label>
+                                        <?php echo $this->calendar->generate($this->uri->segment(3), $this->uri->segment(4)); ?>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <input type = "button" name = "submit" id="confirm_request'+count+'" class="btn btn-success waves-effect waves-light btn-update-home-slider" value="Confirm">
+                                        </a> &nbsp;&nbsp;&nbsp;
+                                        <input type="reset" class="btn btn-danger" value="Cancel" data-dismiss="modal" aria-label="Close">
+                                    </div>
+                                </div>
+                                
+                                <!-- <div class="flex justify-space-around mar-top-1rem">
+                                    <button type="button" class="btn btn-primary my-btn-std" onclick = add_new_image_process();>Upload</button>
+                                    <button type="button" class="btn btn-danger my-btn-std" onclick = clearFields(new_image);  data-dismiss="modal" aria-label="Close">Cancel</button>                            
+                                </div> -->
+                            </form>
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--------------------- END OF COMMON MODAL FOR PROMOTION --------------------->
+
         
         <!------------------COMMON SUCCESS BOX FOR DELETE RECORD----------------------->
         <div class="modal fade modal-dialog" tabindex="-1" id="success_modal">

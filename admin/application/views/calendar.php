@@ -37,7 +37,7 @@
                                                 'month_type'   => 'long',
                                                 'day_type'     => 'short'
                                             );
-                                            $this->load->library('calendar', $prefs);
+                                            //$this->load->library('calendar', $prefs);
                                             echo $this->calendar->generate($this->uri->segment(3), $this->uri->segment(4));
                                         ?>
 

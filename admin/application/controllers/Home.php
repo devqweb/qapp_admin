@@ -14,16 +14,50 @@ class Home extends CI_Controller {
 		// $this->load->model('Manage_model');
 		$this->load->helper(array("form", "url"));
 		//$this->load->library('calendar');
-		$prefs = array(			
+		$prefs = array(
 			'month_type'   => 'long',
 			'day_type'     => 'short',
-			'show_next_prev'  => TRUE        	
+			'show_next_prev'  => TRUE
 		);
-		$prefs['template'] = array(
-			'table_open'           => '<table class="calendar table table-bordered">',
-			'cal_cell_start'       => '<td class="day">',
-			'cal_cell_start_today' => '<td class="today">'
-		);
+
+		$prefs['template'] = '
+							{table_open}<table border="0" cellpadding="0" cellspacing="0" class="table table-bordered">{/table_open}
+
+							{heading_row_start}<tr>{/heading_row_start}
+
+							{heading_previous_cell}<th><h3><a href="{previous_url}" class="flex align-items-center"><i class="fas fa-angle-double-left"></i>&nbsp; Prev</a></h3></th>{/heading_previous_cell}
+							{heading_title_cell}<th colspan="{colspan}"><h3 class="color-brand">{heading}</h3></th>{/heading_title_cell}
+							{heading_next_cell}<th><h3><a href="{next_url}" class="flex align-items-center">Next &nbsp;<i class="fas fa-angle-double-right"></i></a></h3></th>{/heading_next_cell}
+
+							{heading_row_end}</tr>{/heading_row_end}
+
+							{week_row_start}<tr>{/week_row_start}
+							{week_day_cell}<td class="font-18px font-dark bold-500">{week_day}</td>{/week_day_cell}
+							{week_row_end}</tr>{/week_row_end}
+
+							{cal_row_start}<tr>{/cal_row_start}
+							{cal_cell_start}<td class="font-18px">{/cal_cell_start}
+							{cal_cell_start_today}<td >{/cal_cell_start_today}
+							{cal_cell_start_other}<td class="other-month">{/cal_cell_start_other}
+
+							{cal_cell_content}<a href="{content}">{day}</a>{/cal_cell_content}
+							{cal_cell_content_today}<div class="highlight"><a href="{content}">{day}</a></div>{/cal_cell_content_today}
+
+							{cal_cell_no_content}{day}{/cal_cell_no_content}
+							{cal_cell_no_content_today}<div class="highlight color-brand font-18px">{day}</div>{/cal_cell_no_content_today}
+
+							{cal_cell_blank}&nbsp;{/cal_cell_blank}
+
+							{cal_cell_other}{day}{/cal_cel_other}
+
+							{cal_cell_end}</td>{/cal_cell_end}
+							{cal_cell_end_today}</td>{/cal_cell_end_today}
+							{cal_cell_end_other}</td>{/cal_cell_end_other}
+							{cal_row_end}</tr>{/cal_row_end}
+
+							{table_close}</table>{/table_close}
+					';
+
 		$this->load->library('calendar', $prefs);
 		$this->load->library('image_lib');
 		$this->load->model('Common_model');
@@ -256,6 +290,16 @@ class Home extends CI_Controller {
 		$this->CommonPage("calendar", $data);
 	}
 	############################################ END OF CALENDER ######################################
+
+
+	######################################### PROMOTE APP #############################################
+	public function promote_app($app_id) {		
+		$order_by = array('type', 'ASC');
+		$data['promo_type'] = $this->Common_model->common_select(array(), 'promotion', array(), $order_by);
+		$data['app_id'] = $app_id;
+		$this->CommonPage("promote_app", $data);
+	}
+	######################################### END OF PROMTE APP #######################################
 
 
 	############################################ ADD NEW CATEGORY #####################################
