@@ -127,6 +127,22 @@ class Common_model extends CI_Model {
 	}
 	########################################## END OF COMMON SELECT ###################################
 
+
+
+	############################################ COMMON SELECT ########################################
+	public function common_select_limit($fields, $table, $where, $order_by, $limit) {
+		$this->db->select($fields);
+		$this->db->from($table);
+		$this->db->where($where);
+		$this->db->limit($limit);
+		if(!empty($order_by)) $this->db->order_by($order_by[0], $order_by[1]);
+		$query = $this->db->get();
+		return $query->result();
+	}
+	########################################## END OF COMMON SELECT ###################################
+
+
+
 	####################################### COMMON SELECT MAX VALUE ###################################
 	public function common_select_max($maxFiled, $myName, $table) {
 		$this->db->select_max($maxFiled, $myName);

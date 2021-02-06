@@ -295,8 +295,9 @@ class Home extends CI_Controller {
 	######################################### PROMOTE APP #############################################
 	public function promote_app($app_id) {		
 		$order_by = array('type', 'ASC');
+		$order_by_month = array('promo_end', 'DESC');
 		$data['promo_type'] = $this->Common_model->common_select(array(), 'promotion', array(), $order_by);
-		$data['app_id'] = $app_id;
+		$data['app_of_the_month'] = $this->Common_model->common_select_limit(array(), 'app_of_the_month', array(), $order_by_month, 1);
 		$this->CommonPage("promote_app", $data);
 	}
 	######################################### END OF PROMTE APP #######################################

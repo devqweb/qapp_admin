@@ -22,13 +22,15 @@
                                 <div class="card-box">
                                     <h4 class="header-title">Promote App</h4>
                                     <script src="<?php echo base_url("assets/js/jquery.min.js") ?>"></script>
-                                    
+                                    <?php
+                                        $my_promo = '';
+                                    ?>
                                     <form method="post" action="" enctype="multipart/form-data">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
-                                                <label class="col-form-label" for="promoType'+ count +'">Promotion Type</label>
+                                                <label class="col-form-label" for="promoType'+ count +'">Type of Promotion</label>
                                                 <select id="promoType'+ count +'" name="promoType" class="form-control">
-                                                    <option value="">-- Select --</option>
+                                                    <option value="">-- Select Promo Type --</option>
                                                     <?php
                                                         foreach($promo_type as $key) {
                                                             echo '<option value="'.$key->promo_id.'">'.$key->type.'</option>';
@@ -39,55 +41,21 @@
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
-                                                <label class="col-form-label" for="promoType'+ count +'">Start Date</label>
-                                                <?php
-                                                    $prefs = array(
-                                                        'month_type'   => 'long',
-                                                        'day_type'     => 'short',
-                                                        'show_next_prev'  => TRUE
-                                                    );
-                                            
-                                                    $prefs['template'] = '
-                                                                        {table_open}<table border="0" cellpadding="0" cellspacing="0" class="table table-bordered">{/table_open}
-                                            
-                                                                        {heading_row_start}<tr>{/heading_row_start}
-                                            
-                                                                        {heading_previous_cell}<th><h3><a href="{previous_url}" class="flex align-items-center"><i class="fas fa-angle-double-left"></i>&nbsp; Prev</a></h3></th>{/heading_previous_cell}
-                                                                        {heading_title_cell}<th colspan="{colspan}"><h3 class="color-brand">{heading}</h3></th>{/heading_title_cell}
-                                                                        {heading_next_cell}<th><h3><a href="{next_url}" class="flex align-items-center">Next &nbsp;<i class="fas fa-angle-double-right"></i></a></h3></th>{/heading_next_cell}
-                                            
-                                                                        {heading_row_end}</tr>{/heading_row_end}
-                                            
-                                                                        {week_row_start}<tr>{/week_row_start}
-                                                                        {week_day_cell}<td class="font-18px font-dark bold-500">{week_day}</td>{/week_day_cell}
-                                                                        {week_row_end}</tr>{/week_row_end}
-                                            
-                                                                        {cal_row_start}<tr>{/cal_row_start}
-                                                                        {cal_cell_start}<td class="font-18px">{/cal_cell_start}
-                                                                        {cal_cell_start_today}<td >{/cal_cell_start_today}
-                                                                        {cal_cell_start_other}<td class="other-month">{/cal_cell_start_other}
-                                            
-                                                                        {cal_cell_content}<a href="{content}">{day}</a>{/cal_cell_content}
-                                                                        {cal_cell_content_today}<div class="highlight"><a href="{content}">{day}</a></div>{/cal_cell_content_today}
-                                            
-                                                                        {cal_cell_no_content}{day}{/cal_cell_no_content}
-                                                                        {cal_cell_no_content_today}<div class="highlight color-brand font-18px">{day}</div>{/cal_cell_no_content_today}
-                                            
-                                                                        {cal_cell_blank}&nbsp;{/cal_cell_blank}
-                                            
-                                                                        {cal_cell_other}{day}{/cal_cel_other}
-                                            
-                                                                        {cal_cell_end}</td>{/cal_cell_end}
-                                                                        {cal_cell_end_today}</td>{/cal_cell_end_today}
-                                                                        {cal_cell_end_other}</td>{/cal_cell_end_other}
-                                                                        {cal_row_end}</tr>{/cal_row_end}
-                                            
-                                                                        {table_close}</table>{/table_close}
-                                                                ';
-                                            
-                                                    $this->load->library('calendar', $prefs);
-                                                    echo $this->calendar->generate($this->uri->segment(3), $this->uri->segment(4)); 
-                                                ?>
+                                                <label class="col-form-label" for="promoType'+ count +'">Available Date</label>
+                                                <select id="promoType'+ count +'" name="promoType" class="form-control">
+                                                    <option value="">-- Select Month --</option>
+                                                    <?php
+                                                        if(empty($app_of_the_month)) {
+                                                            $curr_month = date('m',strtotime('+1 month'));
+                                                            $x = 1;
+                                                            for($i = $curr_month; $i <= 12; $i++) {
+                                                                echo '<option value="'.date('F',strtotime('+'.$x.' month')).'">'.date('F',strtotime('+'.$x.' month')).'</option>';
+                                                                $x++;
+                                                            }
+                                                            //echo date('M',strtotime('+1 month'));
+                                                        }
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-row">
