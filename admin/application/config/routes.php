@@ -43,3 +43,4 @@ $route['update_trending_banner_ajax'] = "home/update_trending_banner_ajax";
 $route['manage_app_promo_ajax'] = "home/manage_app_promo_ajax";
 $route['calendar'] = "home/calendar";
 $route['promote_app/'.$id.''] = "home/promote_app/".$id."";
+$route['get_promo_availability_ajax'] = "home/get_promo_availability_ajax";

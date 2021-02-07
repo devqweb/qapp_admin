@@ -1044,16 +1044,27 @@ class Home extends CI_Controller {
 	############################## END OF GET RECORDS FROM APP USING AJAX ##############################
 
 
-	################################### GET PROMOTION NAME USING AJAX ##################################
-	function manage_app_promo_ajax() {
-		// $app_id = $this->input->post("app_id");
-		// $table_name = $this->input->post("table");
+	############################# GET PROMOTION AVAILABILITY USING AJAX ################################
+	function get_promo_availability_ajax() {
+		$table_name = $this->input->post("table");
 		$data['response'] = 'success';
-		$order_by = array('type', 'ASC');
-		$data['promo_data'] = $this->Common_model->common_select('*', 'promotion', array(), $order_by);
+		//$order_by = array('type', 'ASC');
+		$availability = $this->Common_model->common_select('*', $table_name, array(), array());
+		if(empty($availability)) {
+			$dates = array();
+			$curr_month = date('m',strtotime('+1 month'));
+			$x = 1;
+			for($i = $curr_month; $i <= 12; $i++) {
+				//echo '<option value="'.date('F',strtotime('+'.$x.' month')).'">'.date('F',strtotime('+'.$x.' month')).'</option>';
+				//echo date('F',strtotime('+'.$x.' month'));
+				array_push($dates, date('F',strtotime('+'.$x.' month')));
+				$x++;
+			}
+			$data['availability'] = $dates;
+		}
 		echo json_encode($data);
 	}
-	############################## END OF GET PROMOTION NAME USING AJAX ################################
+	########################## END OF GET PROMOTION AVAILABILITY USING AJAX ############################
 
 
 	################################### GET RECORDS FROM APP USING AJAX ################################

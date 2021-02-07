@@ -1737,3 +1737,14 @@ function clearFields(field) {
     $(field).find(".required_error").text("");
 }
 ////////////END OF CLEAR INPUT TYPE FILE AND REQUIRED ERROR WHEN CLICK ON CANCEL BUTTON ////////////
+
+
+////////////////////////// SEARCH PROMOTION AVAILABILITY USING AJAX /////////////////////////////////
+// $("#btn-getAvailability").click(function(){
+//     let myPromoType = $("#myPromoType").val();
+//     if(myPromoType == '') {
+//         $("#myPromoType").next(".alert").html("Please select Type of Promotion");
+//     }
+//     else alert("hiii");
+// });
+/////////////////////////// END OF SEARCH PROMOTION AVAILABILITY USING AJAX /////////////////////////
